@@ -23,7 +23,7 @@ export function SpaceCard({ title, description, image, href }: SpaceCardProps) {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-green-950 via-green-950/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black-950 via-black-950/40 to-transparent" />
 
       {/* Content */}
       <div className="absolute inset-0 p-6 flex flex-col justify-end">
@@ -52,8 +52,8 @@ export function ProcessCard({ number, title, description }: ProcessCardProps) {
   return (
     <div className="group p-[30px_26px] rounded-xl border border-mutedLine bg-white hover:-translate-y-1.5 hover:border-[#b7c7c0] hover:shadow-soft transition-all duration-300">
       {/* Number Circle */}
-      <div className="w-11 h-11 rounded-full bg-green-50 flex items-center justify-center mb-5">
-        <span className="font-serif text-[22px] text-green-800">{number}</span>
+      <div className="w-11 h-11 rounded-xl bg-gray-50 flex items-center justify-center mb-5">
+        <span className="font-serif text-[22px] text-black-800">{number}</span>
       </div>
 
       {/* Content */}
@@ -104,7 +104,7 @@ interface ValueCardProps {
 export function ValueCard({ title, description, icon }: ValueCardProps) {
   return (
     <div className="p-7 rounded-xl bg-white shadow-soft">
-      {icon && <div className="mb-4 text-green-800">{icon}</div>}
+      {icon && <div className="mb-4 text-black-800">{icon}</div>}
       <h3 className="font-serif text-[27px] text-ink mb-3">{title}</h3>
       <p className="text-[14px] text-gray-700 leading-relaxed">{description}</p>
     </div>

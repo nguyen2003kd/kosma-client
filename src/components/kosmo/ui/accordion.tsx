@@ -21,7 +21,7 @@ function FAQItem({ question, answer }: FAQItemProps) {
         <span className="font-serif text-[24px] text-ink pr-4">{question}</span>
         <span
           className={cn(
-            "flex-shrink-0 w-[30px] h-[30px] rounded-full bg-green-100 flex items-center justify-center text-green-800 transition-transform duration-300",
+            "flex-shrink-0 w-[30px] h-[30px] rounded-xl bg-gray-100 flex items-center justify-center text-black-800 transition-transform duration-300",
             isOpen && "rotate-45"
           )}
         >
@@ -68,10 +68,10 @@ export function StyleTabs({ tabs, activeTab, onChange }: TabsProps) {
           key={tab.id}
           onClick={() => onChange(tab.id)}
           className={cn(
-            "min-h-[42px] px-[18px] rounded-full text-[13px] font-extrabold transition-all duration-250",
+            "min-h-[42px] px-[18px] rounded-xl text-[13px] font-extrabold transition-all duration-250",
             activeTab === tab.id
-              ? "bg-green-800 text-white"
-              : "border border-mutedLine text-green-800 hover:border-green-800"
+              ? "bg-black-800 text-white"
+              : "border border-mutedLine text-black-800 hover:border-black-800"
           )}
         >
           {tab.label}
@@ -90,8 +90,8 @@ export function FeatureRow({ features }: FeatureRowProps) {
     <div className="space-y-5">
       {features.map((feature, index) => (
         <div key={index} className="flex gap-4">
-          <div className="flex-shrink-0 w-[46px] h-[46px] rounded-full bg-[#d8c29c] flex items-center justify-center">
-            <span className="text-green-950 font-bold text-sm">{index + 1}</span>
+          <div className="flex-shrink-0 w-[46px] h-[46px] rounded-xl bg-[#d8c29c] flex items-center justify-center">
+            <span className="text-black-950 font-bold text-sm">{index + 1}</span>
           </div>
           <div>
             <h4 className="font-semibold text-ink mb-1">{feature.title}</h4>
@@ -135,7 +135,7 @@ export function SplitContent({
       {/* Content */}
       <div className={cn("order-2", reverse && "md:order-1")}>
         {eyebrow && (
-          <p className="text-eyebrow text-green-700 font-extrabold uppercase tracking-[0.18em] mb-3">
+          <p className="text-eyebrow text-black-700 font-extrabold uppercase tracking-[0.18em] mb-3">
             {eyebrow}
           </p>
         )}
@@ -149,7 +149,7 @@ export function SplitContent({
         {cta && (
           <a
             href={cta.href}
-            className="inline-flex items-center gap-2 text-green-800 font-extrabold text-[14px] hover:gap-3 transition-all mt-6"
+            className="inline-flex items-center gap-2 text-black-800 font-extrabold text-[14px] hover:gap-3 transition-all mt-6"
           >
             {cta.label}
             <span>→</span>

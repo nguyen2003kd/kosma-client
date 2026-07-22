@@ -13,21 +13,21 @@ interface SeoProps {
 /**
  * Construct SEO metadata for Next.js pages
  * SEO CONFIG
- * Optimized for Vietnamese market and social sharing (Zalo, Facebook)
+ * Optimized for US market and social sharing (Facebook, Instagram)
  */
 export function constructMetadata({
   title,
-  description = "Trung tâm Dịch vụ Phân tích thí nghiệm và Tiêu chuẩn Đo lường Chất lượng Thành Phố Hồ Chí Minh",
-  image = "/images/case-smeg-thumb.png",
+  description = "Kosmo DNC provides interior design, commercial fit-outs, residential renovations, project management and branding in Maryland and Northern Virginia.",
+  image = "/seo.png",
   url = "",
   type = 'website',
   keywords = [],
   noIndex = false,
 }: SeoProps): Metadata {
-  const baseUrl = baseConfig.frontendDomain || 'https://smeq-dev.meucorp.com';
+  const baseUrl = baseConfig.frontendDomain || 'https://kosmodnc.com';
   const fullImageUrl = image.startsWith('http') ? image : `${baseUrl}${image}`;
   const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`;
-  const siteName = "Case-SMQ";
+  const siteName = "Kosmo DNC";
 
   return {
     title: {
@@ -36,18 +36,15 @@ export function constructMetadata({
     },
     description,
     keywords: keywords.length > 0 ? keywords : [
-      "tiêu chuẩn đo lường chất lượng",
-      "kiểm định",
-      "hiệu chuẩn",
-      "thử nghiệm",
-      "chuẩn đo lường",
-      "kiểm định thiết bị y tế",
-      "đo lường",
-      "chất lượng sản phẩm",
-      "quy chuẩn kỹ thuật",
-      "dịch vụ khoa học công nghệ",
-      "Sở Khoa học và Công nghệ TP.HCM",
-      "kiểm định an toàn thiết bị y tế",
+      "interior design and construction Maryland",
+      "commercial interior design Maryland",
+      "design build contractor Rockville MD",
+      "commercial fit-out Maryland",
+      "residential renovation Maryland",
+      "nail salon design and construction",
+      "interior design Northern Virginia",
+      "custom joinery Maryland",
+      "building permit drawings Maryland",
     ],
     authors: [{ name: siteName }],
     creator: siteName,
@@ -75,7 +72,7 @@ export function constructMetadata({
         height: 630,
         alt: title,
       }],
-      locale: 'vi_VN',
+      locale: 'en_US',
     },
     
     twitter: {
@@ -83,7 +80,7 @@ export function constructMetadata({
       title,
       description,
       images: [fullImageUrl],
-      creator: 'Case-SMQ',
+      creator: 'Kosmo DNC',
     },
     
     alternates: {
@@ -97,9 +94,8 @@ export function constructMetadata({
       apple: "/favicon.png",
     },
     
-    // Additional meta for Vietnamese market
+    // Additional meta for US market
     other: {
-      'zalo-platform-site-verification': process.env.ZALO_VERIFICATION || '',
       'facebook-domain-verification': process.env.FB_DOMAIN_VERIFICATION || '',
     },
   };
@@ -140,7 +136,7 @@ export function generateStructuredData(type: 'Product' | 'Article' | 'Organizati
       offers: {
         '@type': 'Offer',
         price: data.price,
-        priceCurrency: 'VND',
+        priceCurrency: 'USD',
         availability: data.inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
         seller: {
           '@type': 'Organization',
@@ -182,15 +178,14 @@ export function generateStructuredData(type: 'Product' | 'Article' | 'Organizati
       url: baseUrl,
       logo: `${baseUrl}/images/logo.png`,
       sameAs: [
-        // Add your social media URLs
-        'https://facebook.com/yourpage',
-        'https://instagram.com/yourpage',
+        'https://www.facebook.com/Kosmodnc/',
+        'https://www.instagram.com/kosmo.dnc/',
       ],
       contactPoint: {
         '@type': 'ContactPoint',
-        telephone: '+84-xxx-xxx-xxx',
+        telephone: '+1-443-736-0577',
         contactType: 'customer service',
-        availableLanguage: ['Vietnamese', 'English'],
+        availableLanguage: ['English'],
       },
     },
   };
@@ -199,7 +194,7 @@ export function generateStructuredData(type: 'Product' | 'Article' | 'Organizati
 }
 
 /**
- * Validate image for social sharing (Zalo/Facebook requirements)
+ * Validate image for social sharing (Facebook/Instagram requirements)
  */
 export function validateSocialImage(imageUrl: string): {
   isValid: boolean;
@@ -212,7 +207,7 @@ export function validateSocialImage(imageUrl: string): {
     warnings.push('Image should be an absolute URL for social sharing');
   }
   
-  // Zalo/Facebook recommendations
+  // Facebook/Instagram recommendations
   if (!imageUrl.includes('1200x630') && !imageUrl.includes('og-image')) {
     warnings.push('Image should be 1200x630px for optimal social sharing');
   }

@@ -24,7 +24,7 @@ export function SectionHeading({
       )}
     >
       {eyebrow && (
-        <p className="text-eyebrow text-green-700 font-extrabold uppercase tracking-[0.18em] mb-3">
+        <p className="text-eyebrow text-black-700 font-extrabold uppercase tracking-[0.18em] mb-3">
           {eyebrow}
         </p>
       )}
@@ -59,7 +59,7 @@ export function PageHero({
       )}
       style={{
         backgroundImage: backgroundImage
-          ? `linear-gradient(90deg, rgba(7,30,24,.9), rgba(7,30,24,.35) 65%, rgba(7,30,24,.12)), url(${backgroundImage})`
+          ? `linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,.35) 65%, rgba(0,0,0,.12)), url(${backgroundImage})`
           : undefined,
         backgroundColor: backgroundImage ? undefined : "#0b2f27",
         backgroundSize: "cover",

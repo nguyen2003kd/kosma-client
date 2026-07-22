@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -29,7 +29,7 @@ export default function ContentSidebar({
   return (
     <Card
       className={cn(
-        "border border-gray-900/15",
+        "border border-gray-900/10",
         maxHeight ? "flex flex-col" : "",
         className
       )}

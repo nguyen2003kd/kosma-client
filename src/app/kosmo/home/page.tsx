@@ -1,57 +1,78 @@
 import { Hero, StatsStrip, QuoteSection } from "@/components/kosmo/ui";
-import { SpaceCard, ProcessCard, SolutionCard, SectionHeading, SplitContent, ConsultationForm } from "@/components/kosmo/ui";
+import { SpaceCard, ProcessCard, SolutionCard, SectionHeading, SplitContent, ConsultationForm, FeatureRow } from "@/components/kosmo/ui";
 
-const spaces = [
-  { title: "Closets", description: "Custom closet systems designed to maximize your storage.", image: "/images/kosmo/living.jpg", href: "/kosmo/spaces/closets" },
-  { title: "Garages", description: "Organize your garage with custom cabinets.", image: "/images/kosmo/showroom.jpg", href: "/kosmo/spaces/garages" },
-  { title: "Home Offices", description: "Create a productive workspace tailored to you.", image: "/images/kosmo/office.jpg", href: "/kosmo/spaces/home-offices" },
-  { title: "Pantries", description: "Transform your pantry into an organized space.", image: "/images/kosmo/kitchen.jpg", href: "/kosmo/spaces/pantries" },
+const services = [
+  { title: "Interior Design", description: "Concept design, 3D rendering, and material selection for residential and commercial spaces.", image: "/images/kosmo/living.jpg", href: "/kosmo/spaces/closets" },
+  { title: "Commercial Fit-Out", description: "Full design and construction for nail salons, retail, and light commercial spaces.", image: "/images/kosmo/showroom.jpg", href: "/kosmo/spaces/garages" },
+  { title: "Residential Renovation", description: "Kitchen, bathroom, and whole-home renovations from concept to completion.", image: "/images/kosmo/office.jpg", href: "/kosmo/spaces/home-offices" },
+  { title: "Custom Joinery", description: "Bespoke cabinetry, built-ins, and custom woodwork crafted to your specs.", image: "/images/kosmo/kitchen.jpg", href: "/kosmo/spaces/pantries" },
+  { title: "Construction Drawings", description: "Building permit drawings and construction documents for code compliance.", image: "/images/kosmo/lounge.jpg", href: "/kosmo/spaces/laundry-rooms" },
+  { title: "Branding", description: "Website design, product labels, business cards, and brand identity.", image: "/images/kosmo/exterior.jpg", href: "/kosmo/spaces/mudrooms" },
 ];
 
-const solutions = [
-  { title: "Walk-In Closets", description: "Luxurious walk-in closet designs.", image: "/images/kosmo/living.jpg", href: "/kosmo/solutions/walk-in-closets" },
-  { title: "Reach-In Closets", description: "Smart organization solutions.", image: "/images/kosmo/lounge.jpg", href: "/kosmo/solutions/reach-in-closets" },
-  { title: "Garage Cabinets", description: "Durable and stylish garage cabinets.", image: "/images/kosmo/showroom.jpg", href: "/kosmo/solutions/garage-cabinets" },
+const projects = [
+  { title: "Kosmo Nail Bar — Rockville", description: "1,770 sqft nail salon design & build at Montrose Crossing.", image: "/images/kosmo/living.jpg", href: "/kosmo/gallery" },
+  { title: "Kosmo Nail Bar — Dumfries", description: "1,898 sqft full design, construction, joinery & branding.", image: "/images/kosmo/lounge.jpg", href: "/kosmo/gallery" },
+  { title: "Kosmo Nail Bar — Annapolis", description: "1,150 sqft commercial fit-out completed in 2015.", image: "/images/kosmo/showroom.jpg", href: "/kosmo/gallery" },
+  { title: "Kitchen Renovation — Annapolis", description: "160 sqft residential kitchen renovation with custom joinery.", image: "/images/kosmo/living.jpg", href: "/kosmo/gallery" },
+  { title: "Lux Nail Spa — Bel Air", description: "1,350 sqft nail salon renovation in Bel Air, MD.", image: "/images/kosmo/office.jpg", href: "/kosmo/gallery" },
+  { title: "Kosmo Nail Bar — McLean", description: "1,350 sqft interior design & construction in McLean, VA.", image: "/images/kosmo/kitchen.jpg", href: "/kosmo/gallery" },
 ];
 
 const process = [
-  { number: 1, title: "Design", description: "Our designers create a personalized 3D rendering." },
-  { number: 2, title: "Personalize", description: "Choose from premium materials and finishes." },
-  { number: 3, title: "Craft", description: "Your solution is manufactured to exact specs." },
-  { number: 4, title: "Install", description: "Our professionals ensure flawless execution." },
+  { number: 1, title: "Concept", description: "We develop the design concept and 3D renderings for your space." },
+  { number: 2, title: "Design", description: "Construction drawings, permit documents, and material selection." },
+  { number: 3, title: "Build", description: "Construction, joinery, and installation by our skilled team." },
+  { number: 4, title: "Brand", description: "Branding, website, and marketing collateral to complete the project." },
+];
+
+const whyChooseUs = [
+  { title: "Design-Build Under One Roof", description: "From concept to construction to branding — all handled by a single team." },
+  { title: "3D Renderings", description: "Visualize your space with realistic 3D design presentations before construction begins." },
+  { title: "Licensed & Insured", description: "Licensed MD #113826 with full insurance coverage for your peace of mind." },
+  { title: "Custom Joinery", description: "Bespoke cabinetry and woodwork crafted to your exact specifications." },
 ];
 
 const stats = [
-  { number: "25+", label: "Years Experience" },
-  { number: "50K+", label: "Projects Completed" },
+  { number: "10+", label: "Years Experience" },
+  { number: "50+", label: "Projects Completed" },
   { number: "100%", label: "Satisfaction Guarantee" },
-  { number: "50+", label: "Design Awards" },
+  { number: "MD #113826", label: "Licensed Contractor" },
 ];
 
 export default function KosmoHomePage() {
   return (
     <>
       <Hero
-        title="Custom Storage Solutions for Every Space"
-        subtitle="Transform your home with beautifully organized spaces designed around your lifestyle."
+        title="Interior Design, Construction & Branding—All in One Place"
+        subtitle="Kosmo DNC provides interior design, commercial fit-outs, residential renovations, and branding in Maryland and Northern Virginia."
         backgroundImage="/images/kosmo/hero.jpg"
-        ctaPrimary={{ label: "Book Consultation", href: "/kosmo/consultation" }}
-        ctaSecondary={{ label: "View Gallery", href: "/kosmo/gallery" }}
-        offer="Free Design Consultation"
+        ctaPrimary={{ label: "Get a Quote", href: "/kosmo/consultation" }}
+        ctaSecondary={{ label: "View Projects", href: "/kosmo/gallery" }}
+        offer="Free Project Consultation"
       />
 
       <StatsStrip stats={stats} />
 
       <section className="py-24 bg-white">
         <div className="container-kosmo">
-          <SectionHeading eyebrow="Explore Our Spaces" title="Find Inspiration for Every Room" subtitle="Discover custom storage solutions for every area of your home." />
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {spaces.map((space) => (<SpaceCard key={space.title} {...space} />))}
+          <SectionHeading eyebrow="Our Services" title="What We Do" subtitle="From concept design to construction and branding — we handle every aspect of your project." />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {services.map((service) => (<SpaceCard key={service.title} {...service} />))}
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-green-50">
+      <section className="py-24 bg-white">
+        <div className="container-kosmo">
+          <SectionHeading eyebrow="Our Projects" title="Recent Work" subtitle="Explore commercial and residential projects across Maryland and Northern Virginia." />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map((project) => (<SolutionCard key={project.title} {...project} />))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Our Process" title="How It Works" subtitle="From concept to completion, we make it seamless." />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -62,35 +83,35 @@ export default function KosmoHomePage() {
 
       <section className="py-24 bg-white">
         <div className="container-kosmo">
-          <SectionHeading eyebrow="Our Solutions" title="Tailored to Your Needs" subtitle="Explore our range of custom storage solutions." />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {solutions.map((solution) => (<SolutionCard key={solution.title} {...solution} />))}
+          <SectionHeading eyebrow="Why Choose Kosmo DNC" title="The Kosmo DNC Difference" subtitle="What sets us apart from the competition." />
+          <div className="max-w-3xl mx-auto">
+            <FeatureRow features={whyChooseUs} />
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-green-50">
+      <section className="py-24 bg-gray-50">
         <div className="container-kosmo">
           <SplitContent
             image="/images/kosmo/exterior.jpg"
-            eyebrow="About Kosmo"
-            title="Crafting Beautiful Spaces Since 1998"
-            description="We believe organized spaces lead to organized lives. Our team creates custom storage solutions that maximize functionality and enhance your home."
+            eyebrow="About Kosmo DNC"
+            title="Design. Build. Brand."
+            description="Kosmo DNC is a design-build contractor based in Rockville, Maryland. We specialize in interior design, commercial fit-outs, residential renovations, custom joinery, and branding for businesses across Maryland and Northern Virginia."
             features={[
-              { title: "Free Consultations", description: "Complimentary in-home design consultation." },
-              { title: "3D Rendering", description: "Visualize your space before we begin." },
-              { title: "Quality Guaranteed", description: "Every project comes with our guarantee." },
+              { title: "Licensed MD #113826", description: "Fully licensed and insured contractor." },
+              { title: "Design-Build Approach", description: "One team handles design, construction, and branding." },
+              { title: "Serving MD & Northern VA", description: "Rockville, Annapolis, Bel Air, McLean, Dumfries." },
             ]}
             cta={{ label: "Learn More About Us", href: "/kosmo/about" }}
           />
         </div>
       </section>
 
-      <QuoteSection quote="Kosmo transformed our chaotic closet into a stunning, organized space. The process was seamless from start to finish." author="Sarah M." title="Homeowner, Charlotte NC" />
+      <QuoteSection quote="Kosmo DNC handled everything from concept design to construction and branding for our nail salon. The result exceeded our expectations." author="Nail Salon Owner" title="Rockville, MD" />
 
       <section className="py-24 bg-white">
         <div className="container-kosmo">
-          <SectionHeading eyebrow="Get Started" title="Ready to Transform Your Space?" subtitle="Schedule your free design consultation today." />
+          <SectionHeading eyebrow="Get Started" title="Ready to Start Your Project?" subtitle="Request a free project quote today." />
           <div className="max-w-4xl mx-auto"><ConsultationForm /></div>
         </div>
       </section>

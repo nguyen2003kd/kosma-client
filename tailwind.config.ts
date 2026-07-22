@@ -10,18 +10,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        green: {
-          950: "#0b2f27",
-          900: "#123a30",
-          800: "#17483b",
-          700: "#1e5a4a",
-          100: "#e5eee9",
-          50: "#f3f7f5",
+        black: {
+          DEFAULT: "#000000",
+          950: "#0a0a0a",
+          900: "#171717",
+          800: "#262626",
+          700: "#404040",
+          600: "#525252",
         },
-        ink: "#17201d",
-        mutedText: "#66716d",
-        mutedLine: "#d9dfdc",
-        cream: "#f5f1e8",
+        white: {
+          DEFAULT: "#ffffff",
+          50: "#fafafa",
+          100: "#f5f5f5",
+          200: "#e5e5e5",
+        },
+        ink: "#0a0a0a",
+        mutedText: "#525252",
+        mutedLine: "#d4d4d4",
+        cream: "#fafafa",
         gold: "#b8945f",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

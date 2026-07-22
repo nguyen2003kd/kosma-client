@@ -8,70 +8,70 @@ const solutionsData: Record<string, {
   spaces: { title: string; description: string; image: string; href: string }[];
 }> = {
   "walk-in-closets": {
-    title: "Walk-In Closets", subtitle: "Luxurious walk-in closet designs.",
-    description: "Transform your closet into a luxurious retreat with our custom walk-in closet designs.",
+    title: "Nail Salon Design & Construction", subtitle: "Specialized design-build for nail salons across MD & Northern VA.",
+    description: "From concept design to construction drawings to custom joinery and branding — we handle your entire nail salon project under one roof.",
     features: [
-      { title: "Custom Layouts", description: "Designs tailored to your space." },
-      { title: "Premium Materials", description: "High-quality materials." },
-      { title: "Smart Storage", description: "Solutions for shoes, bags, jewelry." },
+      { title: "Concept to Completion", description: "Full design-build service for nail salons." },
+      { title: "Custom Joinery", description: "Bespoke salon cabinetry and displays." },
+      { title: "Branding Included", description: "Website, business cards, and brand identity." },
     ],
     spaces: [
-      { title: "Closets", description: "Browse all closet options", image: "/images/kosmo/living.jpg", href: "/kosmo/spaces/closets" },
+      { title: "Interior Design", description: "Our design services", image: "/images/kosmo/living.jpg", href: "/kosmo/spaces/closets" },
     ],
   },
   "reach-in-closets": {
-    title: "Reach-In Closets", subtitle: "Smart organization for smaller spaces.",
-    description: "Maximize every inch of your closet with our smart reach-in solutions.",
+    title: "Kitchen Renovation", subtitle: "Custom kitchen renovations from concept to completion.",
+    description: "Transform your kitchen with our design-build renovation services including custom joinery, flooring, plumbing, lighting and painting.",
     features: [
-      { title: "Space Optimization", description: "Creative solutions for small spaces." },
-      { title: "Adjustable Shelving", description: "Flexibility to change." },
+      { title: "Custom Cabinetry", description: "Bespoke kitchen cabinetry and countertops." },
+      { title: "Full Service", description: "Flooring, plumbing, lighting, and painting." },
     ],
     spaces: [
-      { title: "Closets", description: "Browse all closet options", image: "/images/kosmo/lounge.jpg", href: "/kosmo/spaces/closets" },
+      { title: "Residential Renovation", description: "Our renovation services", image: "/images/kosmo/lounge.jpg", href: "/kosmo/spaces/home-offices" },
     ],
   },
   "garage-cabinets": {
-    title: "Garage Cabinets", subtitle: "Durable storage for your garage.",
-    description: "Transform your garage into an organized, functional space.",
+    title: "Commercial Fit-Out", subtitle: "Full design and construction for commercial spaces.",
+    description: "We handle commercial fit-outs for nail salons, retail stores, and light commercial spaces across Maryland and Northern Virginia.",
     features: [
-      { title: "Steel Construction", description: "Durable cabinets." },
-      { title: "Lockable Storage", description: "Secure valuable items." },
+      { title: "Design-Build", description: "One team for design and construction." },
+      { title: "Permit Handling", description: "Building permits and code compliance." },
     ],
     spaces: [
-      { title: "Garages", description: "Browse garage solutions", image: "/images/kosmo/showroom.jpg", href: "/kosmo/spaces/garages" },
+      { title: "Commercial Fit-Out", description: "Our commercial services", image: "/images/kosmo/showroom.jpg", href: "/kosmo/spaces/garages" },
     ],
   },
   "wall-beds": {
-    title: "Wall Beds", subtitle: "Multi-functional space saving solutions.",
-    description: "Maximize your living space with our custom wall beds.",
+    title: "Residential Renovation", subtitle: "Whole-home and room-by-room renovations.",
+    description: "From kitchens to bathrooms to whole-home renovations, we handle every aspect of your residential project.",
     features: [
-      { title: "Space Saving", description: "Free up floor space." },
-      { title: "Easy Operation", description: "Smooth mechanisms." },
+      { title: "Kitchen & Bath", description: "Custom kitchen and bathroom renovations." },
+      { title: "Whole-Home", description: "Complete home renovation services." },
     ],
     spaces: [
-      { title: "Garages", description: "Multi-functional spaces", image: "/images/kosmo/living.jpg", href: "/kosmo/spaces/garages" },
+      { title: "Residential Renovation", description: "Our renovation services", image: "/images/kosmo/living.jpg", href: "/kosmo/spaces/home-offices" },
     ],
   },
   "entertainment-centers": {
-    title: "Entertainment Centers", subtitle: "Custom media storage and display.",
-    description: "Create the perfect entertainment setup with our custom media storage.",
+    title: "Custom Joinery", subtitle: "Bespoke cabinetry and custom woodwork.",
+    description: "Our skilled craftsmen create custom joinery that elevates every space — from salon cabinetry to kitchen built-ins.",
     features: [
-      { title: "Cable Management", description: "Hide cords." },
-      { title: "Media Storage", description: "Organized space for media." },
+      { title: "Custom Cabinetry", description: "Bespoke cabinets for any room." },
+      { title: "Built-Ins", description: "Custom built-in shelving and storage." },
     ],
     spaces: [
-      { title: "Home Offices", description: "Media solutions", image: "/images/kosmo/office.jpg", href: "/kosmo/spaces/home-offices" },
+      { title: "Custom Joinery", description: "Our joinery services", image: "/images/kosmo/office.jpg", href: "/kosmo/spaces/pantries" },
     ],
   },
   "custom-accessories": {
-    title: "Custom Accessories", subtitle: "Personalized add-ons for your space.",
-    description: "Complete your custom storage solution with our range of accessories.",
+    title: "Branding & Website", subtitle: "Website design, brand identity, and marketing collateral.",
+    description: "Complete your project with our branding services — website design, product labels, business cards, and brand identity.",
     features: [
-      { title: "Jewelry Drawers", description: "Velvet-lined storage." },
-      { title: "Shoe Racks", description: "Organized footwear storage." },
+      { title: "Website Design", description: "Custom websites for your business." },
+      { title: "Brand Identity", description: "Logos, business cards, and product labels." },
     ],
     spaces: [
-      { title: "Closets", description: "Accessorize your closet", image: "/images/kosmo/kitchen.jpg", href: "/kosmo/spaces/closets" },
+      { title: "Branding", description: "Our branding services", image: "/images/kosmo/kitchen.jpg", href: "/kosmo/spaces/mudrooms" },
     ],
   },
 };
@@ -94,14 +94,14 @@ export default function SolutionPage({ params }: { params: { slug: string } }) {
 
       <section className="py-24 bg-white">
         <div className="container-kosmo">
-          <SplitContent image="/images/kosmo/office.jpg" eyebrow="Custom Solutions" title={`Why Choose ${solution.title}?`} description={solution.description} features={solution.features} cta={{ label: "Get a Free Quote", href: "/kosmo/consultation" }} />
+          <SplitContent image="/images/kosmo/office.jpg" eyebrow="Our Services" title={`Why Choose ${solution.title}?`} description={solution.description} features={solution.features} cta={{ label: "Request a Quote", href: "/kosmo/consultation" }} />
         </div>
       </section>
 
       {solution.spaces.length > 0 && (
         <section className="py-24 bg-white">
           <div className="container-kosmo">
-            <SectionHeading title="Perfect For" subtitle="Spaces that work great with this solution." />
+            <SectionHeading title="Related Services" subtitle="Explore our other capabilities." />
             <div className="grid md:grid-cols-2 gap-6">
               {solution.spaces.map((space) => (<SpaceCard key={space.title} {...space} />))}
             </div>
@@ -109,9 +109,9 @@ export default function SolutionPage({ params }: { params: { slug: string } }) {
         </section>
       )}
 
-      <section className="py-24 bg-green-50">
+      <section className="py-24 bg-gray-50">
         <div className="container-kosmo">
-          <SectionHeading title="Ready to Get Started?" subtitle="Schedule your free design consultation today." />
+          <SectionHeading title="Ready to Get Started?" subtitle="Request a free project quote today." />
           <div className="max-w-4xl mx-auto"><ConsultationForm /></div>
         </div>
       </section>

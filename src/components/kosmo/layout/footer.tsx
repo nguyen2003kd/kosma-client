@@ -1,84 +1,89 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
-import { Facebook, Instagram, Youtube } from "lucide-react";
+import { Facebook, Instagram } from "lucide-react";
 
-const spaces = [
-  { name: "Closets", href: "/kosmo/spaces/closets" },
-  { name: "Garages", href: "/kosmo/spaces/garages" },
-  { name: "Home Offices", href: "/kosmo/spaces/home-offices" },
-  { name: "Pantries", href: "/kosmo/spaces/pantries" },
-  { name: "Laundry Rooms", href: "/kosmo/spaces/laundry-rooms" },
-  { name: "Mudrooms", href: "/kosmo/spaces/mudrooms" },
+const services = [
+  { name: "Interior Design", href: "/kosmo/spaces/closets" },
+  { name: "Commercial Fit-Out", href: "/kosmo/spaces/garages" },
+  { name: "Nail Salon Design & Construction", href: "/kosmo/spaces/home-offices" },
+  { name: "Residential Renovation", href: "/kosmo/spaces/pantries" },
+  { name: "Custom Joinery", href: "/kosmo/spaces/laundry-rooms" },
+  { name: "Branding", href: "/kosmo/spaces/mudrooms" },
 ];
 
-const solutions = [
-  { name: "Walk-In Closets", href: "/kosmo/solutions/walk-in-closets" },
-  { name: "Reach-In Closets", href: "/kosmo/solutions/reach-in-closets" },
-  { name: "Garage Cabinets", href: "/kosmo/solutions/garage-cabinets" },
-  { name: "Wall Beds", href: "/kosmo/solutions/wall-beds" },
-  { name: "Entertainment Centers", href: "/kosmo/solutions/entertainment-centers" },
-  { name: "Custom Accessories", href: "/kosmo/solutions/custom-accessories" },
+const projects = [
+  { name: "Commercial Projects", href: "/kosmo/gallery" },
+  { name: "Residential Projects", href: "/kosmo/gallery" },
+  { name: "Nail Salon Portfolio", href: "/kosmo/gallery" },
+  { name: "Kitchen Renovation", href: "/kosmo/gallery" },
+  { name: "Custom Joinery", href: "/kosmo/gallery" },
 ];
 
 const company = [
   { name: "About Us", href: "/kosmo/about" },
   { name: "Our Process", href: "/kosmo/process" },
   { name: "Gallery", href: "/kosmo/gallery" },
-  { name: "Locations", href: "/kosmo/locations" },
-  { name: "Contact", href: "/kosmo/contact" },
+  { name: "Service Areas", href: "/kosmo/locations" },
+  { name: "Get a Quote", href: "/kosmo/consultation" },
 ];
 
 export function KosmoFooter() {
   return (
-    <footer className="bg-green-950 text-white">
+    <footer className="bg-black-950 text-white">
       <div className="container-kosmo py-[72px]">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href="/kosmo/home" className="inline-flex items-center gap-3 mb-6 p-3 bg-white rounded-lg">
-              <img src="/logo.png" alt="Kosmo" className="h-12 w-auto" />
+              <img src="/logo.png" alt="Kosmo DNC - Interior Design & Construction" className="h-12 w-auto" />
             </Link>
-            <p className="text-[13px] text-white/85 mb-6 leading-relaxed">
-              Transform your space with custom storage solutions designed to maximize
-              functionality and elevate your home aesthetic.
+            <p className="text-[13px] text-white/80 mb-6 leading-relaxed">
+              Interior design, commercial fit-outs, residential renovations,
+              construction and branding services in Maryland and Northern Virginia.
             </p>
+            <div className="space-y-2 mb-6 text-[13px] text-white/80">
+              <p>14229 Travilah Rd, Rockville, MD 20850</p>
+              <p>
+                <a href="tel:+14437360577" className="hover:text-white transition-colors">(443) 736-0577</a>
+                {" · "}
+                <a href="mailto:kosmodnc@gmail.com" className="hover:text-white transition-colors">kosmodnc@gmail.com</a>
+              </p>
+              <p>Mon–Fri 10:00 AM–6:00 PM · Licensed MD #113826</p>
+            </div>
             <div className="flex gap-4">
               <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                href="https://www.facebook.com/Kosmodnc/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                href="https://www.instagram.com/kosmo.dnc/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                aria-label="Youtube"
-              >
-                <Youtube className="w-5 h-5" />
-              </a>
             </div>
           </div>
 
-          {/* Spaces */}
+          {/* Services */}
           <div>
             <h3 className="text-[12px] font-extrabold uppercase tracking-[0.14em] text-white mb-4">
-              Spaces
+              Services
             </h3>
             <ul className="space-y-3">
-              {spaces.map((item) => (
+              {services.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-[13px] text-white/85 hover:text-white transition-colors"
+                    className="text-[13px] text-white/80 hover:text-white transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -87,17 +92,17 @@ export function KosmoFooter() {
             </ul>
           </div>
 
-          {/* Solutions */}
+          {/* Projects */}
           <div>
             <h3 className="text-[12px] font-extrabold uppercase tracking-[0.14em] text-white mb-4">
-              Solutions
+              Projects
             </h3>
             <ul className="space-y-3">
-              {solutions.map((item) => (
+              {projects.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-[13px] text-white/85 hover:text-white transition-colors"
+                    className="text-[13px] text-white/80 hover:text-white transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -116,7 +121,7 @@ export function KosmoFooter() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-[13px] text-white/85 hover:text-white transition-colors"
+                    className="text-[13px] text-white/80 hover:text-white transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -127,13 +132,13 @@ export function KosmoFooter() {
         </div>
 
         {/* Newsletter */}
-        <div className="mt-12 pt-10 border-t border-white/12">
+        <div className="mt-12 pt-10 border-t border-white/20">
           <div className="flex flex-col lg:flex-row lg:items-center gap-6">
             <div className="flex-1">
               <h3 className="font-serif text-xl text-white mb-2">
                 Stay Updated
               </h3>
-              <p className="text-[13px] text-white/85">
+              <p className="text-[13px] text-white/80">
                 Subscribe to get design tips and exclusive offers.
               </p>
             </div>
@@ -147,7 +152,7 @@ export function KosmoFooter() {
               </div>
               <button
                 type="submit"
-                className="h-12 px-6 bg-[#d8c29c] text-green-950 font-extrabold text-[14px] rounded-r-full hover:bg-white/20 transition-colors"
+                className="h-12 px-6 bg-[#d8c29c] text-black-950 font-extrabold text-[14px] rounded-r-full hover:bg-white/20 transition-colors"
               >
                 Subscribe
               </button>
@@ -157,16 +162,16 @@ export function KosmoFooter() {
       </div>
 
       {/* Bottom */}
-      <div className="border-t border-white/12 py-5">
+      <div className="border-t border-white/20 py-5">
         <div className="container-kosmo flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[12px] text-white/80">
-            © {new Date().getFullYear()} Kosmo. All rights reserved.
+            Â© {new Date().getFullYear()} Kosmo DNC. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="text-[12px] text-white/85 hover:text-white transition-colors">
+            <Link href="/privacy" className="text-[12px] text-white/80 hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-[12px] text-white/85 hover:text-white transition-colors">
+            <Link href="/terms" className="text-[12px] text-white/80 hover:text-white transition-colors">
               Terms of Service
             </Link>
           </div>
