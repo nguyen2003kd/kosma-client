@@ -1,0 +1,18 @@
+{
+  "title": "Search",
+  "searchPlaceholder": "Search products, services...",
+  "search": "Search",
+  "noResults": "No matching results found",
+  "foundResults": "Found {{count}} results",
+  "filterBy": "Filter by",
+  "loading": "Searching...",
+  "loadingResults": "Loading results...",
+  "keyword": "Keyword",
+  "resultsCount": "({{count}} results)",
+  "noResultsTitle": "No results found",
+  "noResultsDesc": "No results matched your keyword",
+  "goHome": "Go to homepage",
+  "viewNews": "View news",
+  "service": "Service",
+  "news": "News"
+}

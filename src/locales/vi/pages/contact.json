@@ -1,0 +1,21 @@
+{
+  "title": "Đăng ký liên hệ",
+  "subtitle": "Vui lòng cung cấp các thông tin dưới đây để CASE-SMQ liên hệ với bạn",
+  "name": "Họ và tên",
+  "email": "Email",
+  "phone": "Số điện thoại",
+  "content": "Nội dung",
+  "namePlaceholder": "Nhập họ và tên của bạn",
+  "emailPlaceholder": "example@email.com",
+  "phonePlaceholder": "xxxx xxx xxx",
+  "contentPlaceholder": "Nhập nội dung bạn muốn trao đổi...",
+  "submit": "Đăng ký",
+  "sending": "Đang gửi...",
+  "success": "Đăng ký thành công",
+  "successMessage": "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.",
+  "error": "Đăng ký thất bại",
+  "errorMessage": "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+  "contactInfo": "Thông tin liên hệ",
+  "branchesOffices": "Các trụ sở, chi nhánh, văn phòng đại diện",
+  "hotline": "Hotline"
+}

@@ -1,0 +1,52 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  APP_PATH: "$CI_PROJECT_DIR"
+  PM2_CONFIG: "$CI_PROJECT_DIR/pm2.config.js"
+  NODE_OPTIONS: "--max-old-space-size=4096"
+  NEXT_TELEMETRY_DISABLED: "1"
+
+# Build Staging
+build:
+  stage: build
+  before_script:
+    - mkdir -p storage/log || true
+    - check=$(echo "$CI_COMMIT_MESSAGE" | sed -nE 's/^.*(\[tag\]staging).*$/\1/p')
+    - |
+      if [ "$check" != "[tag]staging" ]; then
+        echo "Commit message does not contain [tag]staging → skip pipeline"
+        exit 0
+      fi
+  script:
+    - cp /mnt/data/case-smeq/.env $CI_PROJECT_DIR/.env
+    - pnpm install --no-frozen-lockfile
+    - pnpm build
+  artifacts:
+    paths:
+      - .next
+      - public
+    expire_in: 1 hour
+  only:
+    - release/staging
+  tags:
+    - runner-smeq
+
+# Release Staging
+deploy:
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - pnpm install --prod --no-frozen-lockfile
+    - pm2 delete case-smeq || true
+    - pm2 start $PM2_CONFIG
+    - sleep 10
+    - pm2 status case-smeq | grep -q "online" || (echo "Server did not start successfully"; exit 1)
+  only:
+    - release/staging
+  environment:
+    name: staging
+  tags:
+    - runner-smeq

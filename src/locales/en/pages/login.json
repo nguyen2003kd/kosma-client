@@ -1,0 +1,18 @@
+{
+  "title": "Login",
+  "company": "Company",
+  "contact": "Contact Person",
+  "email": "Login ID",
+  "emailPlaceholder": "tn10@gmail.com",
+  "password": "Password",
+  "passwordPlaceholder": "Enter content",
+  "login": "Login",
+  "forgotPassword": "Forgot Password?",
+  "loggingIn": "Logging in...",
+  "success": "Login successful",
+  "welcomeBack": "Welcome back!",
+  "loginFailed": "Login failed",
+  "error": "Invalid email or password",
+  "emailInvalid": "Invalid email",
+  "passwordRequired": "Please enter your password"
+}

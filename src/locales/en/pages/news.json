@@ -1,0 +1,20 @@
+{
+  "title": "News",
+  "latestNews": "Latest News",
+  "readMore": "Read More",
+  "postedOn": "Posted on",
+  "category": "Category",
+  "allNews": "All News",
+  "featuredNews": "Featured News",
+  "viewAll": "View All",
+  "latestNewsUpdate": "Latest news updates",
+  "loadError": "Unable to load news. Please try again later.",
+  "noResults": "No news found",
+  "noResultsWithFilter": "No news match your filters. Try adjusting or clearing filters to see more results.",
+  "noResultsWithoutFilter": "No news have been posted yet.",
+  "clearDateFilter": "Clear date filter",
+  "clearCategoryFilter": "Clear category filter",
+  "viewDetails": "View Details",
+  "allCategories": "All",
+  "categoryLabel": "Category"
+}
