@@ -116,7 +116,7 @@ const Footer = () => {
                   <Phone className="w-4 h-4" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs text-white/60 mb-0.5">Điện thoại</p>
+                  <p className="text-xs text-white/85 mb-0.5">Điện thoại</p>
                   <p className="text-sm font-medium group-hover:text-white transition-colors">
                     {footerData?.phone || "1800 1105"}
                   </p>
@@ -130,7 +130,7 @@ const Footer = () => {
                   <Mail className="w-4 h-4" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs text-white/60 mb-0.5">Email</p>
+                  <p className="text-xs text-white/85 mb-0.5">Email</p>
                   <p className="text-sm font-medium break-all group-hover:text-white transition-colors">
                     {footerData?.email || "casehcm@case.vn"}
                   </p>
@@ -141,7 +141,7 @@ const Footer = () => {
             {/* Social Links */}
             {Object.keys(socialLinks).length > 0 && (
               <div>
-                <p className="text-xs text-white/60 mb-3 uppercase tracking-wider font-medium">
+                <p className="text-xs text-white/85 mb-3 uppercase tracking-wider font-medium">
                   Kết nối với chúng tôi
                 </p>
                 <div className="grid grid-cols-4 gap-2.5 max-w-[180px]">
@@ -281,7 +281,7 @@ const Footer = () => {
             {/* Statistics */}
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 space-y-3">
               <div className="text-center pb-2.5 border-b border-white/10">
-                <div className="text-xs text-white/60 mb-1.5 uppercase tracking-wider">
+                <div className="text-xs text-white/85 mb-1.5 uppercase tracking-wider">
                   Đang truy cập
                 </div>
                 <div className="text-3xl font-bold text-white">
@@ -289,7 +289,7 @@ const Footer = () => {
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-xs text-white/60 mb-1.5 uppercase tracking-wider">
+                <div className="text-xs text-white/85 mb-1.5 uppercase tracking-wider">
                   Tổng lượt xem
                 </div>
                 <div className="text-3xl font-bold text-white">

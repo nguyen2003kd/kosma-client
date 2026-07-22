@@ -353,7 +353,7 @@ export function OrgChartNode({
                     background: `linear-gradient(135deg, ${accentColor}CC 0%, ${accentColor}66 100%)`,
                   }}
                 >
-                  <span className="text-3xl font-black text-white/60">
+                  <span className="text-3xl font-black text-white/85">
                     {node.full_name.slice(0, 2).toUpperCase()}
                   </span>
                 </div>

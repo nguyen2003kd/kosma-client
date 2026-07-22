@@ -93,13 +93,8 @@ export function constructMetadata({
     metadataBase: new URL(baseUrl),
     
     icons: {
-      icon: [
-        { url: "/images/favicon.ico", type: "image/x-icon" },
-        // { url: "/images/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-        // { url: "/images/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-        // { url: "/images/favicon-64x64.png", sizes: "64x64", type: "image/png" },
-      ],
-      shortcut: "/images/favicon.ico",
+      icon: "/favicon.png",
+      apple: "/favicon.png",
     },
     
     // Additional meta for Vietnamese market
