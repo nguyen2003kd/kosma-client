@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useEffect } from 'react'
 import { Loader2, Maximize, Network, ZoomIn, ZoomOut } from 'lucide-react'
@@ -43,10 +43,10 @@ export default function OrganizationalChartPage() {
         <div>
           <h1 className="flex items-center text-2xl md:text-3xl font-black tracking-tight text-gray-900 dark:text-gray-100">
             <Network className="mr-3 h-7 w-7 md:h-8 md:w-8 text-blue-600 dark:text-blue-500" />
-            Sơ đồ Tổ chức
+            SÆ¡ Ä‘á»“ Tá»• chá»©c
           </h1>
           <p className="mt-2 text-sm md:text-base text-gray-500 dark:text-gray-400">
-            Xem sơ đồ tổ chức và cơ cấu nhân sự.
+            Xem sÆ¡ Ä‘á»“ tá»• chá»©c vÃ  cÆ¡ cáº¥u nhÃ¢n sá»±.
           </p>
         </div>
       </div>
@@ -54,21 +54,21 @@ export default function OrganizationalChartPage() {
       <div className="flex flex-wrap items-center gap-2">
         <Button
           variant="outline" size="icon" className="h-8 w-8 rounded-full"
-          title="Phóng to"
+          title="PhÃ³ng to"
           onClick={() => setZoom((prev) => Math.min(2, Number((prev + 0.1).toFixed(2))))}
         >
           <ZoomIn className="h-4 w-4 text-gray-600" />
         </Button>
         <Button
           variant="outline" size="icon" className="h-8 w-8 rounded-full"
-          title="Thu nhỏ"
+          title="Thu nhá»"
           onClick={() => setZoom((prev) => Math.max(0.4, Number((prev - 0.1).toFixed(2))))}
         >
           <ZoomOut className="h-4 w-4 text-gray-600" />
         </Button>
         <Button
           variant="outline" size="icon" className="h-8 w-8 rounded-full"
-          title="Vừa màn hình"
+          title="Vá»«a mÃ n hÃ¬nh"
           onClick={() => setZoom(1)}
         >
           <Maximize className="h-4 w-4 text-gray-600" />
@@ -82,7 +82,7 @@ export default function OrganizationalChartPage() {
         {isLoading ? (
           <div className="flex h-full min-h-[420px] items-center justify-center rounded-3xl border border-dashed border-gray-300 bg-gray-50 dark:border-gray-800 dark:bg-gray-900/50">
             <Loader2 className="h-5 w-5 animate-spin text-gray-400 mr-2" />
-            <p className="text-gray-500">Đang tải sơ đồ tổ chức...</p>
+            <p className="text-gray-500">Äang táº£i sÆ¡ Ä‘á»“ tá»• chá»©c...</p>
           </div>
         ) : nodes.length > 0 ? (
           <OrgChartBoard
@@ -93,7 +93,7 @@ export default function OrganizationalChartPage() {
           />
         ) : (
           <div className="flex h-full min-h-[420px] flex-col items-center justify-center gap-4 rounded-3xl border border-dashed border-gray-300 bg-gray-50 dark:border-gray-800 dark:bg-gray-900/50">
-            <p className="text-gray-500">Chưa có dữ liệu sơ đồ tổ chức.</p>
+            <p className="text-gray-500">ChÆ°a cÃ³ dá»¯ liá»‡u sÆ¡ Ä‘á»“ tá»• chá»©c.</p>
           </div>
         )}
       </div>
@@ -132,7 +132,7 @@ export default function OrganizationalChartPage() {
                   <p className="text-xl font-semibold text-white/80 uppercase tracking-wide">
                     {viewingNode.full_name}
                   </p>
-                  <p className="text-base text-white/85 uppercase tracking-wider">
+                  <p className="text-base text-white/80 uppercase tracking-wider">
                     {viewingNode.position}
                   </p>
                 </div>

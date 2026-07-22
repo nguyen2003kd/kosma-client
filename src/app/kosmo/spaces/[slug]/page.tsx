@@ -8,62 +8,62 @@ const spacesData: Record<string, {
   solutions: { title: string; description: string; image: string; href: string }[];
 }> = {
   closets: {
-    title: "Custom Closets", subtitle: "Beautifully organized closets designed around your lifestyle.",
-    description: "Transform your closet into a luxurious, organized retreat.",
+    title: "Interior Design", subtitle: "Concept design, 3D rendering, and material selection for residential and commercial spaces.",
+    description: "From concept to completion, we create interior spaces that are beautiful, functional, and tailored to your vision.",
     features: [
-      { title: "Custom Design", description: "Tailored to your specific needs." },
-      { title: "Premium Materials", description: "High-quality materials." },
-      { title: "Smart Storage", description: "Innovative solutions." },
+      { title: "Concept Design", description: "Custom design concepts tailored to your space and style." },
+      { title: "3D Renderings", description: "Visualize your space before construction begins." },
+      { title: "Material Selection", description: "Premium materials and finishes curated for your project." },
     ],
     solutions: [
-      { title: "Walk-In Closets", description: "Luxurious walk-in designs", image: "/images/kosmo/living.jpg", href: "/kosmo/solutions/walk-in-closets" },
-      { title: "Reach-In Closets", description: "Smart organization", image: "/images/kosmo/lounge.jpg", href: "/kosmo/solutions/reach-in-closets" },
+      { title: "Commercial Interior Design", description: "Nail salons, retail, and light commercial", image: "/images/kosmo/living.jpg", href: "/kosmo/solutions/walk-in-closets" },
+      { title: "Residential Interior Design", description: "Whole-home and room-by-room design", image: "/images/kosmo/lounge.jpg", href: "/kosmo/solutions/reach-in-closets" },
     ],
   },
   garages: {
-    title: "Garage Storage", subtitle: "Organize your garage with custom cabinet solutions.",
-    description: "Reclaim your garage with our custom storage solutions.",
+    title: "Commercial Fit-Out", subtitle: "Full design and construction for nail salons, retail, and light commercial spaces.",
+    description: "We handle every aspect of your commercial fit-out from design to construction to branding.",
     features: [
-      { title: "Durable Cabinets", description: "Built to withstand heavy use." },
-      { title: "Modular Systems", description: "Flexible configurations." },
+      { title: "Design-Build", description: "One team handles design and construction." },
+      { title: "Permit & Code", description: "Building permits and code compliance handled." },
     ],
     solutions: [
-      { title: "Garage Cabinets", description: "Sleek storage cabinets", image: "/images/kosmo/showroom.jpg", href: "/kosmo/solutions/garage-cabinets" },
+      { title: "Nail Salon Construction", description: "Specialized nail salon design & build", image: "/images/kosmo/showroom.jpg", href: "/kosmo/solutions/garage-cabinets" },
     ],
   },
   "home-offices": {
-    title: "Home Offices", subtitle: "Create a productive workspace tailored to you.",
-    description: "Design the perfect home office with custom solutions.",
+    title: "Residential Renovation", subtitle: "Kitchen, bathroom, and whole-home renovations from concept to completion.",
+    description: "Transform your home with our full-service residential renovation services.",
     features: [
-      { title: "Ergonomic Design", description: "Workspaces for comfort." },
-      { title: "Cable Management", description: "Keep cords organized." },
+      { title: "Kitchen Renovation", description: "Custom kitchens with joinery and cabinetry." },
+      { title: "Whole-Home", description: "Complete home renovation services." },
     ],
     solutions: [],
   },
   pantries: {
-    title: "Pantry Organization", subtitle: "Transform your pantry into an organized oasis.",
-    description: "Say goodbye to cluttered pantries.",
+    title: "Custom Joinery", subtitle: "Bespoke cabinetry, built-ins, and custom woodwork crafted to your specs.",
+    description: "Our skilled craftsmen create custom joinery that elevates every space.",
     features: [
-      { title: "Adjustable Shelving", description: "Customize shelf heights." },
-      { title: "Pull-Out Systems", description: "Easy access." },
+      { title: "Custom Cabinetry", description: "Bespoke cabinets for any room." },
+      { title: "Built-Ins", description: "Custom built-in shelving and storage." },
     ],
     solutions: [],
   },
   "laundry-rooms": {
-    title: "Laundry Rooms", subtitle: "Make laundry day more efficient.",
-    description: "Transform your laundry room into a functional space.",
+    title: "Construction Drawings", subtitle: "Building permit drawings and construction documents for code compliance.",
+    description: "We prepare detailed construction drawings and permit documents for your project.",
     features: [
-      { title: "Custom Cabinetry", description: "Beautiful storage." },
-      { title: "Fold Stations", description: "Dedicated spaces." },
+      { title: "Permit Drawings", description: "Code-compliant permit drawings." },
+      { title: "Construction Docs", description: "Full construction document sets." },
     ],
     solutions: [],
   },
   mudrooms: {
-    title: "Mudrooms", subtitle: "Create an organized entryway.",
-    description: "Make the most of your entryway.",
+    title: "Branding", subtitle: "Website design, product labels, business cards, and brand identity.",
+    description: "Complete your project with our branding and marketing collateral services.",
     features: [
-      { title: "Built-In Lockers", description: "Individual storage." },
-      { title: "Bench Seating", description: "Comfortable spots." },
+      { title: "Website Design", description: "Custom websites for your business." },
+      { title: "Brand Identity", description: "Logos, business cards, and product labels." },
     ],
     solutions: [],
   },
@@ -87,14 +87,14 @@ export default function SpacePage({ params }: { params: { slug: string } }) {
 
       <section className="py-24 bg-white">
         <div className="container-kosmo">
-          <SplitContent image="/images/kosmo/kitchen.jpg" eyebrow="Custom Solutions" title={`Why Choose ${space.title}?`} description={space.description} features={space.features} cta={{ label: "Get a Free Quote", href: "/kosmo/consultation" }} />
+          <SplitContent image="/images/kosmo/kitchen.jpg" eyebrow="Our Services" title={`Why Choose ${space.title}?`} description={space.description} features={space.features} cta={{ label: "Request a Quote", href: "/kosmo/consultation" }} />
         </div>
       </section>
 
       {space.solutions.length > 0 && (
-        <section className="py-24 bg-green-50">
+        <section className="py-24 bg-gray-50">
           <div className="container-kosmo">
-            <SectionHeading title="Related Solutions" subtitle="Explore our custom options." />
+            <SectionHeading title="Related Services" subtitle="Explore our other capabilities." />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {space.solutions.map((solution) => (<SolutionCard key={solution.title} {...solution} />))}
             </div>
@@ -104,7 +104,7 @@ export default function SpacePage({ params }: { params: { slug: string } }) {
 
       <section className="py-24 bg-white">
         <div className="container-kosmo">
-          <SectionHeading title="Ready to Get Started?" subtitle="Schedule your free design consultation today." />
+          <SectionHeading title="Ready to Get Started?" subtitle="Request a free project quote today." />
           <div className="max-w-4xl mx-auto"><ConsultationForm /></div>
         </div>
       </section>

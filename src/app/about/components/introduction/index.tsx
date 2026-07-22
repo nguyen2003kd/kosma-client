@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useGetApiV10PageConfig } from "@/api/endpoints/page-config";
 import { PageConfig } from "@/api/models";
@@ -9,7 +9,7 @@ import { Building2, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
-// ── Types ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 type BlockType =
   | "org-header"
@@ -133,28 +133,28 @@ type PageBlock =
   | ImageBlock
   | DividerBlock;
 
-// ── Constants ─────────────────────────────────────────────────────────────────
+// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const BADGE_CLS: Record<BadgeBlock["color"], string> = {
   cyan: "bg-cyan-300/20 text-cyan-300 border-cyan-400/30",
   white: "bg-white/10 text-white border-white/20",
   yellow: "bg-yellow-300/20 text-yellow-300 border-yellow-400/30",
-  green: "bg-green-300/20 text-green-300 border-green-400/30",
+  green: "bg-gray-300/20 text-gray-300 border-gray-400/30",
 };
 
-// ── Fallback ──────────────────────────────────────────────────────────────────
+// â”€â”€ Fallback â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const FALLBACK_BLOCKS: PageBlock[] = [
   {
     id: "fallback-header",
     type: "org-header",
-    nameVi1: "TRUNG TÂM DỊCH VỤ PHÂN TÍCH THÍ NGHIỆM",
-    nameVi2: "VÀ TIÊU CHUẨN ĐO LƯỜNG CHẤT LƯỢNG THÀNH PHỐ HỒ CHÍ MINH",
+    nameVi1: "TRUNG TÃ‚M Dá»ŠCH Vá»¤ PHÃ‚N TÃCH THÃ NGHIá»†M",
+    nameVi2: "VÃ€ TIÃŠU CHUáº¨N ÄO LÆ¯á»œNG CHáº¤T LÆ¯á»¢NG THÃ€NH PHá» Há»’ CHÃ MINH",
     nameEn:
       "CENTER OF ANALYTICAL SERVICES, EXPERIMENTATION AND STANDARDS, METROLOGY, QUALITY OF HO CHI MINH CITY",
     abbreviation: "CASE-SMQ",
     headquarterAddress:
-      "Số 2 Nguyễn Văn Thủ, Phường Tân Định, Thành phố Hồ Chí Minh",
+      "Sá»‘ 2 Nguyá»…n VÄƒn Thá»§, PhÆ°á»ng TÃ¢n Äá»‹nh, ThÃ nh phá»‘ Há»“ ChÃ­ Minh",
     taxCode: "0319238568",
     nameEn1: "ANALYTICAL SERVICES CENTER",
     nameEn2: "EXPERIMENTATION AND STANDARDS, METROLOGY, QUALITY OF HO CHI MINH CITY",
@@ -164,50 +164,50 @@ const FALLBACK_BLOCKS: PageBlock[] = [
   {
     id: "fallback-branches",
     type: "branches",
-    title: "Trụ sở / chi nhánh / văn phòng đại diện",
+    title: "Trá»¥ sá»Ÿ / chi nhÃ¡nh / vÄƒn phÃ²ng Ä‘áº¡i diá»‡n",
     titleEn: "Headquarters / Branches / Representative Offices",
     items: [
       {
         id: "1",
-        name: "Trụ sở 1",
+        name: "Trá»¥ sá»Ÿ 1",
         address:
-          "Số 263 Điện Biên Phủ, Phường Xuân Hòa, Thành phố Hồ Chí Minh",
-        phone: "028 3930 2733 – 3933 3533",
+          "Sá»‘ 263 Äiá»‡n BiÃªn Phá»§, PhÆ°á»ng XuÃ¢n HÃ²a, ThÃ nh phá»‘ Há»“ ChÃ­ Minh",
+        phone: "028 3930 2733 â€“ 3933 3533",
         nameEn: "Headquarters 1",
         addressEn: "No. 263 Dien Bien Phu, Xuan Hoa Ward, Ho Chi Minh City",
       },
       {
         id: "2",
-        name: "Trụ sở 3",
+        name: "Trá»¥ sá»Ÿ 3",
         address:
-          "Số 26 Huỳnh Văn Nghệ, Phường Phú Lợi, Thành phố Hồ Chí Minh",
-        phone: "0274 3897 574 – 3883 186",
+          "Sá»‘ 26 Huá»³nh VÄƒn Nghá»‡, PhÆ°á»ng PhÃº Lá»£i, ThÃ nh phá»‘ Há»“ ChÃ­ Minh",
+        phone: "0274 3897 574 â€“ 3883 186",
         nameEn: "Headquarters 3",
         addressEn: "No. 26 Huynh Van Nghe, Phu Loi Ward, Ho Chi Minh City",
       },
       {
         id: "3",
-        name: "Trụ sở 4",
-        address: "Số 379 Hà Huy Tập, Phường Bà Rịa, Thành phố Hồ Chí Minh",
+        name: "Trá»¥ sá»Ÿ 4",
+        address: "Sá»‘ 379 HÃ  Huy Táº­p, PhÆ°á»ng BÃ  Rá»‹a, ThÃ nh phá»‘ Há»“ ChÃ­ Minh",
         phone: "0254 3717 636",
         nameEn: "Headquarters 4",
         addressEn: "No. 379 Ha Huy Tap, Ba Ria Ward, Ho Chi Minh City",
       },
       {
         id: "4",
-        name: "Chi nhánh Cần Thơ",
+        name: "Chi nhÃ¡nh Cáº§n ThÆ¡",
         address:
-          "Số F2.67-F2.68 Nguyễn Thị Sáu, Phường Hưng Phú, Thành phố Cần Thơ",
-        phone: "0292. 3918 217 – 3918 218",
+          "Sá»‘ F2.67-F2.68 Nguyá»…n Thá»‹ SÃ¡u, PhÆ°á»ng HÆ°ng PhÃº, ThÃ nh phá»‘ Cáº§n ThÆ¡",
+        phone: "0292. 3918 217 â€“ 3918 218",
         nameEn: "Can Tho Branch",
         addressEn: "No. F2.67-F2.68 Nguyen Thi Sau, Hung Phu Ward, Can Tho City",
       },
       {
         id: "5",
-        name: "VP đại diện Miền Trung",
+        name: "VP Ä‘áº¡i diá»‡n Miá»n Trung",
         address:
-          "Số STH 27.18, Đường 8E, Khu đô Thị mới Lê Hồng Phong II, Phường Nam Nha Trang, Tỉnh Khánh Hòa",
-        phone: "0258. 2465 255 – 2465 355",
+          "Sá»‘ STH 27.18, ÄÆ°á»ng 8E, Khu Ä‘Ã´ Thá»‹ má»›i LÃª Há»“ng Phong II, PhÆ°á»ng Nam Nha Trang, Tá»‰nh KhÃ¡nh HÃ²a",
+        phone: "0258. 2465 255 â€“ 2465 355",
         nameEn: "Central Region Representative Office",
         addressEn: "No. STH 27.18, 8E Street, Le Hong Phong II New Urban Area, Nam Nha Trang Ward, Khanh Hoa Province",
       },
@@ -215,7 +215,7 @@ const FALLBACK_BLOCKS: PageBlock[] = [
   },
 ];
 
-// ── Helper ────────────────────────────────────────────────────────────────────
+// â”€â”€ Helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function parseBlocks(rows: PageConfig[], key: string): PageBlock[] {
   const row = rows.find((r) => r.key === key);
@@ -228,7 +228,7 @@ function parseBlocks(rows: PageConfig[], key: string): PageBlock[] {
   }
 }
 
-// ── Block Renderer ────────────────────────────────────────────────────────────
+// â”€â”€ Block Renderer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) => string; lang: string }) {
   const isEn = lang === "en";
@@ -236,7 +236,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
   if (block.hidden) return null;
 
   switch (block.type) {
-    // ── org-header ──────────────────────────────────────────────────────────
+    // â”€â”€ org-header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     case "org-header":
       return (
         <div className="text-white space-y-4">
@@ -271,7 +271,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
         </div>
       );
 
-    // ── branches ────────────────────────────────────────────────────────────
+    // â”€â”€ branches â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     case "branches":
       return (
         <div>
@@ -299,7 +299,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
         </div>
       );
 
-    // ── heading ─────────────────────────────────────────────────────────────
+    // â”€â”€ heading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     case "heading": {
       const cls =
         block.level === "h1"
@@ -311,7 +311,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
       return <Tag className={cls}>{isEn ? (block.textEn || block.text) : block.text}</Tag>;
     }
 
-    // ── text-input ──────────────────────────────────────────────────────────
+    // â”€â”€ text-input â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     case "text-input":
       return (
         <p className="text-base text-white/90">
@@ -320,7 +320,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
         </p>
       );
 
-    // ── rich-text ───────────────────────────────────────────────────────────
+    // â”€â”€ rich-text â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     case "rich-text":
       return (
         <div className="text-white/90 text-base leading-relaxed prose prose-invert max-w-none">
@@ -328,7 +328,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
         </div>
       );
 
-    // ── info-row ────────────────────────────────────────────────────────────
+    // â”€â”€ info-row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     case "info-row":
       return (
         <div className="flex items-start gap-3">
@@ -342,7 +342,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
         </div>
       );
 
-    // ── card-item ───────────────────────────────────────────────────────────
+    // â”€â”€ card-item â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     case "card-item":
       return (
         <div className="bg-white/10 border border-white/20 backdrop-blur-sm rounded-lg p-4 space-y-1">
@@ -356,7 +356,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
         </div>
       );
 
-    // ── badge ───────────────────────────────────────────────────────────────
+    // â”€â”€ badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     case "badge":
       return (
         <span
@@ -366,7 +366,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
         </span>
       );
 
-    // ── image ───────────────────────────────────────────────────────────────
+    // â”€â”€ image â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     case "image": {
       if (!block.src) return null;
       const url = block.src.startsWith("http")
@@ -383,7 +383,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
             />
           </div>
           {(isEn ? (block.captionEn || block.caption) : block.caption) && (
-            <p className="text-white/85 text-xs text-center italic">
+            <p className="text-white/80 text-xs text-center italic">
               {isEn ? (block.captionEn || block.caption) : block.caption}
             </p>
           )}
@@ -391,7 +391,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
       );
     }
 
-    // ── divider ─────────────────────────────────────────────────────────────
+    // â”€â”€ divider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     case "divider":
       return <hr className="border-white/20" />;
 
@@ -400,7 +400,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
   }
 }
 
-// ── Main Component ────────────────────────────────────────────────────────────
+// â”€â”€ Main Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default function Introduction() {
   const { t, i18n } = useTranslation("pages/about");

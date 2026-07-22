@@ -4,11 +4,11 @@ export default function ConsultationPage() {
   return (
     <>
       <PageHero
-        title="Book Your Free Design Consultation"
-        subtitle="Take the first step toward your dream space."
+        title="Request a Project Quote"
+        subtitle="Take the first step toward your design-build project."
         breadcrumbs={[
           { label: "Home", href: "/kosmo/home" },
-          { label: "Book Consultation" },
+          { label: "Get a Quote" },
         ]}
         backgroundImage="/images/kosmo/kitchen.jpg"
       />
@@ -17,7 +17,7 @@ export default function ConsultationPage() {
         <div className="container-kosmo">
           <SectionHeading
             eyebrow="Get Started"
-            title="Schedule Your Free Consultation"
+            title="Request Your Free Project Quote"
             subtitle="Fill out the form below and we'll be in touch within 24 hours."
           />
           <div className="max-w-4xl mx-auto">
@@ -26,18 +26,18 @@ export default function ConsultationPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-green-50">
+      <section className="py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading title="What to Expect" subtitle="Here's what happens after you submit your consultation request." />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { step: "1", title: "We Contact You", description: "Within 24 hours, our team will reach out." },
-              { step: "2", title: "Schedule Visit", description: "We'll work with your schedule." },
-              { step: "3", title: "Design Meeting", description: "Our designer will visit your home." },
-              { step: "4", title: "Get Your Quote", description: "Receive a detailed quote." },
+              { step: "2", title: "Site Visit", description: "We'll schedule a visit to assess your space." },
+              { step: "3", title: "Design Proposal", description: "We present concept design and 3D renderings." },
+              { step: "4", title: "Get Your Quote", description: "Receive a detailed project estimate." },
             ].map((item) => (
               <div key={item.step} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-green-800 text-white font-serif text-xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-full bg-black-800 text-white font-serif text-xl flex items-center justify-center mx-auto mb-4">
                   {item.step}
                 </div>
                 <h3 className="font-serif text-[20px] text-ink mb-2">{item.title}</h3>

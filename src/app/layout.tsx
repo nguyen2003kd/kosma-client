@@ -27,20 +27,21 @@ export const metadata: Metadata = {
     apple: "/favicon.png",
   },
   title: {
-    default: "Kosmo - Custom Storage Solutions for Every Space",
-    template: "%s | Kosmo - Custom Storage Solutions",
+    default: "Kosmo DNC | Interior Design & Construction in Maryland",
+    template: "%s | Kosmo DNC",
   },
   description:
-    "Transform your home with beautifully organized spaces designed around your lifestyle. Free in-home consultations available.",
+    "Kosmo DNC provides interior design, commercial fit-outs, residential renovations, project management and branding in Maryland and Northern Virginia.",
   keywords: [
-    "custom closets",
-    "garage storage",
-    "home organization",
-    "pantries",
-    "laundry rooms",
-    "mudrooms",
-    "walk-in closets",
-    "custom storage solutions",
+    "interior design and construction Maryland",
+    "commercial interior design Maryland",
+    "design build contractor Rockville MD",
+    "commercial fit-out Maryland",
+    "residential renovation Maryland",
+    "nail salon design and construction",
+    "interior design Northern Virginia",
+    "custom joinery Maryland",
+    "building permit drawings Maryland",
   ],
   robots: {
     index: true,
@@ -52,17 +53,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Kosmo - Custom Storage Solutions for Every Space",
+    title: "Kosmo DNC | Interior Design & Construction in Maryland",
     description:
-      "Transform your home with beautifully organized spaces designed around your lifestyle.",
+      "Interior design, commercial fit-outs, residential renovations, construction and branding services in Maryland and Northern Virginia.",
     url: baseConfig.frontendDomain,
-    siteName: "Kosmo - Custom Storage Solutions",
+    siteName: "Kosmo DNC",
     images: [
       {
         url: `${baseConfig.frontendDomain}/seo.png`,
         width: 1200,
         height: 630,
-        alt: "Kosmo - Custom Storage Solutions",
+        alt: "Kosmo DNC | Interior Design & Construction",
       },
     ],
     locale: "en_US",
@@ -70,9 +71,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kosmo - Custom Storage Solutions for Every Space",
+    title: "Kosmo DNC | Interior Design & Construction in Maryland",
     description:
-      "Transform your home with beautifully organized spaces designed around your lifestyle.",
+      "Interior design, commercial fit-outs, residential renovations, construction and branding services in Maryland and Northern Virginia.",
     images: [`${baseConfig.frontendDomain}/seo.png`],
   },
 };
@@ -86,7 +87,7 @@ export default async function RootLayout({
   await prefetchLayoutData(queryClient);
 
   return (
-    <html lang="vi">
+    <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-S1WZBLT72V"

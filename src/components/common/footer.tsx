@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useGetApiV10Footer } from "@/api/endpoints/footer";
 import { useGetApiV10AnalyticsActiveUsers } from "@/api/endpoints/analytics";
@@ -57,9 +57,9 @@ const Footer = () => {
       ? footerData.address
       : [
           {
-            title: "Trụ sở chính",
+            title: "Trá»¥ sá»Ÿ chÃ­nh",
             location:
-              "Số 2 Nguyễn Văn Thủ, Phường Tân Định, Thành phố Hồ Chí Minh",
+              "Sá»‘ 2 Nguyá»…n VÄƒn Thá»§, PhÆ°á»ng TÃ¢n Äá»‹nh, ThÃ nh phá»‘ Há»“ ChÃ­ Minh",
           },
         ];
 
@@ -96,7 +96,7 @@ const Footer = () => {
             <div>
               <h6 className="text-sm font-bold mb-2 leading-relaxed text-white">
                 {footerData?.description ||
-                  "TRUNG TÂM DỊCH VỤ PHÂN TÍCH THÍ NGHIỆM VÀ TIÊU CHUẨN ĐO LƯỜNG CHẤT LƯỢNG THÀNH PHỐ HỒ CHÍ MINH"}
+                  "TRUNG TÃ‚M Dá»ŠCH Vá»¤ PHÃ‚N TÃCH THÃ NGHIá»†M VÃ€ TIÃŠU CHUáº¨N ÄO LÆ¯á»œNG CHáº¤T LÆ¯á»¢NG THÃ€NH PHá» Há»’ CHÃ MINH"}
               </h6>
               {footerData?.sub_description && (
                 <p className="text-sm text-white/80 leading-relaxed">
@@ -116,7 +116,7 @@ const Footer = () => {
                   <Phone className="w-4 h-4" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs text-white/85 mb-0.5">Điện thoại</p>
+                  <p className="text-xs text-white/80 mb-0.5">Äiá»‡n thoáº¡i</p>
                   <p className="text-sm font-medium group-hover:text-white transition-colors">
                     {footerData?.phone || "1800 1105"}
                   </p>
@@ -130,7 +130,7 @@ const Footer = () => {
                   <Mail className="w-4 h-4" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs text-white/85 mb-0.5">Email</p>
+                  <p className="text-xs text-white/80 mb-0.5">Email</p>
                   <p className="text-sm font-medium break-all group-hover:text-white transition-colors">
                     {footerData?.email || "casehcm@case.vn"}
                   </p>
@@ -141,8 +141,8 @@ const Footer = () => {
             {/* Social Links */}
             {Object.keys(socialLinks).length > 0 && (
               <div>
-                <p className="text-xs text-white/85 mb-3 uppercase tracking-wider font-medium">
-                  Kết nối với chúng tôi
+                <p className="text-xs text-white/80 mb-3 uppercase tracking-wider font-medium">
+                  Káº¿t ná»‘i vá»›i chÃºng tÃ´i
                 </p>
                 <div className="grid grid-cols-4 gap-2.5 max-w-[180px]">
                   {socialLinks?.facebook && (
@@ -209,7 +209,7 @@ const Footer = () => {
           <div className="lg:col-span-5">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-1 h-5 bg-white/80 rounded-full"></div>
-              <h4 className="text-base font-bold">Địa chỉ</h4>
+              <h4 className="text-base font-bold">Äá»‹a chá»‰</h4>
             </div>
             <div
               className={`grid grid-cols-1 gap-5 ${
@@ -237,7 +237,7 @@ const Footer = () => {
           <div className="lg:col-span-3">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-1 h-5 bg-white/80 rounded-full"></div>
-              <h4 className="text-base font-bold">Liên kết</h4>
+              <h4 className="text-base font-bold">LiÃªn káº¿t</h4>
             </div>
             <nav className="grid grid-cols-1 gap-x-4 gap-y-2.5 text-sm mb-6 max-w-xs">
               {(footerData?.links as FooterLinksItem[] | null | undefined)?.map(
@@ -247,7 +247,7 @@ const Footer = () => {
                     href={(link.link as string) || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-white/85 hover:text-white hover:translate-x-1 transition-all group"
+                    className="flex items-center gap-2 text-white/80 hover:text-white hover:translate-x-1 transition-all group"
                   >
                     <span className="w-1.5 h-1.5 bg-white/60 rounded-full group-hover:bg-white group-hover:scale-125 transition-all"></span>
                     {link.title as string}
@@ -260,19 +260,19 @@ const Footer = () => {
                     href="https://dost.hochiminhcity.gov.vn/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-white/85 hover:text-white hover:translate-x-1 transition-all group"
+                    className="flex items-center gap-2 text-white/80 hover:text-white hover:translate-x-1 transition-all group"
                   >
                     <span className="w-1.5 h-1.5 bg-white/60 rounded-full group-hover:bg-white group-hover:scale-125 transition-all"></span>
-                    Sở Khoa học và Công nghệ Thành phố Hồ Chí Minh
+                    Sá»Ÿ Khoa há»c vÃ  CÃ´ng nghá»‡ ThÃ nh phá»‘ Há»“ ChÃ­ Minh
                   </a>
                   <a
                     href="https://chicuctdc.gov.vn/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-white/85 hover:text-white hover:translate-x-1 transition-all group"
+                    className="flex items-center gap-2 text-white/80 hover:text-white hover:translate-x-1 transition-all group"
                   >
                     <span className="w-1.5 h-1.5 bg-white/60 rounded-full group-hover:bg-white group-hover:scale-125 transition-all"></span>
-                    Chi Cục Tiêu chuẩn Đo lường Chất lượng Thành phố Hồ Chí Minh
+                    Chi Cá»¥c TiÃªu chuáº©n Äo lÆ°á»ng Cháº¥t lÆ°á»£ng ThÃ nh phá»‘ Há»“ ChÃ­ Minh
                   </a>
                 </>
               )}
@@ -281,16 +281,16 @@ const Footer = () => {
             {/* Statistics */}
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 space-y-3">
               <div className="text-center pb-2.5 border-b border-white/10">
-                <div className="text-xs text-white/85 mb-1.5 uppercase tracking-wider">
-                  Đang truy cập
+                <div className="text-xs text-white/80 mb-1.5 uppercase tracking-wider">
+                  Äang truy cáº­p
                 </div>
                 <div className="text-3xl font-bold text-white">
                   {analyticsData?.responseData?.activeUsers ?? footerData?.online_visitors ?? 888}
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-xs text-white/85 mb-1.5 uppercase tracking-wider">
-                  Tổng lượt xem
+                <div className="text-xs text-white/80 mb-1.5 uppercase tracking-wider">
+                  Tá»•ng lÆ°á»£t xem
                 </div>
                 <div className="text-3xl font-bold text-white">
                   {formatViews(analyticsData?.responseData?.totalPageViews ?? footerData?.total_views ?? "8888888")}

@@ -19,7 +19,7 @@ export function Input({ className, label, error, id, ...props }: InputProps) {
       <input
         id={id}
         className={cn(
-          "flex h-12 w-full rounded-[10px] border border-mutedLine bg-[#fbfcfb] px-3 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-green-700 focus:outline-none focus:ring-4 focus:ring-green-700/08 disabled:cursor-not-allowed disabled:opacity-50 transition-colors",
+          "flex h-12 w-full rounded-[10px] border border-mutedLine bg-[#fbfcfb] px-3 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-black-700 focus:outline-none focus:ring-4 focus:ring-black-700/08 disabled:cursor-not-allowed disabled:opacity-50 transition-colors",
           error && "border-red-500 focus:border-red-500 focus:ring-red-500/08",
           className
         )}
@@ -49,7 +49,7 @@ export function Textarea({ className, label, error, id, ...props }: TextareaProp
       <textarea
         id={id}
         className={cn(
-          "flex min-h-[112px] w-full rounded-[10px] border border-mutedLine bg-[#fbfcfb] px-3 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-green-700 focus:outline-none focus:ring-4 focus:ring-green-700/08 disabled:cursor-not-allowed disabled:opacity-50 transition-colors resize-y",
+          "flex min-h-[112px] w-full rounded-[10px] border border-mutedLine bg-[#fbfcfb] px-3 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-black-700 focus:outline-none focus:ring-4 focus:ring-black-700/08 disabled:cursor-not-allowed disabled:opacity-50 transition-colors resize-y",
           error && "border-red-500 focus:border-red-500 focus:ring-red-500/08",
           className
         )}
@@ -89,7 +89,7 @@ export function Select({
       <select
         id={id}
         className={cn(
-          "flex h-12 w-full rounded-[10px] border border-mutedLine bg-[#fbfcfb] px-3 py-3 text-sm text-ink focus:border-green-700 focus:outline-none focus:ring-4 focus:ring-green-700/08 disabled:cursor-not-allowed disabled:opacity-50 transition-colors",
+          "flex h-12 w-full rounded-[10px] border border-mutedLine bg-[#fbfcfb] px-3 py-3 text-sm text-ink focus:border-black-700 focus:outline-none focus:ring-4 focus:ring-black-700/08 disabled:cursor-not-allowed disabled:opacity-50 transition-colors",
           error && "border-red-500 focus:border-red-500 focus:ring-red-500/08",
           className
         )}

@@ -1,4 +1,4 @@
-import { getResponsiveImage } from "@/lib/responsive-image";
+﻿import { getResponsiveImage } from "@/lib/responsive-image";
 import type { PostExtended as PostWithImage } from "@/types/post";
 import parse from "html-react-parser";
 import { ArrowRight, Calendar, Newspaper } from "lucide-react";
@@ -30,7 +30,7 @@ export default function FeaturedNewsCard({ post }: FeaturedNewsCardProps) {
       />
 
       {/* Gradient Overlay - Blue */}
-     <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 via-blue-700/15 to-transparent"></div>
+     <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 via-blue-700/10 to-transparent"></div>
 
       {/* Content Overlay */}
       <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
@@ -40,7 +40,7 @@ export default function FeaturedNewsCard({ post }: FeaturedNewsCardProps) {
           <div className="mb-3">
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white text-xs font-bold rounded-full shadow-xl backdrop-blur-sm border border-white/20 group-hover:scale-105 transition-transform">
               <Newspaper className="w-4 h-4" />
-              MỚI NHẤT
+              Má»šI NHáº¤T
             </span>
           </div>
 
@@ -68,7 +68,7 @@ export default function FeaturedNewsCard({ post }: FeaturedNewsCardProps) {
             </div>
 
             <span className="inline-flex items-center text-white font-bold text-xs md:text-sm gap-2 group-hover:gap-3 transition-all">
-              Xem chi tiết
+              Xem chi tiáº¿t
               <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
             </span>
           </div>

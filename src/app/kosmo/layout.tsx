@@ -4,29 +4,45 @@ import { PromoBar } from "@/components/kosmo/layout/promo-bar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Kosmo - Custom Storage Solutions for Every Space",
-  description: "Transform your home with beautifully organized spaces designed around your lifestyle. Free in-home consultations available.",
-  keywords: ["custom closets", "garage storage", "home organization", "pantries", "laundry rooms", "mudrooms", "walk-in closets"],
+  title: {
+    default: "Kosmo DNC | Interior Design & Construction in Maryland",
+    template: "%s | Kosmo DNC",
+  },
+  description:
+    "Kosmo DNC provides interior design, commercial fit-outs, residential renovations, project management and branding in Maryland and Northern Virginia.",
+  keywords: [
+    "interior design and construction Maryland",
+    "commercial interior design Maryland",
+    "design build contractor Rockville MD",
+    "commercial fit-out Maryland",
+    "residential renovation Maryland",
+    "nail salon design and construction",
+    "interior design Northern Virginia",
+    "custom joinery Maryland",
+    "building permit drawings Maryland",
+  ],
   icons: {
     icon: "/favicon.png",
     apple: "/favicon.png",
   },
   openGraph: {
-    title: "Kosmo - Custom Storage Solutions",
-    description: "Transform your home with beautifully organized spaces designed around your lifestyle.",
+    title: "Kosmo DNC | Design, Build & Brand",
+    description:
+      "Interior design, commercial fit-outs, residential renovations, construction and branding services in Maryland and Northern Virginia.",
     images: [
       {
         url: "/seo.png",
         width: 1200,
         height: 630,
-        alt: "Kosmo - Custom Storage Solutions",
+        alt: "Kosmo DNC | Interior Design & Construction",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kosmo - Custom Storage Solutions",
-    description: "Transform your home with beautifully organized spaces designed around your lifestyle.",
+    title: "Kosmo DNC | Design, Build & Brand",
+    description:
+      "Interior design, commercial fit-outs, residential renovations, construction and branding services in Maryland and Northern Virginia.",
     images: ["/seo.png"],
   },
 };

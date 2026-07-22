@@ -4,22 +4,22 @@ import { useState } from "react";
 import Link from "next/link";
 import { X, ChevronDown, Menu } from "lucide-react";
 
-const spaces = [
-  { name: "Closets", href: "/kosmo/spaces/closets" },
-  { name: "Garages", href: "/kosmo/spaces/garages" },
-  { name: "Home Offices", href: "/kosmo/spaces/home-offices" },
-  { name: "Pantries", href: "/kosmo/spaces/pantries" },
-  { name: "Laundry Rooms", href: "/kosmo/spaces/laundry-rooms" },
-  { name: "Mudrooms", href: "/kosmo/spaces/mudrooms" },
+const services = [
+  { name: "Interior Design", href: "/kosmo/spaces/closets" },
+  { name: "Commercial Fit-Out", href: "/kosmo/spaces/garages" },
+  { name: "Residential Renovation", href: "/kosmo/spaces/home-offices" },
+  { name: "Custom Joinery", href: "/kosmo/spaces/pantries" },
+  { name: "Construction Drawings", href: "/kosmo/spaces/laundry-rooms" },
+  { name: "Branding", href: "/kosmo/spaces/mudrooms" },
 ];
 
-const solutions = [
-  { name: "Walk-In Closets", href: "/kosmo/solutions/walk-in-closets" },
-  { name: "Reach-In Closets", href: "/kosmo/solutions/reach-in-closets" },
-  { name: "Garage Cabinets", href: "/kosmo/solutions/garage-cabinets" },
-  { name: "Wall Beds", href: "/kosmo/solutions/wall-beds" },
-  { name: "Entertainment Centers", href: "/kosmo/solutions/entertainment-centers" },
-  { name: "Custom Accessories", href: "/kosmo/solutions/custom-accessories" },
+const projectTypes = [
+  { name: "Nail Salon Design & Construction", href: "/kosmo/solutions/walk-in-closets" },
+  { name: "Kitchen Renovation", href: "/kosmo/solutions/reach-in-closets" },
+  { name: "Commercial Fit-Out", href: "/kosmo/solutions/garage-cabinets" },
+  { name: "Residential Renovation", href: "/kosmo/solutions/wall-beds" },
+  { name: "Custom Joinery", href: "/kosmo/solutions/entertainment-centers" },
+  { name: "Branding & Website", href: "/kosmo/solutions/custom-accessories" },
 ];
 
 export function MobileNav() {
@@ -48,13 +48,13 @@ export function MobileNav() {
               <nav className="space-y-4">
                 <div className="border-b border-mutedLine">
                   <button onClick={() => toggleSection("spaces")} className="w-full flex items-center justify-between py-4 font-serif text-[26px] text-ink">
-                    Spaces
+                    Services
                     <ChevronDown className={`w-5 h-5 transition-transform ${expandedSection === "spaces" ? "rotate-180" : ""}`} />
                   </button>
                   {expandedSection === "spaces" && (
                     <div className="pb-4 space-y-3">
-                      {spaces.map((item) => (
-                        <Link key={item.name} href={item.href} className="block text-[15px] text-gray-700 hover:text-green-800" onClick={() => setIsOpen(false)}>{item.name}</Link>
+                      {services.map((item) => (
+                        <Link key={item.name} href={item.href} className="block text-[15px] text-gray-700 hover:text-black-800" onClick={() => setIsOpen(false)}>{item.name}</Link>
                       ))}
                     </div>
                   )}
@@ -62,13 +62,13 @@ export function MobileNav() {
 
                 <div className="border-b border-mutedLine">
                   <button onClick={() => toggleSection("solutions")} className="w-full flex items-center justify-between py-4 font-serif text-[26px] text-ink">
-                    Solutions
+                    Projects
                     <ChevronDown className={`w-5 h-5 transition-transform ${expandedSection === "solutions" ? "rotate-180" : ""}`} />
                   </button>
                   {expandedSection === "solutions" && (
                     <div className="pb-4 space-y-3">
-                      {solutions.map((item) => (
-                        <Link key={item.name} href={item.href} className="block text-[15px] text-gray-700 hover:text-green-800" onClick={() => setIsOpen(false)}>{item.name}</Link>
+                      {projectTypes.map((item) => (
+                        <Link key={item.name} href={item.href} className="block text-[15px] text-gray-700 hover:text-black-800" onClick={() => setIsOpen(false)}>{item.name}</Link>
                       ))}
                     </div>
                   )}
@@ -77,10 +77,10 @@ export function MobileNav() {
                 <Link href="/kosmo/about" className="block py-4 font-serif text-[26px] text-ink border-b border-mutedLine" onClick={() => setIsOpen(false)}>About</Link>
                 <Link href="/kosmo/process" className="block py-4 font-serif text-[26px] text-ink border-b border-mutedLine" onClick={() => setIsOpen(false)}>Process</Link>
                 <Link href="/kosmo/gallery" className="block py-4 font-serif text-[26px] text-ink border-b border-mutedLine" onClick={() => setIsOpen(false)}>Gallery</Link>
-                <Link href="/kosmo/locations" className="block py-4 font-serif text-[26px] text-ink border-b border-mutedLine" onClick={() => setIsOpen(false)}>Locations</Link>
+                <Link href="/kosmo/locations" className="block py-4 font-serif text-[26px] text-ink border-b border-mutedLine" onClick={() => setIsOpen(false)}>Service Areas</Link>
 
                 <div className="pt-6">
-                  <Link href="/kosmo/consultation" className="inline-flex items-center justify-center min-h-[48px] px-6 w-full bg-green-800 text-white font-extrabold text-[14px] rounded-full hover:bg-green-950" onClick={() => setIsOpen(false)}>Book Consultation</Link>
+                  <Link href="/kosmo/consultation" className="inline-flex items-center justify-center min-h-[48px] px-6 w-full bg-black-800 text-white font-extrabold text-[14px] rounded-xl hover:bg-black-950" onClick={() => setIsOpen(false)}>Get a Quote</Link>
                 </div>
               </nav>
             </div>

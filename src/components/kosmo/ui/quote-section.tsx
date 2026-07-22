@@ -10,7 +10,7 @@ interface QuoteSectionProps {
 
 export function QuoteSection({ quote, author, title }: QuoteSectionProps) {
   return (
-    <div className="relative bg-green-900 py-[100px] overflow-hidden">
+    <div className="relative bg-black-900 py-[100px] overflow-hidden">
       {/* Decorative Quote Mark */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
         <span className="font-serif text-[340px] text-white/[0.07] leading-none">
@@ -68,7 +68,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           {/* Overlay on hover */}
-          <div className="absolute inset-0 bg-green-950/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black-950/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <span className="text-white font-bold text-sm drop-shadow-md">View Project</span>
           </div>
         </div>

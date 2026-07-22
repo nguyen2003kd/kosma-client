@@ -2,12 +2,12 @@ import { PageHero, SectionHeading, ConsultationForm } from "@/components/kosmo/u
 import Link from "next/link";
 
 const posts = [
-  { title: "6 Steps to Your Dream Closet", excerpt: "Transform your closet with these essential tips.", date: "January 15, 2024", category: "Closet Organization", image: "/images/kosmo/living.jpg", slug: "six-steps-to-dream-closet" },
-  { title: "Seasonal Wardrobe Reset Guide", excerpt: "Get your wardrobe ready for the new season.", date: "January 10, 2024", category: "Organization Tips", image: "/images/kosmo/lounge.jpg", slug: "seasonal-wardrobe-reset" },
-  { title: "Maximizing Small Spaces", excerpt: "Small room? No problem!", date: "January 5, 2024", category: "Small Spaces", image: "/images/kosmo/office.jpg", slug: "small-room-big-storage" },
-  { title: "Garage Organization Ideas", excerpt: "Transform your garage from chaotic to organized.", date: "December 28, 2023", category: "Garage", image: "/images/kosmo/showroom.jpg", slug: "garage-organization" },
-  { title: "Home Office Design Trends", excerpt: "Create the perfect workspace.", date: "December 20, 2023", category: "Home Office", image: "/images/kosmo/kitchen.jpg", slug: "home-office-trends" },
-  { title: "Pantry Organization Essentials", excerpt: "Everything you need to know about pantry organization.", date: "December 15, 2023", category: "Pantry", image: "/images/kosmo/exterior.jpg", slug: "pantry-organization" },
+  { title: "Nail Salon Design: From Concept to Completion", excerpt: "A step-by-step guide to designing and building a nail salon.", date: "January 15, 2024", category: "Commercial Design", image: "/images/kosmo/living.jpg", slug: "nail-salon-design-guide" },
+  { title: "Kitchen Renovation Trends in Maryland", excerpt: "Popular kitchen design trends for Maryland homeowners.", date: "January 10, 2024", category: "Residential Renovation", image: "/images/kosmo/lounge.jpg", slug: "kitchen-renovation-trends" },
+  { title: "Commercial Fit-Out: What to Expect", excerpt: "Understanding the commercial fit-out process.", date: "January 5, 2024", category: "Commercial Construction", image: "/images/kosmo/office.jpg", slug: "commercial-fit-out-guide" },
+  { title: "Custom Joinery for Nail Salons", excerpt: "How custom cabinetry elevates salon interiors.", date: "December 28, 2023", category: "Custom Joinery", image: "/images/kosmo/showroom.jpg", slug: "custom-joinery-salons" },
+  { title: "Building Permit Drawings in Maryland", excerpt: "What you need to know about permit drawings.", date: "December 20, 2023", category: "Construction", image: "/images/kosmo/kitchen.jpg", slug: "building-permit-drawings" },
+  { title: "Branding for Nail Salons", excerpt: "Website, business cards, and brand identity tips.", date: "December 15, 2023", category: "Branding", image: "/images/kosmo/exterior.jpg", slug: "salon-branding-tips" },
 ];
 
 export default function BlogPage() {
@@ -15,7 +15,7 @@ export default function BlogPage() {
     <>
       <PageHero
         title="Our Blog"
-        subtitle="Tips, trends, and inspiration for your custom storage solutions."
+        subtitle="Tips, trends, and insights on interior design, construction and branding."
         breadcrumbs={[
           { label: "Home", href: "/kosmo/home" },
           { label: "Blog" },
@@ -25,7 +25,7 @@ export default function BlogPage() {
 
       <section className="py-24 bg-white">
         <div className="container-kosmo">
-          <SectionHeading title="Latest Articles" subtitle="Explore our collection of design tips and organization ideas." />
+          <SectionHeading title="Latest Articles" subtitle="Explore our collection of design, construction and branding insights." />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post) => (
               <Link key={post.slug} href={`/kosmo/blog/${post.slug}`} className="group block rounded-[--radius-md] overflow-hidden bg-white hover:shadow-soft transition-shadow">
@@ -34,7 +34,7 @@ export default function BlogPage() {
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-green-800">{post.category}</span>
+                    <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-black-800">{post.category}</span>
                     <span className="text-[11px] text-gray-600">{post.date}</span>
                   </div>
                   <h3 className="font-serif text-[27px] text-ink mb-2 line-clamp-2">{post.title}</h3>
@@ -46,9 +46,9 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-green-50">
+      <section className="py-24 bg-gray-50">
         <div className="container-kosmo">
-          <SectionHeading title="Need Personal Help?" subtitle="Our design experts are here to help you." />
+          <SectionHeading title="Need Personal Help?" subtitle="Our design experts are here to help with your project." />
           <div className="max-w-4xl mx-auto">
             <ConsultationForm />
           </div>

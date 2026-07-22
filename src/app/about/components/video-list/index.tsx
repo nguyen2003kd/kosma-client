@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { useGetApiV10PageConfig } from "@/api/endpoints/page-config";
@@ -237,7 +237,7 @@ export default function VideoList() {
                       />
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 gap-2">
-                        <Play className="w-10 h-10 text-white/85" />
+                        <Play className="w-10 h-10 text-white/80" />
                         <span className="text-xs text-white/70 font-medium">
                           {getVideoLabel(videoUrl)}
                         </span>

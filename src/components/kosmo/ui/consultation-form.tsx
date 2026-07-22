@@ -6,10 +6,10 @@ import { Button } from "./button";
 import { Check } from "lucide-react";
 
 const checklistItems = [
-  "Free in-home design consultation",
-  "Detailed 3D rendering of your space",
-  "Transparent pricing with no hidden fees",
-  "Professional installation by certified experts",
+  "Free project consultation & quote",
+  "Concept design with 3D renderings",
+  "Design-build under one roof",
+  "Licensed MD #113826 & insured",
 ];
 
 interface ConsultationFormProps {
@@ -18,8 +18,8 @@ interface ConsultationFormProps {
 }
 
 export function ConsultationForm({
-  title = "Ready to Transform Your Space?",
-  subtitle = "Schedule your free design consultation today and let our experts help you create the perfect storage solution.",
+  title = "Ready to Start Your Project?",
+  subtitle = "Request a free project quote today and let our team help you design, build and brand your space.",
 }: ConsultationFormProps) {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -41,9 +41,9 @@ export function ConsultationForm({
 
   if (isSubmitted) {
     return (
-      <div className="bg-green-900 rounded-2xl p-8 md:p-12 text-center shadow-strong">
-        <div className="w-16 h-16 rounded-full bg-[#d8c29c] flex items-center justify-center mx-auto mb-6">
-          <Check className="w-8 h-8 text-green-950" />
+      <div className="bg-black-900 rounded-2xl p-8 md:p-12 text-center shadow-strong">
+        <div className="w-16 h-16 rounded-xl bg-[#d8c29c] flex items-center justify-center mx-auto mb-6">
+          <Check className="w-8 h-8 text-black-950" />
         </div>
         <h3 className="font-serif text-[28px] text-white mb-4">
           Thank You!
@@ -64,7 +64,7 @@ export function ConsultationForm({
   return (
     <div className="grid md:grid-cols-[0.9fr_1.1fr] rounded-2xl overflow-hidden shadow-strong">
       {/* Left Side - Info */}
-      <div className="bg-green-900 p-8 md:p-12">
+      <div className="bg-black-900 p-8 md:p-12">
         <h3 className="font-serif text-[28px] text-white mb-4">{title}</h3>
         <p className="text-white mb-8">{subtitle}</p>
 
@@ -72,8 +72,8 @@ export function ConsultationForm({
         <div className="space-y-4">
           {checklistItems.map((item, index) => (
             <div key={index} className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded-full bg-[#d8c29c] flex items-center justify-center flex-shrink-0">
-                <Check className="w-3.5 h-3.5 text-green-950" />
+              <div className="w-6 h-6 rounded-xl bg-[#d8c29c] flex items-center justify-center flex-shrink-0">
+                <Check className="w-3.5 h-3.5 text-black-950" />
               </div>
               <span className="text-white text-[15px]">{item}</span>
             </div>
@@ -138,7 +138,7 @@ export function ConsultationForm({
               }
             />
             <Select
-              label="Space Type"
+              label="Project Type"
               id="spaceType"
               required
               value={formData.spaceType}
@@ -146,22 +146,22 @@ export function ConsultationForm({
                 setFormData({ ...formData, spaceType: e.target.value })
               }
               options={[
-                { value: "closet", label: "Closet" },
-                { value: "garage", label: "Garage" },
-                { value: "office", label: "Home Office" },
-                { value: "pantry", label: "Pantry" },
-                { value: "laundry", label: "Laundry Room" },
-                { value: "mudroom", label: "Mudroom" },
+                { value: "commercial", label: "Commercial Fit-Out" },
+                { value: "nail-salon", label: "Nail Salon Design" },
+                { value: "residential", label: "Residential Renovation" },
+                { value: "kitchen", label: "Kitchen Renovation" },
+                { value: "joinery", label: "Custom Joinery" },
+                { value: "branding", label: "Branding" },
                 { value: "other", label: "Other" },
               ]}
-              placeholder="Select space type"
+              placeholder="Select project type"
             />
           </div>
 
           <Textarea
             label="Tell us about your project"
             id="message"
-            placeholder="Describe your storage needs and goals..."
+            placeholder="Describe your project scope and goals..."
             value={formData.message}
             onChange={(e) =>
               setFormData({ ...formData, message: e.target.value })
@@ -169,7 +169,7 @@ export function ConsultationForm({
           />
 
           <Button type="submit" className="w-full">
-            Schedule Free Consultation
+            Request a Free Quote
           </Button>
 
           <p className="text-[12px] text-gray-600 text-center">

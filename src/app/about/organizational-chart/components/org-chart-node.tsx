@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
@@ -7,7 +7,7 @@ import { Eye, Pencil, Trash2, X, Palette, Copy } from 'lucide-react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import baseConfig from '@configs/base';
 
-/* ─── TIER CONFIG ─────────────────────────────────────────────────────── */
+/* â”€â”€â”€ TIER CONFIG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 const TIER_COLORS: Record<string, { border: string; badge: string; label: string }> = {
   'C-level':  { border: '#DC2626', badge: '#EF4444', label: 'C-level' },
@@ -20,13 +20,13 @@ const TIER_COLORS: Record<string, { border: string; badge: string; label: string
 function getTierMeta(position = ''): { border: string; badge: string; label: string } {
   const p = position.toLowerCase();
   if (p.includes('ceo') || p.includes('cto') || p.includes('cfo') || p.includes('coo') || p.includes('cmo')) return TIER_COLORS['C-level'];
-  if (p.includes('l1') || p.includes('director') || p.includes('trưởng')) return TIER_COLORS['L1'];
-  if (p.includes('l2') || p.includes('manager') || p.includes('phó')) return TIER_COLORS['L2'];
+  if (p.includes('l1') || p.includes('director') || p.includes('trÆ°á»Ÿng')) return TIER_COLORS['L1'];
+  if (p.includes('l2') || p.includes('manager') || p.includes('phÃ³')) return TIER_COLORS['L2'];
   if (p.includes('l3') || p.includes('lead') || p.includes('senior')) return TIER_COLORS['L3'];
   return TIER_COLORS.default;
 }
 
-/* ─── Style Toolbar Portal ──────────────────────────────────────────── */
+/* â”€â”€â”€ Style Toolbar Portal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 interface StyleToolbarRenderProps {
   localColor: string;
@@ -61,7 +61,7 @@ function StyleToolbarPortal({
       onClick={(e) => e.stopPropagation()}
     >
       <div className="mb-4 flex items-center justify-between">
-        <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">Tuỳ chỉnh node</span>
+        <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">Tuá»³ chá»‰nh node</span>
         <button
           type="button" onClick={onClose}
           className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-all hover:rotate-90 hover:bg-red-100 hover:text-red-500 dark:bg-gray-800 dark:text-gray-400"
@@ -71,7 +71,7 @@ function StyleToolbarPortal({
       </div>
 
       <div className="mb-3 space-y-1.5">
-        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Màu viền</p>
+        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">MÃ u viá»n</p>
         <div className="flex items-center gap-2">
           <input type="color" value={localColor || '#2563EB'}
             onChange={(e) => setLocalColor(e.target.value)}
@@ -84,7 +84,7 @@ function StyleToolbarPortal({
 
       <div className="mb-3 space-y-1.5">
         <div className="flex items-center justify-between text-xs font-medium text-gray-500 dark:text-gray-400">
-          <span>Rộng</span><span className="tabular-nums font-mono">{localWidth}px</span>
+          <span>Rá»™ng</span><span className="tabular-nums font-mono">{localWidth}px</span>
         </div>
         <input type="range" min={140} max={400} step={5} value={localWidth}
           onChange={(e) => setLocalWidth(Number(e.target.value))}
@@ -103,11 +103,11 @@ function StyleToolbarPortal({
       <div className="flex items-center justify-end gap-2">
         <button type="button" onClick={onClose}
           className="flex h-9 items-center gap-1 rounded-full border border-gray-200 px-4 text-xs font-medium text-gray-500 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800">
-          Hủy
+          Há»§y
         </button>
         <button type="button" onClick={() => onSave(localColor, localWidth, localHeight)}
           className="flex h-9 items-center gap-1 rounded-full bg-indigo-600 px-4 text-xs font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/40 active:scale-95">
-          Lưu
+          LÆ°u
         </button>
       </div>
     </div>,
@@ -115,7 +115,7 @@ function StyleToolbarPortal({
   );
 }
 
-/* ─── Node Component ────────────────────────────────────────────────── */
+/* â”€â”€â”€ Node Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 interface OrgChartNodeProps {
   node: OrgNode;
@@ -227,7 +227,7 @@ export function OrgChartNode({
   const avatarSrc = resolveAvatarSrc(node.avatar_url);
   const canShowActions = (canDeletePersonnel || canEditPersonnel) && (onDuplicateNode || onEditNode || onDeleteNode);
 
-  // Avatar dimensions — 80% of card width, square-ish
+  // Avatar dimensions â€” 80% of card width, square-ish
   const avatarSize = effectiveWidth * 0.80;
 
   return (
@@ -249,7 +249,7 @@ export function OrgChartNode({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* ─── Card Body ─── */}
+        {/* â”€â”€â”€ Card Body â”€â”€â”€ */}
         <div
           ref={cardRef}
           data-disable-board-pan="true"
@@ -276,7 +276,7 @@ export function OrgChartNode({
           <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-5 dark:opacity-10"
             style={{ background: `radial-gradient(ellipse at 50% 0%, ${accentColor}40 0%, transparent 60%)` }} />
 
-          {/* ── Top-left tier badge ── */}
+          {/* â”€â”€ Top-left tier badge â”€â”€ */}
           {/* <motion.div
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
@@ -293,7 +293,7 @@ export function OrgChartNode({
             </span>
           </motion.div> */}
 
-          {/* ── Top-right corner buttons ── */}
+          {/* â”€â”€ Top-right corner buttons â”€â”€ */}
           <div className="absolute right-2.5 top-2.5 z-20 flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
             {canViewDetail && !styleToolbarOpen && (
               <motion.button
@@ -302,7 +302,7 @@ export function OrgChartNode({
                 animate={{ opacity: 1, scale: 1 }}
                 onClick={(e) => { e.stopPropagation(); onViewNode(node); }}
                 className="flex h-8 w-8 items-center justify-center rounded-xl bg-white text-slate-500 shadow-md transition-all hover:scale-110 hover:bg-blue-600 hover:text-white active:scale-95 dark:bg-gray-800"
-                title="Xem chi tiết"
+                title="Xem chi tiáº¿t"
               >
                 <Eye className="h-3.5 w-3.5" />
               </motion.button>
@@ -314,21 +314,21 @@ export function OrgChartNode({
                 animate={{ opacity: 1, scale: 1 }}
                 onClick={(e) => { e.stopPropagation(); setStyleToolbarOpen((v) => !v); }}
                 className="flex h-8 w-8 items-center justify-center rounded-xl bg-white text-slate-500 shadow-md transition-all hover:scale-110 hover:bg-blue-600 hover:text-white active:scale-95 dark:bg-gray-800"
-                title="Tuỳ chỉnh"
+                title="Tuá»³ chá»‰nh"
               >
                 <Palette className="h-3.5 w-3.5 " />
               </motion.button>
             )}
           </div>
 
-          {/* ── Avatar — rounded square, centered above text ── */}
+          {/* â”€â”€ Avatar â€” rounded square, centered above text â”€â”€ */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-10 flex justify-center"
           >
-            {/* Outer frame — accent color border */}
+            {/* Outer frame â€” accent color border */}
             <div
               className="relative flex items-center justify-center rounded-2xl p-[3px]"
               style={{
@@ -353,7 +353,7 @@ export function OrgChartNode({
                     background: `linear-gradient(135deg, ${accentColor}CC 0%, ${accentColor}66 100%)`,
                   }}
                 >
-                  <span className="text-3xl font-black text-white/85">
+                  <span className="text-3xl font-black text-white/80">
                     {node.full_name.slice(0, 2).toUpperCase()}
                   </span>
                 </div>
@@ -362,9 +362,9 @@ export function OrgChartNode({
             </div>
           </motion.div>
 
-          {/* ── Text Info Zone ── */}
+          {/* â”€â”€ Text Info Zone â”€â”€ */}
           <div className="relative z-10 flex w-full flex-col items-center px-3 pb-4 pt-3 text-center">
-            {/* Position — amber, small uppercase */}
+            {/* Position â€” amber, small uppercase */}
             <motion.p
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
@@ -374,7 +374,7 @@ export function OrgChartNode({
               {node.position}
             </motion.p>
 
-            {/* Full name — dark bold uppercase */}
+            {/* Full name â€” dark bold uppercase */}
             <motion.h3
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
@@ -384,7 +384,7 @@ export function OrgChartNode({
               {node.full_name}
             </motion.h3>
 
-            {/* Department — slate-600 */}
+            {/* Department â€” slate-600 */}
             <motion.p
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
@@ -396,7 +396,7 @@ export function OrgChartNode({
           </div>
         </div>
 
-        {/* ─── Hover glow underneath card ─── */}
+        {/* â”€â”€â”€ Hover glow underneath card â”€â”€â”€ */}
         <motion.div
           className="pointer-events-none absolute inset-0 -z-10 rounded-3xl"
           animate={{
@@ -410,7 +410,7 @@ export function OrgChartNode({
           }}
         />
 
-        {/* ─── Floating Action Buttons ─── */}
+        {/* â”€â”€â”€ Floating Action Buttons â”€â”€â”€ */}
         {canShowActions && !styleToolbarOpen && !isDragging && (
           <div
             className="pointer-events-none absolute -bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-1 rounded-2xl bg-white/95 px-2.5 py-2 opacity-0 shadow-2xl ring-1 ring-black/5 backdrop-blur-xl transition-opacity duration-150 group-hover:opacity-100 dark:bg-gray-900/95 dark:ring-white/10"
@@ -419,7 +419,7 @@ export function OrgChartNode({
                 <button
                   onClick={(e) => { e.stopPropagation(); onDuplicateNode(node); }}
                   className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-all hover:scale-110 hover:bg-blue-600 hover:text-white active:scale-95 dark:bg-blue-900/30 dark:text-blue-400"
-                  title="Sao chép"
+                  title="Sao chÃ©p"
                 >
                   <Copy className="h-4 w-4" />
                 </button>
@@ -428,7 +428,7 @@ export function OrgChartNode({
                 <button
                   onClick={(e) => { e.stopPropagation(); onEditNode(node); }}
                   className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 transition-all hover:scale-110 hover:bg-emerald-600 hover:text-white active:scale-95 dark:bg-emerald-900/30 dark:text-emerald-400"
-                  title="Chỉnh sửa"
+                  title="Chá»‰nh sá»­a"
                 >
                   <Pencil className="h-4 w-4" />
                 </button>
@@ -437,7 +437,7 @@ export function OrgChartNode({
                 <button
                   onClick={(e) => { e.stopPropagation(); onDeleteNode(node.id); }}
                   className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-xl bg-red-50 text-red-600 transition-all hover:scale-110 hover:bg-red-600 hover:text-white active:scale-95 dark:bg-red-900/30 dark:text-red-400"
-                  title="Xóa"
+                  title="XÃ³a"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -445,7 +445,7 @@ export function OrgChartNode({
             </div>
         )}
 
-        {/* ─── Style Toolbar ─── */}
+        {/* â”€â”€â”€ Style Toolbar â”€â”€â”€ */}
         {styleToolbarOpen && (() => {
           const pos = getScreenPosition();
           return (

@@ -1,25 +1,25 @@
 import { PageHero, SectionHeading, SplitContent, QuoteSection, ConsultationForm } from "@/components/kosmo/ui";
 
 const timeline = [
-  { year: "1998", title: "Founded", description: "Kosmo was founded with a vision to transform how people organize their homes." },
-  { year: "2005", title: "Expansion", description: "Expanded to multiple locations across the country." },
-  { year: "2015", title: "Innovation", description: "Introduced 3D design technology for personalized consultations." },
-  { year: "2024", title: "Growth", description: "Now serving thousands of happy customers nationwide." },
+  { year: "2015", title: "First Nail Salon", description: "Completed the first Kosmo Nail Bar project in Annapolis, MD." },
+  { year: "2017", title: "Expansion to Virginia", description: "Expanded operations to serve Northern Virginia with the McLean project." },
+  { year: "2020", title: "Rockville Flagship", description: "Completed the Kosmo Nail Bar at Montrose Crossing in Rockville, MD." },
+  { year: "2024", title: "Continued Growth", description: "Completed the Dumfries, VA project and expanded branding services." },
 ];
 
 const values = [
+  { title: "Design-Build Expertise", description: "From concept to construction to branding — all under one roof." },
   { title: "Quality Craftsmanship", description: "Every project is built with attention to detail and premium materials." },
-  { title: "Customer Focus", description: "Your vision and satisfaction are at the center of everything we do." },
-  { title: "Innovation", description: "We continuously improve our processes and designs." },
-  { title: "Integrity", description: "Honest pricing and transparent communication." },
+  { title: "Licensed & Insured", description: "Licensed MD #113826 with full insurance coverage." },
+  { title: "Client-Focused", description: "Your vision and satisfaction are at the center of everything we do." },
 ];
 
 export default function AboutPage() {
   return (
     <>
       <PageHero
-        title="About Kosmo"
-        subtitle="Transforming homes with custom storage solutions since 1998."
+        title="About Kosmo DNC"
+        subtitle="Interior design, construction & branding in Maryland and Northern Virginia."
         breadcrumbs={[
           { label: "Home", href: "/kosmo/home" },
           { label: "About" },
@@ -32,25 +32,25 @@ export default function AboutPage() {
           <SplitContent
             image="/images/kosmo/exterior.jpg"
             eyebrow="Our Story"
-            title="Crafting Beautiful Spaces for Over 25 Years"
-            description="At Kosmo, we believe that an organized space leads to an organized life. Since 1998, we've been helping homeowners transform their living spaces with custom storage solutions that combine functionality with beautiful design."
+            title="Design. Build. Brand."
+            description="Kosmo DNC is a design-build contractor based in Rockville, Maryland. We specialize in interior design, commercial fit-outs, residential renovations, custom joinery, and branding. From nail salon construction to kitchen renovations, we handle every aspect of your project under one roof."
             features={[
-              { title: "25+ Years Experience", description: "Decades of expertise in custom storage solutions." },
-              { title: "50,000+ Projects", description: "Successfully completed installations across the country." },
-              { title: "100% Satisfaction", description: "Our guarantee ensures your complete happiness." },
+              { title: "Licensed MD #113826", description: "Fully licensed and insured contractor." },
+              { title: "50+ Projects Completed", description: "Commercial and residential projects across MD & Northern VA." },
+              { title: "Design-Build Approach", description: "One team handles design, construction, and branding." },
             ]}
           />
         </div>
       </section>
 
-      <section className="py-24 bg-green-50">
+      <section className="py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Our Journey" title="Milestones That Define Us" />
           <div className="max-w-[900px] mx-auto">
             {timeline.map((item, index) => (
               <div key={index} className="flex gap-7 py-6 border-b border-line last:border-0">
                 <div className="w-[100px] flex-shrink-0">
-                  <div className="w-[100px] h-[100px] rounded-full bg-green-800 flex items-center justify-center">
+                  <div className="w-[100px] h-[100px] rounded-full bg-black-800 flex items-center justify-center">
                     <span className="font-serif text-[22px] text-white">{item.year}</span>
                   </div>
                 </div>
@@ -79,14 +79,14 @@ export default function AboutPage() {
       </section>
 
       <QuoteSection
-        quote="The team at Kosmo exceeded all our expectations. Their attention to detail and commitment to quality is unmatched in the industry."
-        author="Michael R."
-        title="Homeowner, Dallas TX"
+        quote="Kosmo DNC handled everything from concept design to construction and branding for our nail salon. The result exceeded our expectations."
+        author="Nail Salon Owner"
+        title="Rockville, MD"
       />
 
       <section className="py-24 bg-white">
         <div className="container-kosmo">
-          <SectionHeading eyebrow="Get Started" title="Ready to Transform Your Space?" />
+          <SectionHeading eyebrow="Get Started" title="Ready to Start Your Project?" />
           <div className="max-w-4xl mx-auto">
             <ConsultationForm />
           </div>
