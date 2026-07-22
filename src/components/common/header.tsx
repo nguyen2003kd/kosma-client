@@ -632,7 +632,7 @@ export default function Header({ navItems = [], className }: HeaderProps) {
                       placeholder={t("search")}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-64 pl-4 pr-10 py-1.5 text-sm bg-white/10  rounded-full text-white placeholder:text-white/60 focus:outline-none focus:bg-white/20 focus:border-white/40 transition-all"
+                      className="w-64 pl-4 pr-10 py-1.5 text-sm bg-white/10  rounded-full text-white placeholder:text-white/80 focus:outline-none focus:bg-white/20 focus:border-white/40 transition-all"
                     />
                     <button
                       type="submit"

@@ -383,7 +383,7 @@ function BlockRenderer({ block, t, lang }: { block: PageBlock; t: (key: string) 
             />
           </div>
           {(isEn ? (block.captionEn || block.caption) : block.caption) && (
-            <p className="text-white/60 text-xs text-center italic">
+            <p className="text-white/85 text-xs text-center italic">
               {isEn ? (block.captionEn || block.caption) : block.caption}
             </p>
           )}

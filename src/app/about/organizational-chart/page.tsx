@@ -132,7 +132,7 @@ export default function OrganizationalChartPage() {
                   <p className="text-xl font-semibold text-white/80 uppercase tracking-wide">
                     {viewingNode.full_name}
                   </p>
-                  <p className="text-base text-white/60 uppercase tracking-wider">
+                  <p className="text-base text-white/85 uppercase tracking-wider">
                     {viewingNode.position}
                   </p>
                 </div>

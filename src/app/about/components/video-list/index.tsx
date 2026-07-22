@@ -237,8 +237,8 @@ export default function VideoList() {
                       />
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 gap-2">
-                        <Play className="w-10 h-10 text-white/60" />
-                        <span className="text-xs text-white/40 font-medium">
+                        <Play className="w-10 h-10 text-white/85" />
+                        <span className="text-xs text-white/70 font-medium">
                           {getVideoLabel(videoUrl)}
                         </span>
                       </div>

@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // output: "standalone", // disable on Windows to avoid symlink EPERM build errors
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/kosmo/home",
+        permanent: false,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
