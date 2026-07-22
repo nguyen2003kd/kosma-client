@@ -1,0 +1,11 @@
+{
+  "startTime": "Start time",
+  "endTime": "End time",
+  "tasks": "Tasks:",
+  "hostedBy": "Hosted by:",
+  "noParticipants": "No participants yet",
+  "morning": "Morning",
+  "afternoon": "Afternoon",
+  "noMorningEvents": "No morning events",
+  "noAfternoonEvents": "No afternoon events"
+}

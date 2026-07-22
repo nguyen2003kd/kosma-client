@@ -1,0 +1,8 @@
+<svg width="140" height="50" viewBox="0 0 140 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circle with mountain icon -->
+  <circle cx="25" cy="25" r="20" fill="#4F46E5"/>
+  <path d="M25 15 L30 25 L35 20 L25 35 L15 20 L20 25 Z" fill="white"/>
+  
+  <!-- SMEQ Text -->
+  <text x="50" y="32" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1E3A8A">SMEQ</text>
+</svg>

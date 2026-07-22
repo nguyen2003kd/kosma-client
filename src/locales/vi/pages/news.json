@@ -1,0 +1,20 @@
+{
+  "title": "Tin tức",
+  "latestNews": "Tin mới nhất",
+  "readMore": "Đọc thêm",
+  "postedOn": "Đăng ngày",
+  "category": "Danh mục",
+  "allNews": "Tất cả tin tức",
+  "featuredNews": "Tin nổi bật",
+  "viewAll": "Xem tất cả",
+  "latestNewsUpdate": "Cập nhật tin tức mới nhất",
+  "loadError": "Không thể tải tin tức. Vui lòng thử lại sau.",
+  "noResults": "Không tìm thấy tin tức",
+  "noResultsWithFilter": "Không có tin tức nào phù hợp với bộ lọc của bạn. Hãy thử điều chỉnh hoặc xóa bộ lọc để xem thêm kết quả.",
+  "noResultsWithoutFilter": "Hiện tại chưa có tin tức nào được đăng tải.",
+  "clearDateFilter": "Xóa lọc ngày",
+  "clearCategoryFilter": "Xóa lọc danh mục",
+  "viewDetails": "Xem chi tiết",
+  "allCategories": "Tất cả",
+  "categoryLabel": "Danh mục"
+}

@@ -1,0 +1,7 @@
+{
+  "today": "Hôm nay",
+  "yesterday": "Hôm qua",
+  "daysAgo": "{{count}} ngày trước",
+  "weeksAgo": "{{count}} tuần trước",
+  "monthsAgo": "{{count}} tháng trước"
+}

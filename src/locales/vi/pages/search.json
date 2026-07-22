@@ -1,0 +1,18 @@
+{
+  "title": "Tìm kiếm",
+  "searchPlaceholder": "Tìm kiếm sản phẩm, dịch vụ...",
+  "search": "Tìm kiếm",
+  "noResults": "Không tìm thấy kết quả phù hợp",
+  "foundResults": "Tìm thấy {{count}} kết quả",
+  "filterBy": "Lọc theo",
+  "loading": "Đang tìm kiếm...",
+  "loadingResults": "Đang tải kết quả...",
+  "keyword": "Từ khoá",
+  "resultsCount": "({{count}} kết quả)",
+  "noResultsTitle": "Không tìm thấy kết quả",
+  "noResultsDesc": "Không có kết quả nào phù hợp với từ khóa",
+  "goHome": "Về trang chủ",
+  "viewNews": "Xem tin tức",
+  "service": "Dịch vụ",
+  "news": "Tin tức"
+}

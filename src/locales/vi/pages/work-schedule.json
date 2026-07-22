@@ -1,0 +1,11 @@
+{
+  "startTime": "Bắt đầu",
+  "endTime": "Kết thúc",
+  "tasks": "Công việc:",
+  "hostedBy": "Chủ trì:",
+  "noParticipants": "Chưa có người tham gia",
+  "morning": "Sáng",
+  "afternoon": "Chiều",
+  "noMorningEvents": "Không có sự kiện buổi sáng",
+  "noAfternoonEvents": "Không có sự kiện buổi chiều"
+}

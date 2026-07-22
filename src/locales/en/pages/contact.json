@@ -1,0 +1,21 @@
+{
+  "title": "Contact Registration",
+  "subtitle": "Please provide the following information so that CASE-SMQ can contact you.",
+  "name": "Full Name",
+  "email": "Email",
+  "phone": "Phone Number",
+  "content": "Content",
+  "namePlaceholder": "Enter your full name",
+  "emailPlaceholder": "example@email.com",
+  "phonePlaceholder": "xxxx xxx xxx",
+  "contentPlaceholder": "Enter the content you want to discuss...",
+  "submit": "Register",
+  "sending": "Sending...",
+  "success": "Registration successful",
+  "successMessage": "We will contact you as soon as possible.",
+  "error": "Registration failed",
+  "errorMessage": "An error occurred. Please try again later.",
+  "contactInfo": "Contact Information",
+  "branchesOffices": "Headquarters, branches, representative offices",
+  "hotline": "Hotline"
+}
