@@ -32,6 +32,14 @@ const nextConfig = {
       }
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/admin/:path*",
+        destination: "https://kosma-admin.vercel.app/admin/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
