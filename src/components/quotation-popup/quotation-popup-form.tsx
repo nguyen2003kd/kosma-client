@@ -67,7 +67,6 @@ export default function QuotationPopupForm({
           receive_method_id: "",
           calibration_id: "",
           description: data.description || "",
-          contact_person: data.contact_person || "",
           price: "0",
           files: files,
         },
