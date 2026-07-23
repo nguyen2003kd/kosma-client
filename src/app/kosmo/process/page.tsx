@@ -30,10 +30,10 @@ export default function ProcessPage() {
         backgroundImage="/images/kosmo/office.jpg"
       />
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading eyebrow="How It Works" title="A Seamless Experience" subtitle="Our proven process ensures a stress-free journey." />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {processSteps.map((step) => (
               <ProcessCard key={step.number} number={step.number} title={step.title} description={step.description} />
             ))}
@@ -41,21 +41,21 @@ export default function ProcessPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Why Kosmo DNC" title="The Kosmo DNC Difference" subtitle="What sets us apart from the competition." />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {benefits.map((benefit) => (
-              <div key={benefit.title} className="p-6 rounded-[--radius-md] bg-white shadow-soft">
-                <h3 className="font-serif text-[22px] text-ink mb-2">{benefit.title}</h3>
-                <p className="text-[14px] text-gray-700">{benefit.description}</p>
+              <div key={benefit.title} className="p-5 sm:p-6 rounded-[--radius-md] bg-white shadow-soft">
+                <h3 className="font-serif text-[20px] sm:text-[22px] text-ink mb-2">{benefit.title}</h3>
+                <p className="text-[13px] sm:text-[14px] text-gray-700 leading-relaxed">{benefit.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Get Started" title="Ready to Begin?" subtitle="Request a free project quote today." />
           <div className="max-w-4xl mx-auto">

@@ -27,7 +27,7 @@ export default function AboutPage() {
         backgroundImage="/images/kosmo/exterior.jpg"
       />
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SplitContent
             image="/images/kosmo/exterior.jpg"
@@ -43,20 +43,20 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Our Journey" title="Milestones That Define Us" />
           <div className="max-w-[900px] mx-auto">
             {timeline.map((item, index) => (
-              <div key={index} className="flex gap-7 py-6 border-b border-line last:border-0">
-                <div className="w-[100px] flex-shrink-0">
-                  <div className="w-[100px] h-[100px] rounded-full bg-black-800 flex items-center justify-center">
-                    <span className="font-serif text-[22px] text-white">{item.year}</span>
+              <div key={index} className="flex flex-col sm:flex-row gap-4 sm:gap-7 py-5 sm:py-6 border-b border-line last:border-0">
+                <div className="w-full sm:w-[100px] flex-shrink-0">
+                  <div className="w-[70px] sm:w-[100px] h-[70px] sm:h-[100px] rounded-full bg-black-800 flex items-center justify-center mx-auto sm:mx-0">
+                    <span className="font-serif text-[16px] sm:text-[22px] text-white">{item.year}</span>
                   </div>
                 </div>
-                <div className="pt-5">
-                  <h3 className="font-serif text-[28px] text-ink mb-2">{item.title}</h3>
-                  <p className="text-[15px] text-gray-700">{item.description}</p>
+                <div className="sm:pt-5 text-center sm:text-left">
+                  <h3 className="font-serif text-[22px] sm:text-[28px] text-ink mb-1 sm:mb-2">{item.title}</h3>
+                  <p className="text-[13px] sm:text-[15px] text-gray-700 leading-relaxed">{item.description}</p>
                 </div>
               </div>
             ))}
@@ -64,14 +64,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading eyebrow="What We Stand For" title="Our Values" subtitle="These core values guide everything we do." />
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
             {values.map((value) => (
-              <div key={value.title} className="p-7 rounded-[--radius-md] bg-white shadow-soft">
-                <h3 className="font-serif text-[24px] text-ink mb-3">{value.title}</h3>
-                <p className="text-[14px] text-gray-700">{value.description}</p>
+              <div key={value.title} className="p-5 sm:p-6 md:p-7 rounded-[--radius-md] bg-white shadow-soft">
+                <h3 className="font-serif text-[22px] sm:text-[24px] text-ink mb-2 sm:mb-3">{value.title}</h3>
+                <p className="text-[13px] sm:text-[14px] text-gray-700 leading-relaxed">{value.description}</p>
               </div>
             ))}
           </div>
@@ -84,7 +84,7 @@ export default function AboutPage() {
         title="Rockville, MD"
       />
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Get Started" title="Ready to Start Your Project?" />
           <div className="max-w-4xl mx-auto">

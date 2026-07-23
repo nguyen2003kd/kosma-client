@@ -85,24 +85,24 @@ export default function SpacePage({ params }: { params: { slug: string } }) {
     <>
       <PageHero title={space.title} subtitle={space.subtitle} breadcrumbs={[{ label: "Home", href: "/kosmo/home" }, { label: space.title }]} backgroundImage="/images/kosmo/living.jpg" />
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SplitContent image="/images/kosmo/kitchen.jpg" eyebrow="Our Services" title={`Why Choose ${space.title}?`} description={space.description} features={space.features} cta={{ label: "Request a Quote", href: "/kosmo/consultation" }} />
         </div>
       </section>
 
       {space.solutions.length > 0 && (
-        <section className="py-24 bg-gray-50">
+        <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
           <div className="container-kosmo">
             <SectionHeading title="Related Services" subtitle="Explore our other capabilities." />
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
               {space.solutions.map((solution) => (<SolutionCard key={solution.title} {...solution} />))}
             </div>
           </div>
         </section>
       )}
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading title="Ready to Get Started?" subtitle="Request a free project quote today." />
           <div className="max-w-4xl mx-auto"><ConsultationForm /></div>

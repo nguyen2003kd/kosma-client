@@ -19,24 +19,25 @@ export function KosmoHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 transition-all duration-300 ${
         isScrolled
           ? "bg-white/95 backdrop-blur-[14px] border-b border-mutedLine shadow-soft"
           : "bg-white"
       }`}
+      style={{ zIndex: 9997 }}
     >
       <div className="container-kosmo">
         <div className="flex items-center justify-between h-[78px]">
           {/* Logo */}
-          <Link href="/kosmo/home" className="flex items-center gap-3">
-            <img src="/logo.png" alt="Kosmo DNC - Interior Design & Construction" className="h-10 w-auto" />
+          <Link href="/kosmo/home" className="flex items-center gap-3 flex-shrink-0">
+            <img src="/logo.png" alt="Kosmo DNC - Interior Design & Construction" className="h-9 sm:h-10 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
           <MegaMenu />
 
           {/* Right Section */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
             {/* Phone */}
             <a
               href="tel:+14437360577"

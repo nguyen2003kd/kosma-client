@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Input, Textarea, Select } from "./input";
+import { Input, Textarea } from "./input";
+import { CustomSelect } from "./custom-select";
 import { Button } from "./button";
 import { Check } from "lucide-react";
 
@@ -41,14 +42,14 @@ export function ConsultationForm({
 
   if (isSubmitted) {
     return (
-      <div className="bg-black-900 rounded-2xl p-8 md:p-12 text-center shadow-strong">
-        <div className="w-16 h-16 rounded-xl bg-[#d8c29c] flex items-center justify-center mx-auto mb-6">
-          <Check className="w-8 h-8 text-black-950" />
+      <div className="bg-black-900 rounded-2xl p-6 sm:p-8 md:p-12 text-center shadow-strong">
+        <div className="w-14 sm:w-16 h-14 sm:h-16 rounded-xl bg-[#d8c29c] flex items-center justify-center mx-auto mb-5 sm:mb-6">
+          <Check className="w-7 sm:w-8 h-7 sm:h-8 text-black-950" />
         </div>
-        <h3 className="font-serif text-[28px] text-white mb-4">
+        <h3 className="font-serif text-[24px] sm:text-[28px] text-white mb-3 sm:mb-4">
           Thank You!
         </h3>
-        <p className="text-white mb-6">
+        <p className="text-white mb-5 sm:mb-6 text-sm sm:text-base">
           Your consultation request has been submitted. Our team will contact you within 24 hours.
         </p>
         <Button
@@ -62,29 +63,29 @@ export function ConsultationForm({
   }
 
   return (
-    <div className="grid md:grid-cols-[0.9fr_1.1fr] rounded-2xl overflow-hidden shadow-strong">
+    <div className="grid grid-cols-1 md:grid-cols-[0.9fr_1.1fr] rounded-2xl overflow-hidden shadow-strong">
       {/* Left Side - Info */}
-      <div className="bg-black-900 p-8 md:p-12">
-        <h3 className="font-serif text-[28px] text-white mb-4">{title}</h3>
-        <p className="text-white mb-8">{subtitle}</p>
+      <div className="bg-black-900 p-5 sm:p-6 md:p-10 lg:p-12">
+        <h3 className="font-serif text-[22px] sm:text-[26px] md:text-[28px] text-white mb-3 sm:mb-4 leading-tight">{title}</h3>
+        <p className="text-white/90 mb-6 sm:mb-8 text-sm sm:text-base">{subtitle}</p>
 
         {/* Checklist */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {checklistItems.map((item, index) => (
-            <div key={index} className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded-xl bg-[#d8c29c] flex items-center justify-center flex-shrink-0">
+            <div key={index} className="flex items-start sm:items-center gap-3">
+              <div className="w-6 h-6 rounded-xl bg-[#d8c29c] flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0">
                 <Check className="w-3.5 h-3.5 text-black-950" />
               </div>
-              <span className="text-white text-[15px]">{item}</span>
+              <span className="text-white text-[13px] sm:text-[15px] leading-relaxed">{item}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Right Side - Form */}
-      <div className="bg-white p-8 md:p-12">
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="grid grid-cols-2 gap-4">
+      <div className="bg-white p-5 sm:p-6 md:p-10 lg:p-12">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
               label="First Name"
               id="firstName"
@@ -127,7 +128,7 @@ export function ConsultationForm({
             }
           />
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
               label="ZIP Code"
               id="zipCode"
@@ -137,13 +138,13 @@ export function ConsultationForm({
                 setFormData({ ...formData, zipCode: e.target.value })
               }
             />
-            <Select
+            <CustomSelect
               label="Project Type"
               id="spaceType"
               required
               value={formData.spaceType}
-              onChange={(e) =>
-                setFormData({ ...formData, spaceType: e.target.value })
+              onChange={(value) =>
+                setFormData({ ...formData, spaceType: value })
               }
               options={[
                 { value: "commercial", label: "Commercial Fit-Out" },
@@ -172,7 +173,7 @@ export function ConsultationForm({
             Request a Free Quote
           </Button>
 
-          <p className="text-[12px] text-gray-600 text-center">
+          <p className="text-[11px] sm:text-[12px] text-gray-600 text-center">
             By submitting, you agree to our privacy policy and terms of service.
           </p>
         </form>

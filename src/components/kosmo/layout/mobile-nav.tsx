@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { X, ChevronDown, Menu } from "lucide-react";
+import { X, ChevronDown, Menu, Phone } from "lucide-react";
 
 const services = [
   { name: "Interior Design", href: "/kosmo/spaces/closets" },
@@ -14,7 +14,7 @@ const services = [
 ];
 
 const projectTypes = [
-  { name: "Nail Salon Design & Construction", href: "/kosmo/solutions/walk-in-closets" },
+  { name: "Nail Salon Design", href: "/kosmo/solutions/walk-in-closets" },
   { name: "Kitchen Renovation", href: "/kosmo/solutions/reach-in-closets" },
   { name: "Commercial Fit-Out", href: "/kosmo/solutions/garage-cabinets" },
   { name: "Residential Renovation", href: "/kosmo/solutions/wall-beds" },
@@ -26,67 +26,205 @@ export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  const closeMenu = () => {
+    setIsOpen(false);
+    setExpandedSection(null);
+  };
+
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
   };
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)} className="xl:hidden w-11 h-11 flex items-center justify-center" aria-label="Open menu">
-        <Menu className="w-6 h-6 text-ink" />
+      {/* Menu Trigger Button - hidden on lg+ */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="lg-hidden-mobile flex items-center justify-center w-10 h-10 -mr-2"
+        aria-label="Open menu"
+        type="button"
+      >
+        <Menu className="w-6 h-6" style={{ color: "#0a0a0a" }} />
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-[60] xl:hidden">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setIsOpen(false)} />
-          <div className="absolute top-[119px] left-0 right-0 bottom-0 bg-white overflow-y-auto">
-            <div className="p-5">
-              <button onClick={() => setIsOpen(false)} className="absolute top-5 right-5 w-11 h-11 flex items-center justify-center" aria-label="Close menu">
-                <X className="w-6 h-6 text-ink" />
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            style={{ zIndex: 9998 }}
+            onClick={closeMenu}
+            aria-hidden="true"
+          />
+
+          {/* Slide-out Drawer */}
+          <aside
+            className="fixed top-0 right-0 h-screen bg-white flex flex-col shadow-2xl"
+            style={{
+              width: "min(85vw, 340px)",
+              zIndex: 9999,
+              transform: "translateX(0)",
+              transition: "transform 300ms ease-out",
+            }}
+            aria-label="Mobile navigation"
+          >
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between px-5 h-[64px] border-b border-gray-100 flex-shrink-0">
+              <Link href="/kosmo/home" onClick={closeMenu} className="flex-shrink-0">
+                <img src="/logo.png" alt="Kosmo DNC" className="h-8 w-auto" />
+              </Link>
+              <button
+                onClick={closeMenu}
+                className="flex items-center justify-center w-10 h-10 -mr-2 rounded-full hover:bg-gray-100 transition-colors"
+                aria-label="Close menu"
+                type="button"
+              >
+                <X className="w-5 h-5" style={{ color: "#0a0a0a" }} />
               </button>
-
-              <nav className="space-y-4">
-                <div className="border-b border-mutedLine">
-                  <button onClick={() => toggleSection("spaces")} className="w-full flex items-center justify-between py-4 font-serif text-[26px] text-ink">
-                    Services
-                    <ChevronDown className={`w-5 h-5 transition-transform ${expandedSection === "spaces" ? "rotate-180" : ""}`} />
-                  </button>
-                  {expandedSection === "spaces" && (
-                    <div className="pb-4 space-y-3">
-                      {services.map((item) => (
-                        <Link key={item.name} href={item.href} className="block text-[15px] text-gray-700 hover:text-black-800" onClick={() => setIsOpen(false)}>{item.name}</Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="border-b border-mutedLine">
-                  <button onClick={() => toggleSection("solutions")} className="w-full flex items-center justify-between py-4 font-serif text-[26px] text-ink">
-                    Projects
-                    <ChevronDown className={`w-5 h-5 transition-transform ${expandedSection === "solutions" ? "rotate-180" : ""}`} />
-                  </button>
-                  {expandedSection === "solutions" && (
-                    <div className="pb-4 space-y-3">
-                      {projectTypes.map((item) => (
-                        <Link key={item.name} href={item.href} className="block text-[15px] text-gray-700 hover:text-black-800" onClick={() => setIsOpen(false)}>{item.name}</Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <Link href="/kosmo/about" className="block py-4 font-serif text-[26px] text-ink border-b border-mutedLine" onClick={() => setIsOpen(false)}>About</Link>
-                <Link href="/kosmo/process" className="block py-4 font-serif text-[26px] text-ink border-b border-mutedLine" onClick={() => setIsOpen(false)}>Process</Link>
-                <Link href="/kosmo/gallery" className="block py-4 font-serif text-[26px] text-ink border-b border-mutedLine" onClick={() => setIsOpen(false)}>Gallery</Link>
-                <Link href="/kosmo/locations" className="block py-4 font-serif text-[26px] text-ink border-b border-mutedLine" onClick={() => setIsOpen(false)}>Service Areas</Link>
-
-                <div className="pt-6">
-                  <Link href="/kosmo/consultation" className="inline-flex items-center justify-center min-h-[48px] px-6 w-full bg-black-800 text-white font-extrabold text-[14px] rounded-xl hover:bg-black-950" onClick={() => setIsOpen(false)}>Get a Quote</Link>
-                </div>
-              </nav>
             </div>
-          </div>
-        </div>
+
+            {/* Scrollable Nav */}
+            <nav className="flex-1 overflow-y-auto py-2 bg-white">
+              {/* Services Accordion */}
+              <div className="border-b border-gray-100">
+                <button
+                  onClick={() => toggleSection("services")}
+                  className="w-full flex items-center justify-between px-5 py-3.5 text-[15px] font-semibold text-gray-900 active:bg-gray-50"
+                  type="button"
+                >
+                  <span>Services</span>
+                  <ChevronDown
+                    className="w-4 h-4 text-gray-500"
+                    style={{
+                      transform: expandedSection === "services" ? "rotate(180deg)" : "rotate(0deg)",
+                      transition: "transform 200ms",
+                    }}
+                  />
+                </button>
+                {expandedSection === "services" && (
+                  <div className="pb-2 bg-gray-50">
+                    {services.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={closeMenu}
+                        className="block px-8 py-2.5 text-[14px] text-gray-600 active:bg-gray-100"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Projects Accordion */}
+              <div className="border-b border-gray-100">
+                <button
+                  onClick={() => toggleSection("projects")}
+                  className="w-full flex items-center justify-between px-5 py-3.5 text-[15px] font-semibold text-gray-900 active:bg-gray-50"
+                  type="button"
+                >
+                  <span>Projects</span>
+                  <ChevronDown
+                    className="w-4 h-4 text-gray-500"
+                    style={{
+                      transform: expandedSection === "projects" ? "rotate(180deg)" : "rotate(0deg)",
+                      transition: "transform 200ms",
+                    }}
+                  />
+                </button>
+                {expandedSection === "projects" && (
+                  <div className="pb-2 bg-gray-50">
+                    {projectTypes.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={closeMenu}
+                        className="block px-8 py-2.5 text-[14px] text-gray-600 active:bg-gray-100"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Simple Links */}
+              <Link
+                href="/kosmo/about"
+                onClick={closeMenu}
+                className="block px-5 py-3.5 text-[15px] font-semibold text-gray-900 border-b border-gray-100 active:bg-gray-50"
+              >
+                About
+              </Link>
+              <Link
+                href="/kosmo/process"
+                onClick={closeMenu}
+                className="block px-5 py-3.5 text-[15px] font-semibold text-gray-900 border-b border-gray-100 active:bg-gray-50"
+              >
+                Process
+              </Link>
+              <Link
+                href="/kosmo/gallery"
+                onClick={closeMenu}
+                className="block px-5 py-3.5 text-[15px] font-semibold text-gray-900 border-b border-gray-100 active:bg-gray-50"
+              >
+                Gallery
+              </Link>
+              <Link
+                href="/kosmo/locations"
+                onClick={closeMenu}
+                className="block px-5 py-3.5 text-[15px] font-semibold text-gray-900 border-b border-gray-100 active:bg-gray-50"
+              >
+                Service Areas
+              </Link>
+            </nav>
+
+            {/* Bottom CTA Section */}
+            <div className="p-5 border-t border-gray-100 bg-white flex-shrink-0">
+              <Link
+                href="/kosmo/consultation"
+                onClick={closeMenu}
+                className="block w-full py-3.5 text-white text-center text-[14px] font-bold rounded-lg"
+                style={{ backgroundColor: "#0a0a0a" }}
+              >
+                Get a Quote
+              </Link>
+
+              <a
+                href="tel:+14437360577"
+                className="mt-4 flex items-center justify-center gap-2 text-[14px] text-gray-700"
+              >
+                <Phone className="w-4 h-4" />
+                <span className="font-semibold" style={{ color: "#0a0a0a" }}>(443) 736-0577</span>
+              </a>
+            </div>
+          </aside>
+        </>
       )}
+
+      {/* Inline style for hiding on lg breakpoint */}
+      <style jsx>{`
+        .lg-hidden-mobile {
+          display: flex;
+        }
+        @media (min-width: 820px) {
+          .lg-hidden-mobile {
+            display: none !important;
+          }
+        }
+      `}</style>
     </>
   );
 }

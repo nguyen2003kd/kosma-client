@@ -92,24 +92,24 @@ export default function SolutionPage({ params }: { params: { slug: string } }) {
     <>
       <PageHero title={solution.title} subtitle={solution.subtitle} breadcrumbs={[{ label: "Home", href: "/kosmo/home" }, { label: solution.title }]} backgroundImage="/images/kosmo/showroom.jpg" />
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SplitContent image="/images/kosmo/office.jpg" eyebrow="Our Services" title={`Why Choose ${solution.title}?`} description={solution.description} features={solution.features} cta={{ label: "Request a Quote", href: "/kosmo/consultation" }} />
         </div>
       </section>
 
       {solution.spaces.length > 0 && (
-        <section className="py-24 bg-white">
+        <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
           <div className="container-kosmo">
             <SectionHeading title="Related Services" subtitle="Explore our other capabilities." />
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
               {solution.spaces.map((space) => (<SpaceCard key={space.title} {...space} />))}
             </div>
           </div>
         </section>
       )}
 
-      <section className="py-24 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading title="Ready to Get Started?" subtitle="Request a free project quote today." />
           <div className="max-w-4xl mx-auto"><ConsultationForm /></div>

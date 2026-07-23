@@ -54,43 +54,43 @@ export default function KosmoHomePage() {
 
       <StatsStrip stats={stats} />
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Our Services" title="What We Do" subtitle="From concept design to construction and branding — we handle every aspect of your project." />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {services.map((service) => (<SpaceCard key={service.title} {...service} />))}
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Our Projects" title="Recent Work" subtitle="Explore commercial and residential projects across Maryland and Northern Virginia." />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {projects.map((project) => (<SolutionCard key={project.title} {...project} />))}
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Our Process" title="How It Works" subtitle="From concept to completion, we make it seamless." />
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {process.map((item) => (<ProcessCard key={item.number} {...item} />))}
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Why Choose Kosmo DNC" title="The Kosmo DNC Difference" subtitle="What sets us apart from the competition." />
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto px-2">
             <FeatureRow features={whyChooseUs} />
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
         <div className="container-kosmo">
           <SplitContent
             image="/images/kosmo/exterior.jpg"
@@ -109,7 +109,7 @@ export default function KosmoHomePage() {
 
       <QuoteSection quote="Kosmo DNC handled everything from concept design to construction and branding for our nail salon. The result exceeded our expectations." author="Nail Salon Owner" title="Rockville, MD" />
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading eyebrow="Get Started" title="Ready to Start Your Project?" subtitle="Request a free project quote today." />
           <div className="max-w-4xl mx-auto"><ConsultationForm /></div>
