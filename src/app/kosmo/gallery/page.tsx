@@ -25,14 +25,14 @@ export default function GalleryPage() {
         backgroundImage="/images/kosmo/showroom.jpg"
       />
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading title="Project Portfolio" subtitle="Commercial fit-outs, nail salon design, residential renovations and custom joinery." />
           <GalleryGrid images={galleryImages} />
         </div>
       </section>
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading title="Ready to Start Your Project?" subtitle="Request a free project quote today." />
           <div className="max-w-4xl mx-auto">

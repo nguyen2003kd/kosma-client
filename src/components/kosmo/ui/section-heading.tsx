@@ -18,19 +18,19 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "mb-10",
+        "mb-8 sm:mb-10 px-2",
         align === "center" ? "text-center" : "text-left",
         className
       )}
     >
       {eyebrow && (
-        <p className="text-eyebrow text-black-700 font-extrabold uppercase tracking-[0.18em] mb-3">
+        <p className="text-eyebrow text-black-700 font-extrabold uppercase tracking-[0.18em] mb-2 sm:mb-3">
           {eyebrow}
         </p>
       )}
-      <h2 className="font-serif text-h1 text-ink">{title}</h2>
+      <h2 className="font-serif text-[28px] sm:text-[36px] md:text-h1 text-ink">{title}</h2>
       {subtitle && (
-        <p className="mt-4 text-[17px] text-gray-700 max-w-2xl mx-auto">{subtitle}</p>
+        <p className="mt-3 sm:mt-4 text-[14px] sm:text-base md:text-[17px] text-gray-700 max-w-2xl mx-auto">{subtitle}</p>
       )}
     </div>
   );
@@ -54,7 +54,7 @@ export function PageHero({
   return (
     <div
       className={cn(
-        "relative min-h-[520px] flex items-end py-[92px]",
+        "relative min-h-[340px] sm:min-h-[420px] md:min-h-[520px] flex items-end py-14 sm:py-20 md:py-[92px]",
         className
       )}
       style={{
@@ -69,7 +69,7 @@ export function PageHero({
       <div className="container-kosmo w-full">
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav className="flex items-center gap-2 text-[12px] font-semibold text-white/90 mb-4">
+          <nav className="flex items-center gap-2 text-[11px] sm:text-[12px] font-semibold text-white/90 mb-3 sm:mb-4 flex-wrap">
             {breadcrumbs.map((item, index) => (
               <span key={index} className="flex items-center gap-2">
                 {index > 0 && <span className="text-white/70">/</span>}
@@ -88,9 +88,9 @@ export function PageHero({
           </nav>
         )}
 
-        <h1 className="font-serif text-h1 text-white max-w-[700px]">{title}</h1>
+        <h1 className="font-serif text-[28px] sm:text-[36px] md:text-[44px] lg:text-h1 text-white max-w-[700px] leading-tight">{title}</h1>
         {subtitle && (
-          <p className="mt-4 text-lg text-white/80 max-w-[570px]">{subtitle}</p>
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-white/80 max-w-[570px]">{subtitle}</p>
         )}
       </div>
     </div>

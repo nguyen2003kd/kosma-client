@@ -87,15 +87,15 @@ interface FeatureRowProps {
 
 export function FeatureRow({ features }: FeatureRowProps) {
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 sm:space-y-5">
       {features.map((feature, index) => (
-        <div key={index} className="flex gap-4">
-          <div className="flex-shrink-0 w-[46px] h-[46px] rounded-xl bg-[#d8c29c] flex items-center justify-center">
+        <div key={index} className="flex gap-3 sm:gap-4">
+          <div className="flex-shrink-0 w-[40px] sm:w-[46px] h-[40px] sm:h-[46px] rounded-xl bg-[#d8c29c] flex items-center justify-center">
             <span className="text-black-950 font-bold text-sm">{index + 1}</span>
           </div>
           <div>
             <h4 className="font-semibold text-ink mb-1">{feature.title}</h4>
-            <p className="text-[14px] text-gray-700">{feature.description}</p>
+            <p className="text-[13px] sm:text-[14px] text-gray-700">{feature.description}</p>
           </div>
         </div>
       ))}
@@ -123,25 +123,25 @@ export function SplitContent({
   reverse = false,
 }: SplitContentProps) {
   return (
-    <div className="grid md:grid-cols-2 gap-8 items-center">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
       {/* Image */}
       <div className={cn("order-1", reverse && "md:order-2")}>
         <div
-          className="rounded-xl overflow-hidden min-h-[650px] bg-cover bg-center"
+          className="rounded-xl overflow-hidden h-[260px] sm:h-[360px] md:h-[440px] lg:h-[500px] xl:h-[650px] bg-cover bg-center"
           style={{ backgroundImage: `url(${image})` }}
         />
       </div>
 
       {/* Content */}
-      <div className={cn("order-2", reverse && "md:order-1")}>
+      <div className={cn("order-2 px-1 md:px-0", reverse && "md:order-1")}>
         {eyebrow && (
-          <p className="text-eyebrow text-black-700 font-extrabold uppercase tracking-[0.18em] mb-3">
+          <p className="text-[11px] sm:text-eyebrow text-black-700 font-extrabold uppercase tracking-[0.18em] mb-2 sm:mb-3">
             {eyebrow}
           </p>
         )}
-        <h2 className="font-serif text-h1 text-ink mb-4">{title}</h2>
+        <h2 className="font-serif text-[26px] sm:text-[32px] md:text-[40px] lg:text-[44px] xl:text-h1 text-ink mb-3 sm:mb-4 leading-tight">{title}</h2>
         {description && (
-          <p className="text-[17px] text-gray-700 mb-6 leading-relaxed">
+          <p className="text-[14px] sm:text-[15px] md:text-[17px] text-gray-700 mb-5 sm:mb-6 leading-relaxed">
             {description}
           </p>
         )}
@@ -149,7 +149,7 @@ export function SplitContent({
         {cta && (
           <a
             href={cta.href}
-            className="inline-flex items-center gap-2 text-black-800 font-extrabold text-[14px] hover:gap-3 transition-all mt-6"
+            className="inline-flex items-center gap-2 text-black-800 font-extrabold text-[13px] sm:text-[14px] hover:gap-3 transition-all mt-5 sm:mt-6"
           >
             {cta.label}
             <span>→</span>

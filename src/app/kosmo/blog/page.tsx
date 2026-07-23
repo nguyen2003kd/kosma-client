@@ -23,22 +23,22 @@ export default function BlogPage() {
         backgroundImage="/images/kosmo/lounge.jpg"
       />
 
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading title="Latest Articles" subtitle="Explore our collection of design, construction and branding insights." />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {posts.map((post) => (
               <Link key={post.slug} href={`/kosmo/blog/${post.slug}`} className="group block rounded-[--radius-md] overflow-hidden bg-white hover:shadow-soft transition-shadow">
                 <div className="aspect-[16/10] overflow-hidden">
                   <div className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${post.image})` }} />
                 </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-black-800">{post.category}</span>
-                    <span className="text-[11px] text-gray-600">{post.date}</span>
+                <div className="p-4 sm:p-5 md:p-6">
+                  <div className="flex items-center gap-3 mb-2 sm:mb-3 flex-wrap">
+                    <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-[0.12em] text-black-800">{post.category}</span>
+                    <span className="text-[10px] sm:text-[11px] text-gray-600">{post.date}</span>
                   </div>
-                  <h3 className="font-serif text-[27px] text-ink mb-2 line-clamp-2">{post.title}</h3>
-                  <p className="text-[14px] text-gray-700 line-clamp-2">{post.excerpt}</p>
+                  <h3 className="font-serif text-[20px] sm:text-[24px] md:text-[27px] text-ink mb-2 line-clamp-2 leading-tight">{post.title}</h3>
+                  <p className="text-[13px] sm:text-[14px] text-gray-700 line-clamp-2">{post.excerpt}</p>
                 </div>
               </Link>
             ))}
@@ -46,7 +46,7 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading title="Need Personal Help?" subtitle="Our design experts are here to help with your project." />
           <div className="max-w-4xl mx-auto">
