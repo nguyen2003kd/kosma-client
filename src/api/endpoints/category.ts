@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -55,6 +60,12 @@ export const getApiV10CategoryId = (
 
 
 
+export const getGetApiV10CategoryIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/category/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10CategoryIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/category/${id}`
@@ -62,6 +73,87 @@ export const getGetApiV10CategoryIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10CategoryIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10CategoryId>>>, TError = void>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10CategoryIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10CategoryId>>> = ({ signal }) => getApiV10CategoryId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10CategoryIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10CategoryId>>>
+export type GetApiV10CategoryIdInfiniteQueryError = void
+
+
+export function useGetApiV10CategoryIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10CategoryId>>>, TError = void>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10CategoryId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10CategoryId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10CategoryIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10CategoryId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10CategoryId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10CategoryId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10CategoryIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10CategoryId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get category by ID
+ */
+
+export function useGetApiV10CategoryIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10CategoryId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10CategoryIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get category by ID
+ */
+export const prefetchGetApiV10CategoryIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10CategoryId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10CategoryIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10CategoryIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10CategoryId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData>>, }
 ) => {
 
@@ -77,7 +169,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10CategoryIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10CategoryId>>>
@@ -126,6 +218,20 @@ export function useGetApiV10CategoryId<TData = Awaited<ReturnType<typeof getApiV
   return query;
 }
 
+/**
+ * @summary Get category by ID
+ */
+export const prefetchGetApiV10CategoryIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10CategoryId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10CategoryId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10CategoryIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -344,6 +450,12 @@ export const getApiV10Category = (
 
 
 
+export const getGetApiV10CategoryInfiniteQueryKey = (params?: GetApiV10CategoryParams,) => {
+    return [
+    'infinite', `/api/v1.0/category`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10CategoryQueryKey = (params?: GetApiV10CategoryParams,) => {
     return [
     `/api/v1.0/category`, ...(params ? [params]: [])
@@ -351,6 +463,87 @@ export const getGetApiV10CategoryQueryKey = (params?: GetApiV10CategoryParams,) 
     }
 
     
+export const getGetApiV10CategoryInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Category>>>, TError = void>(params?: GetApiV10CategoryParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10CategoryInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10Category>>> = ({ signal }) => getApiV10Category(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10CategoryInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Category>>>
+export type GetApiV10CategoryInfiniteQueryError = void
+
+
+export function useGetApiV10CategoryInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Category>>>, TError = void>(
+ params: undefined |  GetApiV10CategoryParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Category>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Category>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10CategoryInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Category>>>, TError = void>(
+ params?: GetApiV10CategoryParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Category>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Category>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10CategoryInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Category>>>, TError = void>(
+ params?: GetApiV10CategoryParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all root categories with nested children
+ */
+
+export function useGetApiV10CategoryInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Category>>>, TError = void>(
+ params?: GetApiV10CategoryParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10CategoryInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all root categories with nested children
+ */
+export const prefetchGetApiV10CategoryInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10Category>>, TError = void>(
+ queryClient: QueryClient, params?: GetApiV10CategoryParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10CategoryInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10CategoryQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10Category>>, TError = void>(params?: GetApiV10CategoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData>>, }
 ) => {
 
@@ -366,7 +559,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10CategoryQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Category>>>
@@ -415,6 +608,20 @@ export function useGetApiV10Category<TData = Awaited<ReturnType<typeof getApiV10
   return query;
 }
 
+/**
+ * @summary Get all root categories with nested children
+ */
+export const prefetchGetApiV10CategoryQuery = async <TData = Awaited<ReturnType<typeof getApiV10Category>>, TError = void>(
+ queryClient: QueryClient, params?: GetApiV10CategoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Category>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10CategoryQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

@@ -1,15 +1,20 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
@@ -45,6 +50,12 @@ export const getApiV10PostApprovalHistory = (
 
 
 
+export const getGetApiV10PostApprovalHistoryInfiniteQueryKey = (params?: GetApiV10PostApprovalHistoryParams,) => {
+    return [
+    'infinite', `/api/v1.0/postApprovalHistory`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10PostApprovalHistoryQueryKey = (params?: GetApiV10PostApprovalHistoryParams,) => {
     return [
     `/api/v1.0/postApprovalHistory`, ...(params ? [params]: [])
@@ -52,6 +63,87 @@ export const getGetApiV10PostApprovalHistoryQueryKey = (params?: GetApiV10PostAp
     }
 
     
+export const getGetApiV10PostApprovalHistoryInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>>, TError = unknown>(params?: GetApiV10PostApprovalHistoryParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10PostApprovalHistoryInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>> = ({ signal }) => getApiV10PostApprovalHistory(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10PostApprovalHistoryInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>>
+export type GetApiV10PostApprovalHistoryInfiniteQueryError = unknown
+
+
+export function useGetApiV10PostApprovalHistoryInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>>, TError = unknown>(
+ params: undefined |  GetApiV10PostApprovalHistoryParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10PostApprovalHistoryInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>>, TError = unknown>(
+ params?: GetApiV10PostApprovalHistoryParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10PostApprovalHistoryInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>>, TError = unknown>(
+ params?: GetApiV10PostApprovalHistoryParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all post approval histories
+ */
+
+export function useGetApiV10PostApprovalHistoryInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>>, TError = unknown>(
+ params?: GetApiV10PostApprovalHistoryParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10PostApprovalHistoryInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all post approval histories
+ */
+export const prefetchGetApiV10PostApprovalHistoryInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10PostApprovalHistoryParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10PostApprovalHistoryInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10PostApprovalHistoryQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError = unknown>(params?: GetApiV10PostApprovalHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData>>, }
 ) => {
 
@@ -67,7 +159,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10PostApprovalHistoryQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>>
@@ -116,6 +208,20 @@ export function useGetApiV10PostApprovalHistory<TData = Awaited<ReturnType<typeo
   return query;
 }
 
+/**
+ * @summary Get all post approval histories
+ */
+export const prefetchGetApiV10PostApprovalHistoryQuery = async <TData = Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10PostApprovalHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostApprovalHistory>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10PostApprovalHistoryQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

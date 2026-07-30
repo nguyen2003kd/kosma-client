@@ -19,18 +19,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toaster";
-import { useGetApiV10RecruitmentId, useGetApiV10Recruitment } from "@/api/endpoints/recruitment";
-import { useGetApiV10FileId } from "@/api/endpoints/file";
-import { mainInstance } from "@/api/mutator/custom-instance";
-import { postApiV10Candidate } from "@/api/endpoints/candidate";
-import { postApiV10CandidateFileBulk } from "@/api/endpoints/candidate-file";
-import type {
-  File as ApiFile,
-  PostApiV10FileBulk200,
-  CandidateCreatedResponse,
-  CandidateFileBulkResponse,
-} from "@/api/models";
-import baseConfig from "@/configs/base";
 import { useTranslation } from "react-i18next";
 
 interface PageProps {
@@ -104,8 +92,6 @@ interface UploadFileItem {
   progress: number;
   status: "pending" | "uploading" | "done" | "error";
   errorMessage?: string;
-  /** Populated after successful upload */
-  result?: ApiFile;
 }
 
 // ---------------------------------------------------------------------------
@@ -113,30 +99,48 @@ interface UploadFileItem {
 // ---------------------------------------------------------------------------
 export default function JobDetailPage({ params }: PageProps) {
   const { t } = useTranslation("pages/careers");
-  const { data, isLoading, error } = useGetApiV10RecruitmentId(params.id);
-  const job = (data as unknown as { responseData?: Record<string, unknown> })?.responseData as {
-    title?: string; description?: string; location?: string; updated_at?: string;
-    salary_min?: string; salary_max?: string; quantity?: number; deadline?: string;
-    benefits?: string; requirements?: string; required_documents?: string | null;
-    experience?: string | null; employment_type?: string | null; file_id?: string | null;
-  } | undefined;
+
+  // ---------------------------------------------------------------------------
+  // Hardcoded job data (no API yet)
+  // ---------------------------------------------------------------------------
+  const job = {
+    title: "Nhân viên Kỹ thuật Cầu đường",
+    description:
+      "Tham gia xây dựng và quản lý các dự án hạ tầng giao thông.\n" +
+      "- Phụ trách giám sát thi công các công trình cầu đường.\n" +
+      "- Lập kế hoạch và báo cáo tiến độ định kỳ.\n" +
+      "- Phối hợp với các đơn vị liên quan để đảm bảo chất lượng và an toàn lao động.",
+    location: "Hà Nội",
+    updated_at: "2026-07-15",
+    salary_min: "15000000",
+    salary_max: "30000000",
+    quantity: 3,
+    deadline: "2026-08-31",
+    benefits:
+      "- Lương thưởng KPI hàng tháng.\n" +
+      "- Bảo hiểm đầy đủ theo luật lao động.\n" +
+      "- Du lịch công tác và team building hàng năm.\n" +
+      "- Môi trường làm việc chuyên nghiệp, cơ hội thăng tiến rõ ràng.",
+    requirements:
+      "- Tốt nghiệp Đại học chuyên ngành Xây dựng / Cầu đường.\n" +
+      "- Có ít nhất 2 năm kinh nghiệm ở vị trí tương đương.\n" +
+      "- Thành thạo AutoCAD, Civil 3D là một lợi thế.\n" +
+      "- Kỹ năng làm việc nhóm và chịu được áp lực cao.",
+    required_documents:
+      "Sơ yếu lý lịch\nCV ứng tuyển\nBản sao bằng cấp\nCCCD photo\n",
+    experience: "2+ năm",
+    employment_type: "full_time",
+    file_id: "hardcoded-file-1",
+  };
 
   // File modal
   const [isFileModalOpen, setIsFileModalOpen] = useState(false);
-  const { data: fileData, isLoading: isFileLoading } = useGetApiV10FileId(
-    job?.file_id || "",
-    { query: { enabled: !!job?.file_id && isFileModalOpen } },
-  );
-  const fileInfo = (fileData as unknown as { responseData?: { name?: string; path?: string; description?: string } })?.responseData;
+  const fileInfo = {
+    name: "Thông báo tuyển dụng KOSMO 2026",
+    path: "/files/thong-bao-tuyen-dung-2026.pdf",
+  };
 
-  // Similar jobs
-  const { data: listData, isLoading: listLoading } = useGetApiV10Recruitment({
-    page: 1,
-    pageSize: 5,
-    sortField: "created_at",
-    sortOrder: "desc",
-  });
-
+  // Similar jobs (hardcoded)
   interface JobRow {
     id: string;
     title?: string;
@@ -144,32 +148,34 @@ export default function JobDetailPage({ params }: PageProps) {
     quantity?: number;
     deadline?: string;
   }
-  const similarJobs: JobRow[] = ((listData as unknown as { responseData?: { rows?: Record<string, unknown>[] } })?.responseData?.rows ?? [])
-    .map((row): JobRow | null => {
-      const record = row as Record<string, unknown>;
-      const id = typeof record.id === "string" ? record.id : undefined;
-      if (!id) return null;
-      const item: JobRow = { id };
-      if (typeof record.title === "string") item.title = record.title;
-      if (typeof record.location === "string") item.location = record.location;
-      if (typeof record.quantity === "number") {
-        item.quantity = record.quantity;
-      } else if (typeof record.quantity === "string") {
-        const parsed = Number(record.quantity);
-        if (Number.isFinite(parsed)) item.quantity = parsed;
-      }
-      if (typeof record.deadline === "string") item.deadline = record.deadline;
-      return item;
-    })
-    .filter((item): item is JobRow => item !== null)
-    .filter((item) => item.id !== params.id)
-    .slice(0, 4);
+  const similarJobs: JobRow[] = [
+    {
+      id: "hardcoded-2",
+      title: "Kỹ sư Quản lý Dự án",
+      location: "Hà Nội",
+      quantity: 2,
+      deadline: "2026-09-15",
+    },
+    {
+      id: "hardcoded-3",
+      title: "Chuyên viên Kế toán Xây dựng",
+      location: "TP. Hồ Chí Minh",
+      quantity: 1,
+      deadline: "2026-08-20",
+    },
+    {
+      id: "hardcoded-4",
+      title: "Nhân viên Hành chính Nhân sự",
+      location: "Đà Nẵng",
+      quantity: 2,
+      deadline: "2026-09-01",
+    },
+  ].filter((item) => item.id !== params.id).slice(0, 4);
 
   // ---------------------------------------------------------------------------
   // Bulk file upload state
   // ---------------------------------------------------------------------------
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
   const [uploadItems, setUploadItems] = useState<UploadFileItem[]>([]);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -224,63 +230,24 @@ export default function JobDetailPage({ params }: PageProps) {
   };
 
   // ---------------------------------------------------------------------------
-  // Start the bulk upload — returns updated uploadItems after completion
+  // Start the bulk upload — simulated (no API yet)
   // ---------------------------------------------------------------------------
   const startBulkUpload = useCallback(async (items: UploadFileItem[]): Promise<UploadFileItem[]> => {
     const pending = items.filter((i) => i.status === "pending");
     if (pending.length === 0) return items;
 
-    abortControllerRef.current = new AbortController();
-    const ac = abortControllerRef.current;
+    // Simulate upload progress
+    setUploadItems(items.map((i) => (i.status === "pending" ? { ...i, status: "uploading" as const, progress: 0 } : i)));
 
-    // No setUploadItems here — React 18 batching would cause race condition.
-    // We update state only after API completes (inside try block).
-    try {
-      const body = new FormData();
-      pending.forEach((i) => body.append("files", i.file));
-      body.append("is_in_library_all", "false");
+    await new Promise((resolve) => setTimeout(resolve, 600));
 
-      const result = await mainInstance<PostApiV10FileBulk200>({
-        url: "/api/v1.0/file/bulk",
-        method: "POST",
-        headers: { "Content-Type": "multipart/form-data" },
-        data: body,
-        signal: ac.signal,
-      });
-
-      // Backend trả về: { message, responseData: [files...], status: "success" }
-      // responseData là ARRAY TRỰC TIẾP, không phải { data: [...] }
-      const returnedFiles = (result?.responseData as unknown as ApiFile[]) ?? [];
-
-      // Map pending items → done với kết quả từ API
-      // Dùng pending.map thay vì items.map + indexOf để tránh React batching race condition
-      const uploadedItems = pending.map((item, idx) => ({
-        ...item,
-        status: "done" as const,
-        progress: 100,
-        result: returnedFiles[idx] ?? undefined,
-      }));
-
-      // Merge: giữ nguyên items không phải pending, thay pending bằng kết quả upload
-      const updatedItems = items.map((item) => {
-        const uploaded = uploadedItems.find((u) => u.file === item.file);
-        return uploaded ?? item;
-      });
-
-      setUploadItems(updatedItems);
-      return updatedItems;
-    } catch (err) {
-      if (ac.signal.aborted) return items;
-      const msg = (err as { message?: string })?.message ?? t("detail.uploadFailed");
-      toast.error({ content: msg });
-      const updatedItems = items.map((item) =>
-        item.status === "uploading" ? { ...item, status: "error" as const, errorMessage: msg, progress: 0 } : item,
-      );
-      setUploadItems(updatedItems);
-      return updatedItems;
-    } finally {
-      abortControllerRef.current = null;
-    }
+    const updatedItems = items.map((item) =>
+      item.status === "pending" || item.status === "uploading"
+        ? { ...item, status: "done" as const, progress: 100 }
+        : item,
+    );
+    setUploadItems(updatedItems);
+    return updatedItems;
   }, []);
 
   // ---------------------------------------------------------------------------
@@ -303,10 +270,6 @@ export default function JobDetailPage({ params }: PageProps) {
   // Remove a file from the queue (or cancel an in-flight one)
   // ---------------------------------------------------------------------------
   const removeFile = (index: number) => {
-    const item = uploadItems[index];
-    if (item.status === "uploading") {
-      abortControllerRef.current?.abort();
-    }
     setUploadItems((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -336,7 +299,7 @@ export default function JobDetailPage({ params }: PageProps) {
     if (!isFormValid || isExpired) return;
     setIsSubmitting(true);
 
-    // Step 1: Upload any pending files inline, then continue with candidate submission
+    // Step 1: "Upload" any pending files (simulated)
     let currentItems = uploadItems;
     if (uploadItems.some((i) => i.status === "pending")) {
       currentItems = await startBulkUpload(uploadItems);
@@ -347,54 +310,11 @@ export default function JobDetailPage({ params }: PageProps) {
       }
     }
 
-    const fileIds = currentItems
-      .filter((i) => i.status === "done" && i.result?.id)
-      .map((i) => i.result!.id)
-      .filter((id): id is string => !!id);
-
-    // Step 2: Submit candidate
+    // Step 2: Simulate candidate submission
     try {
-      const candidateResponse = (await postApiV10Candidate({
-        recruitment_id: params.id,
-        full_name: form.full_name,
-        address: form.address,
-        phone: form.phone,
-        email: form.email,
-        position: job?.title ?? "",
-        language_proficiency: form.language_proficiency,
-        it_proficiency: form.it_proficiency,
-        education_level: form.education_level,
-        major: form.major,
-        status: "pending",
-      })) as unknown as CandidateCreatedResponse;
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
-      const candidateId = candidateResponse?.responseData?.id;
-      if (!candidateId) {
-        throw new Error(t("detail.candidateIdError"));
-      }
-      // Step 3: Associate uploaded files with the candidate
-      if (fileIds.length > 0) {
-        const bulkResponse = (await postApiV10CandidateFileBulk({
-          candidate_id: candidateId,
-          file_ids: fileIds,
-        })) as unknown as CandidateFileBulkResponse;
-
-        const { created, skippedFileIds } = bulkResponse?.responseData?.data ?? { created: [], skippedFileIds: [] };
-
-        if (created.length > 0 && skippedFileIds.length > 0) {
-          toast.success({
-            content: t("detail.submitSuccessPartial", { created: created.length, skipped: skippedFileIds.length }),
-          });
-        } else if (created.length > 0) {
-          toast.success({ content: t("detail.submitSuccessFiles", { count: created.length }) });
-        } else if (skippedFileIds.length > 0) {
-          toast.success({ content: t("detail.submitSuccessSkipped", { count: skippedFileIds.length }) });
-        } else {
-          toast.success({ content: t("detail.submitSuccessNoFiles") });
-        }
-      } else {
-        toast.success({ content: t("detail.submitSuccessNoFiles") });
-      }
+      toast.success({ content: t("detail.submitSuccessNoFiles") });
 
       setIsSubmitting(false);
       setSubmitSuccess(true);
@@ -463,24 +383,6 @@ export default function JobDetailPage({ params }: PageProps) {
       </div>
     );
   };
-
-  // ---------------------------------------------------------------------------
-  // Loading / error states
-  // ---------------------------------------------------------------------------
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-muted/30">
-        <p className="text-muted-foreground">{t("detail.loadingDetail")}</p>
-      </div>
-    );
-  }
-  if (error || !job) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-muted/30">
-        <p className="text-muted-foreground">{t("detail.notFound")}</p>
-      </div>
-    );
-  }
 
   // ---------------------------------------------------------------------------
   // Render
@@ -557,7 +459,7 @@ export default function JobDetailPage({ params }: PageProps) {
                     </div>
                   </div>
                 )}
-                                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3">
                   <div className="bg-[#ecfdf5] p-2.5 rounded-xl text-[#10b981]">
                     <DollarSign className="h-5 w-5" />
                   </div>
@@ -606,15 +508,15 @@ export default function JobDetailPage({ params }: PageProps) {
             </div>
             {job.requirements && (
               <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-border/50">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-1.5 h-6 bg-[#2563eb] rounded-full" />
-                <h2 className="text-xl font-bold uppercase text-[#1e3a8a]">{t("detail.candidateRequirements")}</h2>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-1.5 h-6 bg-[#2563eb] rounded-full" />
+                  <h2 className="text-xl font-bold uppercase text-[#1e3a8a]">{t("detail.candidateRequirements")}</h2>
+                </div>
+                <div className="text-[15px] text-foreground/80 whitespace-pre-line leading-relaxed">
+                  {job.requirements}
+                </div>
               </div>
-              <div className="text-[15px] text-foreground/80 whitespace-pre-line leading-relaxed">
-                {job.requirements}
-              </div>
-            </div>
-              )}
+            )}
 
             {/* Benefits */}
             {job.benefits && (
@@ -654,7 +556,7 @@ export default function JobDetailPage({ params }: PageProps) {
             )}
 
 
-          {/* File Attachment */}
+            {/* File Attachment */}
             {job.file_id && (
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-border/50">
                 <button
@@ -681,9 +583,7 @@ export default function JobDetailPage({ params }: PageProps) {
                 <h2 className="text-lg font-bold uppercase text-[#1e3a8a]">{t("detail.otherJobs")}</h2>
               </div>
               <div className="space-y-0">
-                {listLoading ? (
-                  <div className="text-center py-4 text-sm text-muted-foreground">{t("loading")}</div>
-                ) : similarJobs.length > 0 ? (
+                {similarJobs.length > 0 ? (
                   similarJobs.map((similarJob: JobRow) => (
                     <Link
                       key={similarJob.id}
@@ -960,12 +860,7 @@ export default function JobDetailPage({ params }: PageProps) {
               </button>
             </div>
             <div className="p-6 overflow-y-auto max-h-[calc(85vh-80px)]">
-              {isFileLoading ? (
-                <div className="flex items-center justify-center py-12">
-                  <div className="h-8 w-8 border-4 border-[#3b82f6] border-t-transparent rounded-full animate-spin" />
-                  <span className="ml-3 text-muted-foreground">{t("detail.loadingDocument")}</span>
-                </div>
-              ) : fileInfo ? (
+              {fileInfo ? (
                 <div className="space-y-4">
                   {fileInfo.name && (
                     <div className="text-center mb-6">
@@ -975,7 +870,7 @@ export default function JobDetailPage({ params }: PageProps) {
                   {fileInfo.path && (
                     <div className="mt-6 pt-4 border-t border-border">
                       <a
-                        href={`${baseConfig.backendDomain}${fileInfo.path}`}
+                        href={fileInfo.path}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-4 py-2 bg-[#eff6ff] text-[#2563eb] rounded-lg hover:bg-[#dbeafe] transition-colors font-medium"

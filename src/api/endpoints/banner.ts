@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -53,6 +58,12 @@ export const getApiV10BannerId = (
 
 
 
+export const getGetApiV10BannerIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/banner/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10BannerIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/banner/${id}`
@@ -60,6 +71,87 @@ export const getGetApiV10BannerIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10BannerIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10BannerId>>>, TError = void>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10BannerIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10BannerId>>> = ({ signal }) => getApiV10BannerId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10BannerIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10BannerId>>>
+export type GetApiV10BannerIdInfiniteQueryError = void
+
+
+export function useGetApiV10BannerIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10BannerId>>>, TError = void>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10BannerId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10BannerId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10BannerIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10BannerId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10BannerId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10BannerId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10BannerIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10BannerId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get banner by ID
+ */
+
+export function useGetApiV10BannerIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10BannerId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10BannerIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get banner by ID
+ */
+export const prefetchGetApiV10BannerIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10BannerId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10BannerIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10BannerIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10BannerId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData>>, }
 ) => {
 
@@ -75,7 +167,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10BannerIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10BannerId>>>
@@ -124,6 +216,20 @@ export function useGetApiV10BannerId<TData = Awaited<ReturnType<typeof getApiV10
   return query;
 }
 
+/**
+ * @summary Get banner by ID
+ */
+export const prefetchGetApiV10BannerIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10BannerId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10BannerId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10BannerIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -274,6 +380,12 @@ export const getApiV10Banner = (
 
 
 
+export const getGetApiV10BannerInfiniteQueryKey = (params?: GetApiV10BannerParams,) => {
+    return [
+    'infinite', `/api/v1.0/banner`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10BannerQueryKey = (params?: GetApiV10BannerParams,) => {
     return [
     `/api/v1.0/banner`, ...(params ? [params]: [])
@@ -281,6 +393,87 @@ export const getGetApiV10BannerQueryKey = (params?: GetApiV10BannerParams,) => {
     }
 
     
+export const getGetApiV10BannerInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Banner>>>, TError = unknown>(params?: GetApiV10BannerParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10BannerInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10Banner>>> = ({ signal }) => getApiV10Banner(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10BannerInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Banner>>>
+export type GetApiV10BannerInfiniteQueryError = unknown
+
+
+export function useGetApiV10BannerInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Banner>>>, TError = unknown>(
+ params: undefined |  GetApiV10BannerParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Banner>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Banner>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10BannerInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Banner>>>, TError = unknown>(
+ params?: GetApiV10BannerParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Banner>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Banner>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10BannerInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Banner>>>, TError = unknown>(
+ params?: GetApiV10BannerParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all banner
+ */
+
+export function useGetApiV10BannerInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Banner>>>, TError = unknown>(
+ params?: GetApiV10BannerParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10BannerInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all banner
+ */
+export const prefetchGetApiV10BannerInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10Banner>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10BannerParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10BannerInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10BannerQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10Banner>>, TError = unknown>(params?: GetApiV10BannerParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData>>, }
 ) => {
 
@@ -296,7 +489,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10BannerQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Banner>>>
@@ -345,6 +538,20 @@ export function useGetApiV10Banner<TData = Awaited<ReturnType<typeof getApiV10Ba
   return query;
 }
 
+/**
+ * @summary Get all banner
+ */
+export const prefetchGetApiV10BannerQuery = async <TData = Awaited<ReturnType<typeof getApiV10Banner>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10BannerParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Banner>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10BannerQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

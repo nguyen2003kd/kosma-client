@@ -1,6 +1,6 @@
 /* eslint-disable */
-import type { Post } from './post';
+import type { PostWithContent } from './postWithContent';
 
 export type GetApiV10PostId200AllOf = {
-  responseData?: Post;
+  responseData?: PostWithContent;
 };

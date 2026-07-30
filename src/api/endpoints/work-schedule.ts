@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -47,6 +52,12 @@ export const getApiV10WorkScheduleId = (
 
 
 
+export const getGetApiV10WorkScheduleIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/workSchedule/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10WorkScheduleIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/workSchedule/${id}`
@@ -54,6 +65,87 @@ export const getGetApiV10WorkScheduleIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10WorkScheduleIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>>, TError = unknown>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10WorkScheduleIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>> = ({ signal }) => getApiV10WorkScheduleId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10WorkScheduleIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>>
+export type GetApiV10WorkScheduleIdInfiniteQueryError = unknown
+
+
+export function useGetApiV10WorkScheduleIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>>, TError = unknown>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10WorkScheduleId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10WorkScheduleId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10WorkScheduleIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10WorkScheduleId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10WorkScheduleId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10WorkScheduleIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get work schedule by ID
+ */
+
+export function useGetApiV10WorkScheduleIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10WorkScheduleIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get work schedule by ID
+ */
+export const prefetchGetApiV10WorkScheduleIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError = unknown>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10WorkScheduleIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10WorkScheduleIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData>>, }
 ) => {
 
@@ -69,7 +161,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10WorkScheduleIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>>
@@ -118,6 +210,20 @@ export function useGetApiV10WorkScheduleId<TData = Awaited<ReturnType<typeof get
   return query;
 }
 
+/**
+ * @summary Get work schedule by ID
+ */
+export const prefetchGetApiV10WorkScheduleIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError = unknown>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10WorkScheduleId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10WorkScheduleIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -266,6 +372,12 @@ export const getApiV10WorkSchedule = (
 
 
 
+export const getGetApiV10WorkScheduleInfiniteQueryKey = (params?: GetApiV10WorkScheduleParams,) => {
+    return [
+    'infinite', `/api/v1.0/workSchedule`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10WorkScheduleQueryKey = (params?: GetApiV10WorkScheduleParams,) => {
     return [
     `/api/v1.0/workSchedule`, ...(params ? [params]: [])
@@ -273,6 +385,87 @@ export const getGetApiV10WorkScheduleQueryKey = (params?: GetApiV10WorkScheduleP
     }
 
     
+export const getGetApiV10WorkScheduleInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10WorkSchedule>>>, TError = unknown>(params?: GetApiV10WorkScheduleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10WorkScheduleInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10WorkSchedule>>> = ({ signal }) => getApiV10WorkSchedule(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10WorkScheduleInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10WorkSchedule>>>
+export type GetApiV10WorkScheduleInfiniteQueryError = unknown
+
+
+export function useGetApiV10WorkScheduleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10WorkSchedule>>>, TError = unknown>(
+ params: undefined |  GetApiV10WorkScheduleParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10WorkSchedule>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10WorkSchedule>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10WorkScheduleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10WorkSchedule>>>, TError = unknown>(
+ params?: GetApiV10WorkScheduleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10WorkSchedule>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10WorkSchedule>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10WorkScheduleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10WorkSchedule>>>, TError = unknown>(
+ params?: GetApiV10WorkScheduleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all work schedules
+ */
+
+export function useGetApiV10WorkScheduleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10WorkSchedule>>>, TError = unknown>(
+ params?: GetApiV10WorkScheduleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10WorkScheduleInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all work schedules
+ */
+export const prefetchGetApiV10WorkScheduleInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10WorkScheduleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10WorkScheduleInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10WorkScheduleQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError = unknown>(params?: GetApiV10WorkScheduleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData>>, }
 ) => {
 
@@ -288,7 +481,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10WorkScheduleQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10WorkSchedule>>>
@@ -337,6 +530,20 @@ export function useGetApiV10WorkSchedule<TData = Awaited<ReturnType<typeof getAp
   return query;
 }
 
+/**
+ * @summary Get all work schedules
+ */
+export const prefetchGetApiV10WorkScheduleQuery = async <TData = Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10WorkScheduleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10WorkSchedule>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10WorkScheduleQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

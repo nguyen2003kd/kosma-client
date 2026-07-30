@@ -81,6 +81,11 @@ export interface PostMutate {
    */
   category_ids?: string[] | null;
   /**
+   * Array of Tag IDs. On create: creates post_tag records. On update: adds new tags only (existing tags are preserved).
+   * @nullable
+   */
+  tag_ids?: string[] | null;
+  /**
    * Thumbnail file ID - the file's path and compress_info will be used for thumbnail_path and thumbnail_compress_info
    * @nullable
    */

@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -184,6 +189,12 @@ export const getApiV10RolePermission = (
 
 
 
+export const getGetApiV10RolePermissionInfiniteQueryKey = (params?: GetApiV10RolePermissionParams,) => {
+    return [
+    'infinite', `/api/v1.0/rolePermission`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10RolePermissionQueryKey = (params?: GetApiV10RolePermissionParams,) => {
     return [
     `/api/v1.0/rolePermission`, ...(params ? [params]: [])
@@ -191,6 +202,87 @@ export const getGetApiV10RolePermissionQueryKey = (params?: GetApiV10RolePermiss
     }
 
     
+export const getGetApiV10RolePermissionInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10RolePermission>>>, TError = void>(params?: GetApiV10RolePermissionParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10RolePermissionInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10RolePermission>>> = ({ signal }) => getApiV10RolePermission(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10RolePermissionInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10RolePermission>>>
+export type GetApiV10RolePermissionInfiniteQueryError = void
+
+
+export function useGetApiV10RolePermissionInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10RolePermission>>>, TError = void>(
+ params: undefined |  GetApiV10RolePermissionParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10RolePermission>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10RolePermission>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10RolePermissionInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10RolePermission>>>, TError = void>(
+ params?: GetApiV10RolePermissionParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10RolePermission>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10RolePermission>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10RolePermissionInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10RolePermission>>>, TError = void>(
+ params?: GetApiV10RolePermissionParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all role-permission assignments
+ */
+
+export function useGetApiV10RolePermissionInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10RolePermission>>>, TError = void>(
+ params?: GetApiV10RolePermissionParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10RolePermissionInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all role-permission assignments
+ */
+export const prefetchGetApiV10RolePermissionInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10RolePermission>>, TError = void>(
+ queryClient: QueryClient, params?: GetApiV10RolePermissionParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10RolePermissionInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10RolePermissionQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10RolePermission>>, TError = void>(params?: GetApiV10RolePermissionParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData>>, }
 ) => {
 
@@ -206,7 +298,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10RolePermissionQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10RolePermission>>>
@@ -255,6 +347,20 @@ export function useGetApiV10RolePermission<TData = Awaited<ReturnType<typeof get
   return query;
 }
 
+/**
+ * @summary Get all role-permission assignments
+ */
+export const prefetchGetApiV10RolePermissionQuery = async <TData = Awaited<ReturnType<typeof getApiV10RolePermission>>, TError = void>(
+ queryClient: QueryClient, params?: GetApiV10RolePermissionParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10RolePermission>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10RolePermissionQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
