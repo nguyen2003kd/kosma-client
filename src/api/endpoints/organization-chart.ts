@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -51,6 +56,12 @@ export const getApiV10OrganizationChartId = (
 
 
 
+export const getGetApiV10OrganizationChartIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/organizationChart/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10OrganizationChartIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/organizationChart/${id}`
@@ -58,6 +69,87 @@ export const getGetApiV10OrganizationChartIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10OrganizationChartIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>>, TError = unknown>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10OrganizationChartIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>> = ({ signal }) => getApiV10OrganizationChartId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10OrganizationChartIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>>
+export type GetApiV10OrganizationChartIdInfiniteQueryError = unknown
+
+
+export function useGetApiV10OrganizationChartIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>>, TError = unknown>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10OrganizationChartId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10OrganizationChartId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10OrganizationChartIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10OrganizationChartId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10OrganizationChartId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10OrganizationChartIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get node by ID
+ */
+
+export function useGetApiV10OrganizationChartIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10OrganizationChartIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get node by ID
+ */
+export const prefetchGetApiV10OrganizationChartIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError = unknown>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10OrganizationChartIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10OrganizationChartIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData>>, }
 ) => {
 
@@ -73,7 +165,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10OrganizationChartIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>>
@@ -122,6 +214,20 @@ export function useGetApiV10OrganizationChartId<TData = Awaited<ReturnType<typeo
   return query;
 }
 
+/**
+ * @summary Get node by ID
+ */
+export const prefetchGetApiV10OrganizationChartIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError = unknown>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChartId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10OrganizationChartIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -269,6 +375,12 @@ export const getApiV10OrganizationChart = (
 
 
 
+export const getGetApiV10OrganizationChartInfiniteQueryKey = () => {
+    return [
+    'infinite', `/api/v1.0/organizationChart`
+    ] as const;
+    }
+
 export const getGetApiV10OrganizationChartQueryKey = () => {
     return [
     `/api/v1.0/organizationChart`
@@ -276,6 +388,87 @@ export const getGetApiV10OrganizationChartQueryKey = () => {
     }
 
     
+export const getGetApiV10OrganizationChartInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10OrganizationChart>>>, TError = unknown>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10OrganizationChartInfiniteQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10OrganizationChart>>> = ({ signal }) => getApiV10OrganizationChart(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10OrganizationChartInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10OrganizationChart>>>
+export type GetApiV10OrganizationChartInfiniteQueryError = unknown
+
+
+export function useGetApiV10OrganizationChartInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10OrganizationChart>>>, TError = unknown>(
+  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10OrganizationChart>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10OrganizationChart>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10OrganizationChartInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10OrganizationChart>>>, TError = unknown>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10OrganizationChart>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10OrganizationChart>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10OrganizationChartInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10OrganizationChart>>>, TError = unknown>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all nodes sorted by coordinates
+ */
+
+export function useGetApiV10OrganizationChartInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10OrganizationChart>>>, TError = unknown>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10OrganizationChartInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all nodes sorted by coordinates
+ */
+export const prefetchGetApiV10OrganizationChartInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError = unknown>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10OrganizationChartInfiniteQueryOptions(options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10OrganizationChartQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData>>, }
 ) => {
 
@@ -291,7 +484,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10OrganizationChartQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10OrganizationChart>>>
@@ -340,6 +533,20 @@ export function useGetApiV10OrganizationChart<TData = Awaited<ReturnType<typeof 
   return query;
 }
 
+/**
+ * @summary Get all nodes sorted by coordinates
+ */
+export const prefetchGetApiV10OrganizationChartQuery = async <TData = Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError = unknown>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10OrganizationChart>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10OrganizationChartQueryOptions(options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

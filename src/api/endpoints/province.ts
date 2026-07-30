@@ -1,15 +1,20 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
@@ -42,6 +47,12 @@ export const getApiV10Province = (
 
 
 
+export const getGetApiV10ProvinceInfiniteQueryKey = () => {
+    return [
+    'infinite', `/api/v1.0/province`
+    ] as const;
+    }
+
 export const getGetApiV10ProvinceQueryKey = () => {
     return [
     `/api/v1.0/province`
@@ -49,6 +60,87 @@ export const getGetApiV10ProvinceQueryKey = () => {
     }
 
     
+export const getGetApiV10ProvinceInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Province>>>, TError = unknown>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10ProvinceInfiniteQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10Province>>> = ({ signal }) => getApiV10Province(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10ProvinceInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Province>>>
+export type GetApiV10ProvinceInfiniteQueryError = unknown
+
+
+export function useGetApiV10ProvinceInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Province>>>, TError = unknown>(
+  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Province>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Province>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10ProvinceInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Province>>>, TError = unknown>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Province>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Province>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10ProvinceInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Province>>>, TError = unknown>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get Vietnam provinces from external API
+ */
+
+export function useGetApiV10ProvinceInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Province>>>, TError = unknown>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10ProvinceInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get Vietnam provinces from external API
+ */
+export const prefetchGetApiV10ProvinceInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10Province>>, TError = unknown>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10ProvinceInfiniteQueryOptions(options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10ProvinceQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10Province>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData>>, }
 ) => {
 
@@ -64,7 +156,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10ProvinceQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Province>>>
@@ -113,6 +205,20 @@ export function useGetApiV10Province<TData = Awaited<ReturnType<typeof getApiV10
   return query;
 }
 
+/**
+ * @summary Get Vietnam provinces from external API
+ */
+export const prefetchGetApiV10ProvinceQuery = async <TData = Awaited<ReturnType<typeof getApiV10Province>>, TError = unknown>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Province>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10ProvinceQueryOptions(options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

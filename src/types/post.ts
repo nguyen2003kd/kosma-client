@@ -12,7 +12,7 @@ export interface ImageCompressInfo {
 export interface PostContentImage extends APIPostContentImage {
   file?: {
     compress_info?: ImageCompressInfo;
-    path?:string
+    path?: string
   };
 }
 
@@ -24,6 +24,7 @@ export interface PostExtended extends Post {
   thumbnail_compress_info?: ImageCompressInfo;
   post_content?: PostContent[];
   author?: string;
+  tags?: { id?: string; name?: string }[];
   category?: {
     id?: string;
     name?: string;

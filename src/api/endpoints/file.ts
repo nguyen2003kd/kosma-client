@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -55,6 +60,12 @@ export const getApiV10FileId = (
 
 
 
+export const getGetApiV10FileIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/file/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10FileIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/file/${id}`
@@ -62,6 +73,87 @@ export const getGetApiV10FileIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10FileIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10FileId>>>, TError = void>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10FileIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10FileId>>> = ({ signal }) => getApiV10FileId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10FileIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10FileId>>>
+export type GetApiV10FileIdInfiniteQueryError = void
+
+
+export function useGetApiV10FileIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10FileId>>>, TError = void>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10FileId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10FileId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10FileIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10FileId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10FileId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10FileId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10FileIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10FileId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get file by ID
+ */
+
+export function useGetApiV10FileIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10FileId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10FileIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get file by ID
+ */
+export const prefetchGetApiV10FileIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10FileId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10FileIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10FileIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10FileId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData>>, }
 ) => {
 
@@ -77,7 +169,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10FileIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10FileId>>>
@@ -126,6 +218,20 @@ export function useGetApiV10FileId<TData = Awaited<ReturnType<typeof getApiV10Fi
   return query;
 }
 
+/**
+ * @summary Get file by ID
+ */
+export const prefetchGetApiV10FileIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10FileId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10FileId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10FileIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -364,6 +470,12 @@ export const getApiV10File = (
 
 
 
+export const getGetApiV10FileInfiniteQueryKey = (params?: GetApiV10FileParams,) => {
+    return [
+    'infinite', `/api/v1.0/file`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10FileQueryKey = (params?: GetApiV10FileParams,) => {
     return [
     `/api/v1.0/file`, ...(params ? [params]: [])
@@ -371,6 +483,87 @@ export const getGetApiV10FileQueryKey = (params?: GetApiV10FileParams,) => {
     }
 
     
+export const getGetApiV10FileInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10File>>>, TError = unknown>(params?: GetApiV10FileParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10FileInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10File>>> = ({ signal }) => getApiV10File(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10FileInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10File>>>
+export type GetApiV10FileInfiniteQueryError = unknown
+
+
+export function useGetApiV10FileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10File>>>, TError = unknown>(
+ params: undefined |  GetApiV10FileParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10File>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10File>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10FileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10File>>>, TError = unknown>(
+ params?: GetApiV10FileParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10File>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10File>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10FileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10File>>>, TError = unknown>(
+ params?: GetApiV10FileParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all file
+ */
+
+export function useGetApiV10FileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10File>>>, TError = unknown>(
+ params?: GetApiV10FileParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10FileInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all file
+ */
+export const prefetchGetApiV10FileInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10File>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10FileParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10FileInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10FileQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10File>>, TError = unknown>(params?: GetApiV10FileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData>>, }
 ) => {
 
@@ -386,7 +579,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10FileQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10File>>>
@@ -435,6 +628,20 @@ export function useGetApiV10File<TData = Awaited<ReturnType<typeof getApiV10File
   return query;
 }
 
+/**
+ * @summary Get all file
+ */
+export const prefetchGetApiV10FileQuery = async <TData = Awaited<ReturnType<typeof getApiV10File>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10FileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10File>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10FileQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

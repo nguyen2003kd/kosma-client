@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -53,6 +58,12 @@ export const getApiV10LogoId = (
 
 
 
+export const getGetApiV10LogoIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/logo/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10LogoIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/logo/${id}`
@@ -60,6 +71,87 @@ export const getGetApiV10LogoIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10LogoIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10LogoId>>>, TError = void>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10LogoIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10LogoId>>> = ({ signal }) => getApiV10LogoId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10LogoIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10LogoId>>>
+export type GetApiV10LogoIdInfiniteQueryError = void
+
+
+export function useGetApiV10LogoIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10LogoId>>>, TError = void>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10LogoId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10LogoId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10LogoIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10LogoId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10LogoId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10LogoId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10LogoIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10LogoId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get logo by ID
+ */
+
+export function useGetApiV10LogoIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10LogoId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10LogoIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get logo by ID
+ */
+export const prefetchGetApiV10LogoIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10LogoId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10LogoIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10LogoIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10LogoId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData>>, }
 ) => {
 
@@ -75,7 +167,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10LogoIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10LogoId>>>
@@ -124,6 +216,20 @@ export function useGetApiV10LogoId<TData = Awaited<ReturnType<typeof getApiV10Lo
   return query;
 }
 
+/**
+ * @summary Get logo by ID
+ */
+export const prefetchGetApiV10LogoIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10LogoId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10LogoId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10LogoIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -274,6 +380,12 @@ export const getApiV10Logo = (
 
 
 
+export const getGetApiV10LogoInfiniteQueryKey = (params?: GetApiV10LogoParams,) => {
+    return [
+    'infinite', `/api/v1.0/logo`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10LogoQueryKey = (params?: GetApiV10LogoParams,) => {
     return [
     `/api/v1.0/logo`, ...(params ? [params]: [])
@@ -281,6 +393,87 @@ export const getGetApiV10LogoQueryKey = (params?: GetApiV10LogoParams,) => {
     }
 
     
+export const getGetApiV10LogoInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Logo>>>, TError = unknown>(params?: GetApiV10LogoParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10LogoInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10Logo>>> = ({ signal }) => getApiV10Logo(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10LogoInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Logo>>>
+export type GetApiV10LogoInfiniteQueryError = unknown
+
+
+export function useGetApiV10LogoInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Logo>>>, TError = unknown>(
+ params: undefined |  GetApiV10LogoParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Logo>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Logo>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10LogoInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Logo>>>, TError = unknown>(
+ params?: GetApiV10LogoParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Logo>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Logo>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10LogoInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Logo>>>, TError = unknown>(
+ params?: GetApiV10LogoParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all logo
+ */
+
+export function useGetApiV10LogoInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Logo>>>, TError = unknown>(
+ params?: GetApiV10LogoParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10LogoInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all logo
+ */
+export const prefetchGetApiV10LogoInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10Logo>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10LogoParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10LogoInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10LogoQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10Logo>>, TError = unknown>(params?: GetApiV10LogoParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData>>, }
 ) => {
 
@@ -296,7 +489,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10LogoQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Logo>>>
@@ -345,6 +538,20 @@ export function useGetApiV10Logo<TData = Awaited<ReturnType<typeof getApiV10Logo
   return query;
 }
 
+/**
+ * @summary Get all logo
+ */
+export const prefetchGetApiV10LogoQuery = async <TData = Awaited<ReturnType<typeof getApiV10Logo>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10LogoParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Logo>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10LogoQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

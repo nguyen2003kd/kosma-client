@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -53,6 +58,12 @@ export const getApiV10QuotationStatusId = (
 
 
 
+export const getGetApiV10QuotationStatusIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/quotationStatus/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10QuotationStatusIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/quotationStatus/${id}`
@@ -60,6 +71,87 @@ export const getGetApiV10QuotationStatusIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10QuotationStatusIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>>, TError = void>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10QuotationStatusIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>> = ({ signal }) => getApiV10QuotationStatusId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10QuotationStatusIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>>
+export type GetApiV10QuotationStatusIdInfiniteQueryError = void
+
+
+export function useGetApiV10QuotationStatusIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>>, TError = void>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10QuotationStatusId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10QuotationStatusId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10QuotationStatusIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10QuotationStatusId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10QuotationStatusId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10QuotationStatusIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get quotationStatus by ID
+ */
+
+export function useGetApiV10QuotationStatusIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10QuotationStatusIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get quotationStatus by ID
+ */
+export const prefetchGetApiV10QuotationStatusIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10QuotationStatusIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10QuotationStatusIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData>>, }
 ) => {
 
@@ -75,7 +167,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10QuotationStatusIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>>
@@ -124,6 +216,20 @@ export function useGetApiV10QuotationStatusId<TData = Awaited<ReturnType<typeof 
   return query;
 }
 
+/**
+ * @summary Get quotationStatus by ID
+ */
+export const prefetchGetApiV10QuotationStatusIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatusId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10QuotationStatusIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -274,6 +380,12 @@ export const getApiV10QuotationStatus = (
 
 
 
+export const getGetApiV10QuotationStatusInfiniteQueryKey = (params?: GetApiV10QuotationStatusParams,) => {
+    return [
+    'infinite', `/api/v1.0/quotationStatus`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10QuotationStatusQueryKey = (params?: GetApiV10QuotationStatusParams,) => {
     return [
     `/api/v1.0/quotationStatus`, ...(params ? [params]: [])
@@ -281,6 +393,87 @@ export const getGetApiV10QuotationStatusQueryKey = (params?: GetApiV10QuotationS
     }
 
     
+export const getGetApiV10QuotationStatusInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10QuotationStatus>>>, TError = unknown>(params?: GetApiV10QuotationStatusParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10QuotationStatusInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10QuotationStatus>>> = ({ signal }) => getApiV10QuotationStatus(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10QuotationStatusInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10QuotationStatus>>>
+export type GetApiV10QuotationStatusInfiniteQueryError = unknown
+
+
+export function useGetApiV10QuotationStatusInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10QuotationStatus>>>, TError = unknown>(
+ params: undefined |  GetApiV10QuotationStatusParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10QuotationStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10QuotationStatus>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10QuotationStatusInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10QuotationStatus>>>, TError = unknown>(
+ params?: GetApiV10QuotationStatusParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10QuotationStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10QuotationStatus>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10QuotationStatusInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10QuotationStatus>>>, TError = unknown>(
+ params?: GetApiV10QuotationStatusParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all quotationStatus
+ */
+
+export function useGetApiV10QuotationStatusInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10QuotationStatus>>>, TError = unknown>(
+ params?: GetApiV10QuotationStatusParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10QuotationStatusInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all quotationStatus
+ */
+export const prefetchGetApiV10QuotationStatusInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10QuotationStatusParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10QuotationStatusInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10QuotationStatusQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError = unknown>(params?: GetApiV10QuotationStatusParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData>>, }
 ) => {
 
@@ -296,7 +489,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10QuotationStatusQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10QuotationStatus>>>
@@ -345,6 +538,20 @@ export function useGetApiV10QuotationStatus<TData = Awaited<ReturnType<typeof ge
   return query;
 }
 
+/**
+ * @summary Get all quotationStatus
+ */
+export const prefetchGetApiV10QuotationStatusQuery = async <TData = Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10QuotationStatusParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10QuotationStatus>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10QuotationStatusQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

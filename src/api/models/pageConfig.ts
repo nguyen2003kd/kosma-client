@@ -1,8 +1,11 @@
 /* eslint-disable */
+import type { PageConfigLanguage } from './pageConfigLanguage';
 
 export interface PageConfig {
   /** Unique identifier */
   id?: string;
+  /** Language of the configuration */
+  language?: PageConfigLanguage;
   /** Configuration key (unique) */
   key?: string;
   /**

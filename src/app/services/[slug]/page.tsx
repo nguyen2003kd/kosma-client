@@ -1,31 +1,26 @@
 import baseConfig from "@/configs/base";
+import { getApiV10PostSlugSlug } from "@/api/endpoints/post";
 import type { PostExtended } from "@/types/post";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ServiceDetailView from "./views/service-detail-view";
 
 interface ServiceDetailPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 async function getPost(slug: string): Promise<PostExtended | null> {
   try {
-    const res = await fetch(
-      `${baseConfig.backendDomain}/api/v1.0/post/slug/${slug}`,
-      { cache: "no-store" },
-    );
-    if (!res.ok) return null;
-    const data = await res.json();
+    const data = await getApiV10PostSlugSlug(slug);
     return (data?.responseData as PostExtended) || null;
   } catch {
     return null;
   }
 }
 
-export async function generateMetadata({
-  params,
-}: ServiceDetailPageProps): Promise<Metadata> {
-  const post = await getPost(params.slug);
+export async function generateMetadata({ params }: ServiceDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPost(slug);
 
   if (!post) {
     return {
@@ -41,7 +36,7 @@ export async function generateMetadata({
         ? `${baseConfig.backendDomain}${post.thumbnail_path}`
         : undefined;
 
-  const pageUrl = `${baseConfig.frontendDomain}/services/${params.slug}`;
+  const pageUrl = `${baseConfig.frontendDomain}/services/${slug}`;
   const description = post.summary?.replace(/<[^>]*>/g, "").slice(0, 160) || "Dịch vụ kiểm định - thử nghiệm - hiệu chuẩn";
 
   return {
@@ -71,9 +66,10 @@ export async function generateMetadata({
 }
 
 export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
-  const post = await getPost(params.slug);
+  const { slug } = await params;
+  const post = await getPost(slug);
 
   if (!post) notFound();
 
-  return <ServiceDetailView slug={params.slug} initialPost={post} />;
+  return <ServiceDetailView slug={slug} initialPost={post} />;
 }

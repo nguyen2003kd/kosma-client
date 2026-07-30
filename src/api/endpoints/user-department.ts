@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -114,6 +119,12 @@ export const getApiV10UserDepartment = (
 
 
 
+export const getGetApiV10UserDepartmentInfiniteQueryKey = (params?: GetApiV10UserDepartmentParams,) => {
+    return [
+    'infinite', `/api/v1.0/userDepartment`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10UserDepartmentQueryKey = (params?: GetApiV10UserDepartmentParams,) => {
     return [
     `/api/v1.0/userDepartment`, ...(params ? [params]: [])
@@ -121,6 +132,87 @@ export const getGetApiV10UserDepartmentQueryKey = (params?: GetApiV10UserDepartm
     }
 
     
+export const getGetApiV10UserDepartmentInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserDepartment>>>, TError = void>(params?: GetApiV10UserDepartmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10UserDepartmentInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10UserDepartment>>> = ({ signal }) => getApiV10UserDepartment(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10UserDepartmentInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10UserDepartment>>>
+export type GetApiV10UserDepartmentInfiniteQueryError = void
+
+
+export function useGetApiV10UserDepartmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserDepartment>>>, TError = void>(
+ params: undefined |  GetApiV10UserDepartmentParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10UserDepartment>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10UserDepartment>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10UserDepartmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserDepartment>>>, TError = void>(
+ params?: GetApiV10UserDepartmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10UserDepartment>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10UserDepartment>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10UserDepartmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserDepartment>>>, TError = void>(
+ params?: GetApiV10UserDepartmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all user-department assignments
+ */
+
+export function useGetApiV10UserDepartmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserDepartment>>>, TError = void>(
+ params?: GetApiV10UserDepartmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10UserDepartmentInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all user-department assignments
+ */
+export const prefetchGetApiV10UserDepartmentInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError = void>(
+ queryClient: QueryClient, params?: GetApiV10UserDepartmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10UserDepartmentInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10UserDepartmentQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError = void>(params?: GetApiV10UserDepartmentParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData>>, }
 ) => {
 
@@ -136,7 +228,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10UserDepartmentQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10UserDepartment>>>
@@ -185,6 +277,20 @@ export function useGetApiV10UserDepartment<TData = Awaited<ReturnType<typeof get
   return query;
 }
 
+/**
+ * @summary Get all user-department assignments
+ */
+export const prefetchGetApiV10UserDepartmentQuery = async <TData = Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError = void>(
+ queryClient: QueryClient, params?: GetApiV10UserDepartmentParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserDepartment>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10UserDepartmentQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

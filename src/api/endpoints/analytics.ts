@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -51,6 +56,12 @@ export const getApiV10AnalyticsActiveUsers = (
 
 
 
+export const getGetApiV10AnalyticsActiveUsersInfiniteQueryKey = (params?: GetApiV10AnalyticsActiveUsersParams,) => {
+    return [
+    'infinite', `/api/v1.0/analytics/activeUsers`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10AnalyticsActiveUsersQueryKey = (params?: GetApiV10AnalyticsActiveUsersParams,) => {
     return [
     `/api/v1.0/analytics/activeUsers`, ...(params ? [params]: [])
@@ -58,6 +69,87 @@ export const getGetApiV10AnalyticsActiveUsersQueryKey = (params?: GetApiV10Analy
     }
 
     
+export const getGetApiV10AnalyticsActiveUsersInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>>, TError = void>(params?: GetApiV10AnalyticsActiveUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10AnalyticsActiveUsersInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>> = ({ signal }) => getApiV10AnalyticsActiveUsers(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10AnalyticsActiveUsersInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>>
+export type GetApiV10AnalyticsActiveUsersInfiniteQueryError = void
+
+
+export function useGetApiV10AnalyticsActiveUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>>, TError = void>(
+ params: undefined |  GetApiV10AnalyticsActiveUsersParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AnalyticsActiveUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>>, TError = void>(
+ params?: GetApiV10AnalyticsActiveUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AnalyticsActiveUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>>, TError = void>(
+ params?: GetApiV10AnalyticsActiveUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get active users and total page views from Google Analytics
+ */
+
+export function useGetApiV10AnalyticsActiveUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>>, TError = void>(
+ params?: GetApiV10AnalyticsActiveUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10AnalyticsActiveUsersInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get active users and total page views from Google Analytics
+ */
+export const prefetchGetApiV10AnalyticsActiveUsersInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError = void>(
+ queryClient: QueryClient, params?: GetApiV10AnalyticsActiveUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AnalyticsActiveUsersInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10AnalyticsActiveUsersQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError = void>(params?: GetApiV10AnalyticsActiveUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData>>, }
 ) => {
 
@@ -73,7 +165,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10AnalyticsActiveUsersQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>>
@@ -122,6 +214,20 @@ export function useGetApiV10AnalyticsActiveUsers<TData = Awaited<ReturnType<type
   return query;
 }
 
+/**
+ * @summary Get active users and total page views from Google Analytics
+ */
+export const prefetchGetApiV10AnalyticsActiveUsersQuery = async <TData = Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError = void>(
+ queryClient: QueryClient, params?: GetApiV10AnalyticsActiveUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsActiveUsers>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AnalyticsActiveUsersQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -143,6 +249,12 @@ export const getApiV10AnalyticsDebug = (
 
 
 
+export const getGetApiV10AnalyticsDebugInfiniteQueryKey = () => {
+    return [
+    'infinite', `/api/v1.0/analytics/debug`
+    ] as const;
+    }
+
 export const getGetApiV10AnalyticsDebugQueryKey = () => {
     return [
     `/api/v1.0/analytics/debug`
@@ -150,6 +262,87 @@ export const getGetApiV10AnalyticsDebugQueryKey = () => {
     }
 
     
+export const getGetApiV10AnalyticsDebugInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>>, TError = void>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10AnalyticsDebugInfiniteQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>> = ({ signal }) => getApiV10AnalyticsDebug(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10AnalyticsDebugInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>>
+export type GetApiV10AnalyticsDebugInfiniteQueryError = void
+
+
+export function useGetApiV10AnalyticsDebugInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>>, TError = void>(
+  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AnalyticsDebugInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>>, TError = void>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AnalyticsDebugInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>>, TError = void>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Debug Google Analytics connection and data
+ */
+
+export function useGetApiV10AnalyticsDebugInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>>, TError = void>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10AnalyticsDebugInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Debug Google Analytics connection and data
+ */
+export const prefetchGetApiV10AnalyticsDebugInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError = void>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AnalyticsDebugInfiniteQueryOptions(options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10AnalyticsDebugQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData>>, }
 ) => {
 
@@ -165,7 +358,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10AnalyticsDebugQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>>
@@ -214,6 +407,20 @@ export function useGetApiV10AnalyticsDebug<TData = Awaited<ReturnType<typeof get
   return query;
 }
 
+/**
+ * @summary Debug Google Analytics connection and data
+ */
+export const prefetchGetApiV10AnalyticsDebugQuery = async <TData = Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError = void>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsDebug>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AnalyticsDebugQueryOptions(options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -299,6 +506,12 @@ export const getApiV10AnalyticsTopPages = (
 
 
 
+export const getGetApiV10AnalyticsTopPagesInfiniteQueryKey = () => {
+    return [
+    'infinite', `/api/v1.0/analytics/top-pages`
+    ] as const;
+    }
+
 export const getGetApiV10AnalyticsTopPagesQueryKey = () => {
     return [
     `/api/v1.0/analytics/top-pages`
@@ -306,6 +519,87 @@ export const getGetApiV10AnalyticsTopPagesQueryKey = () => {
     }
 
     
+export const getGetApiV10AnalyticsTopPagesInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>>, TError = void>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10AnalyticsTopPagesInfiniteQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>> = ({ signal }) => getApiV10AnalyticsTopPages(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10AnalyticsTopPagesInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>>
+export type GetApiV10AnalyticsTopPagesInfiniteQueryError = void
+
+
+export function useGetApiV10AnalyticsTopPagesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>>, TError = void>(
+  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AnalyticsTopPagesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>>, TError = void>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AnalyticsTopPagesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>>, TError = void>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get top viewed pages from Google Analytics
+ */
+
+export function useGetApiV10AnalyticsTopPagesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>>, TError = void>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10AnalyticsTopPagesInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get top viewed pages from Google Analytics
+ */
+export const prefetchGetApiV10AnalyticsTopPagesInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError = void>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AnalyticsTopPagesInfiniteQueryOptions(options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10AnalyticsTopPagesQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData>>, }
 ) => {
 
@@ -321,7 +615,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10AnalyticsTopPagesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>>
@@ -370,6 +664,20 @@ export function useGetApiV10AnalyticsTopPages<TData = Awaited<ReturnType<typeof 
   return query;
 }
 
+/**
+ * @summary Get top viewed pages from Google Analytics
+ */
+export const prefetchGetApiV10AnalyticsTopPagesQuery = async <TData = Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError = void>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10AnalyticsTopPages>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AnalyticsTopPagesQueryOptions(options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

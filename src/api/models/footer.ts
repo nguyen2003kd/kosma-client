@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { FooterLanguage } from './footerLanguage';
 import type { FooterAddressItem } from './footerAddressItem';
 import type { FooterSocialLinks } from './footerSocialLinks';
 import type { FooterLinksItem } from './footerLinksItem';
@@ -7,6 +8,8 @@ import type { FooterTotalViews } from './footerTotalViews';
 export interface Footer {
   /** Unique identifier of the footer */
   id?: string;
+  /** Language of the footer */
+  language?: FooterLanguage;
   /**
    * Footer description
    * @nullable

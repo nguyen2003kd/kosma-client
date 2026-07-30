@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -47,6 +52,12 @@ export const getApiV10RecruitmentId = (
 
 
 
+export const getGetApiV10RecruitmentIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/recruitment/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10RecruitmentIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/recruitment/${id}`
@@ -54,6 +65,87 @@ export const getGetApiV10RecruitmentIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10RecruitmentIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10RecruitmentId>>>, TError = unknown>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10RecruitmentIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10RecruitmentId>>> = ({ signal }) => getApiV10RecruitmentId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10RecruitmentIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10RecruitmentId>>>
+export type GetApiV10RecruitmentIdInfiniteQueryError = unknown
+
+
+export function useGetApiV10RecruitmentIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10RecruitmentId>>>, TError = unknown>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10RecruitmentId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10RecruitmentId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10RecruitmentIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10RecruitmentId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10RecruitmentId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10RecruitmentId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10RecruitmentIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10RecruitmentId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get recruitment by ID
+ */
+
+export function useGetApiV10RecruitmentIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10RecruitmentId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10RecruitmentIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get recruitment by ID
+ */
+export const prefetchGetApiV10RecruitmentIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError = unknown>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10RecruitmentIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10RecruitmentIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData>>, }
 ) => {
 
@@ -69,7 +161,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10RecruitmentIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10RecruitmentId>>>
@@ -118,6 +210,20 @@ export function useGetApiV10RecruitmentId<TData = Awaited<ReturnType<typeof getA
   return query;
 }
 
+/**
+ * @summary Get recruitment by ID
+ */
+export const prefetchGetApiV10RecruitmentIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError = unknown>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10RecruitmentId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10RecruitmentIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -265,6 +371,12 @@ export const getApiV10Recruitment = (
 
 
 
+export const getGetApiV10RecruitmentInfiniteQueryKey = (params?: GetApiV10RecruitmentParams,) => {
+    return [
+    'infinite', `/api/v1.0/recruitment`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10RecruitmentQueryKey = (params?: GetApiV10RecruitmentParams,) => {
     return [
     `/api/v1.0/recruitment`, ...(params ? [params]: [])
@@ -272,6 +384,87 @@ export const getGetApiV10RecruitmentQueryKey = (params?: GetApiV10RecruitmentPar
     }
 
     
+export const getGetApiV10RecruitmentInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Recruitment>>>, TError = unknown>(params?: GetApiV10RecruitmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10RecruitmentInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10Recruitment>>> = ({ signal }) => getApiV10Recruitment(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10RecruitmentInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Recruitment>>>
+export type GetApiV10RecruitmentInfiniteQueryError = unknown
+
+
+export function useGetApiV10RecruitmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Recruitment>>>, TError = unknown>(
+ params: undefined |  GetApiV10RecruitmentParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Recruitment>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Recruitment>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10RecruitmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Recruitment>>>, TError = unknown>(
+ params?: GetApiV10RecruitmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Recruitment>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Recruitment>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10RecruitmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Recruitment>>>, TError = unknown>(
+ params?: GetApiV10RecruitmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all recruitment positions
+ */
+
+export function useGetApiV10RecruitmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Recruitment>>>, TError = unknown>(
+ params?: GetApiV10RecruitmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10RecruitmentInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all recruitment positions
+ */
+export const prefetchGetApiV10RecruitmentInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10Recruitment>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10RecruitmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10RecruitmentInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10RecruitmentQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10Recruitment>>, TError = unknown>(params?: GetApiV10RecruitmentParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData>>, }
 ) => {
 
@@ -287,7 +480,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10RecruitmentQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Recruitment>>>
@@ -336,6 +529,20 @@ export function useGetApiV10Recruitment<TData = Awaited<ReturnType<typeof getApi
   return query;
 }
 
+/**
+ * @summary Get all recruitment positions
+ */
+export const prefetchGetApiV10RecruitmentQuery = async <TData = Awaited<ReturnType<typeof getApiV10Recruitment>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10RecruitmentParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Recruitment>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10RecruitmentQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

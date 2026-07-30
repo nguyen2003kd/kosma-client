@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -53,6 +58,12 @@ export const getApiV10UserRoleId = (
 
 
 
+export const getGetApiV10UserRoleIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/userRole/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10UserRoleIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/userRole/${id}`
@@ -60,6 +71,87 @@ export const getGetApiV10UserRoleIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10UserRoleIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserRoleId>>>, TError = void>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10UserRoleIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10UserRoleId>>> = ({ signal }) => getApiV10UserRoleId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10UserRoleIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10UserRoleId>>>
+export type GetApiV10UserRoleIdInfiniteQueryError = void
+
+
+export function useGetApiV10UserRoleIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserRoleId>>>, TError = void>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10UserRoleId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10UserRoleId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10UserRoleIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserRoleId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10UserRoleId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10UserRoleId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10UserRoleIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserRoleId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get user-role assignment by ID
+ */
+
+export function useGetApiV10UserRoleIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserRoleId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10UserRoleIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get user-role assignment by ID
+ */
+export const prefetchGetApiV10UserRoleIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10UserRoleIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10UserRoleIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData>>, }
 ) => {
 
@@ -75,7 +167,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10UserRoleIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10UserRoleId>>>
@@ -124,6 +216,20 @@ export function useGetApiV10UserRoleId<TData = Awaited<ReturnType<typeof getApiV
   return query;
 }
 
+/**
+ * @summary Get user-role assignment by ID
+ */
+export const prefetchGetApiV10UserRoleIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserRoleId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10UserRoleIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -274,6 +380,12 @@ export const getApiV10UserRole = (
 
 
 
+export const getGetApiV10UserRoleInfiniteQueryKey = (params?: GetApiV10UserRoleParams,) => {
+    return [
+    'infinite', `/api/v1.0/userRole`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10UserRoleQueryKey = (params?: GetApiV10UserRoleParams,) => {
     return [
     `/api/v1.0/userRole`, ...(params ? [params]: [])
@@ -281,6 +393,87 @@ export const getGetApiV10UserRoleQueryKey = (params?: GetApiV10UserRoleParams,) 
     }
 
     
+export const getGetApiV10UserRoleInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserRole>>>, TError = void>(params?: GetApiV10UserRoleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10UserRoleInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10UserRole>>> = ({ signal }) => getApiV10UserRole(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10UserRoleInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10UserRole>>>
+export type GetApiV10UserRoleInfiniteQueryError = void
+
+
+export function useGetApiV10UserRoleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserRole>>>, TError = void>(
+ params: undefined |  GetApiV10UserRoleParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10UserRole>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10UserRole>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10UserRoleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserRole>>>, TError = void>(
+ params?: GetApiV10UserRoleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10UserRole>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10UserRole>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10UserRoleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserRole>>>, TError = void>(
+ params?: GetApiV10UserRoleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all user-role assignments
+ */
+
+export function useGetApiV10UserRoleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10UserRole>>>, TError = void>(
+ params?: GetApiV10UserRoleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10UserRoleInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all user-role assignments
+ */
+export const prefetchGetApiV10UserRoleInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10UserRole>>, TError = void>(
+ queryClient: QueryClient, params?: GetApiV10UserRoleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10UserRoleInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10UserRoleQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10UserRole>>, TError = void>(params?: GetApiV10UserRoleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData>>, }
 ) => {
 
@@ -296,7 +489,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10UserRoleQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10UserRole>>>
@@ -345,6 +538,20 @@ export function useGetApiV10UserRole<TData = Awaited<ReturnType<typeof getApiV10
   return query;
 }
 
+/**
+ * @summary Get all user-role assignments
+ */
+export const prefetchGetApiV10UserRoleQuery = async <TData = Awaited<ReturnType<typeof getApiV10UserRole>>, TError = void>(
+ queryClient: QueryClient, params?: GetApiV10UserRoleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10UserRole>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10UserRoleQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

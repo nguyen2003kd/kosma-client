@@ -45,7 +45,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 interface ServiceDetailViewProps {
   slug: string;
@@ -53,15 +52,14 @@ interface ServiceDetailViewProps {
 }
 
 export default function ServiceDetailView({ slug, initialPost }: ServiceDetailViewProps) {
-  const { t } = useTranslation(["pages/post-detail", "pages/services"]);
   const { data, isLoading, error } = useGetApiV10PostSlugSlug(slug);
 
   const { data: latestServicesData } = useGetApiV10Post({
     filters: "is_hidden==false , is_service==true",
     sortField: "created_at",
     sortOrder: "desc",
+    page: 1,
     pageSize: 10,
-    filterBy: "CLIENT",
   });
 
   const { data: relatedServicesData } = useGetApiV10Post({
@@ -70,7 +68,6 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
     sortOrder: "desc",
     pageSize: 3,
     page: 1,
-    filterBy: "CLIENT",
   });
 
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
@@ -138,9 +135,9 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": blob }),
       ]);
-      toast.success(t("qrCopied"));
+      toast.success("QR copied!");
     } catch {
-      toast.error(t("qrCopyError"));
+      toast.error("Could not copy QR.");
     }
   };
 
@@ -157,7 +154,7 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
     return (
       <section className="bg-gray-50 py-16 min-h-screen">
         <div className="max-w-screen-xl mx-auto px-6 lg:px-12">
-          <Loading text={t("loadingService")} size="lg" className="text-gray-900" />
+          <Loading text="Loading service..." size="lg" className="text-gray-900" />
         </div>
       </section>
     );
@@ -168,9 +165,9 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
       <section className="bg-gray-50 py-16 min-h-screen">
         <div className="max-w-screen-xl mx-auto px-6 lg:px-12">
           <div className="text-center">
-            <p className="text-red-600 text-lg">{t("serviceNotFound")}</p>
+            <p className="text-red-600 text-lg">Service not found.</p>
             <Link href="/services">
-              <Button className="mt-4">{t("backToServices")}</Button>
+              <Button className="mt-4">Back to services</Button>
             </Link>
           </div>
         </div>
@@ -188,14 +185,14 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
         style={{ backgroundImage: "url('/images/banner_service_2.png')" }}
       >
         <div className="max-w-screen-xl mx-auto px-6 lg:px-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-6">{t("pages/services:title")}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-6">Page / Service</h1>
           <nav>
             <div className="flex items-center justify-center gap-2 text-sm text-gray-300">
               <Link href="/" className="hover:text-white transition-colors flex items-center gap-1">
                 <Home className="w-4 h-4" />
               </Link>
               <BreadcrumbArrow className="w-4 h-4 text-gray-400" />
-              <Link href="/services" className="hover:text-white transition-colors">{t("pages/services:title")}</Link>
+              <Link href="/services" className="hover:text-white transition-colors">Services</Link>
               <BreadcrumbArrow className="w-4 h-4 text-gray-400" />
               <span className="text-white font-medium line-clamp-1">{currentPost.title}</span>
             </div>
@@ -210,12 +207,6 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
             {/* Main Content */}
             <div className="lg:col-span-3">
               <article className="bg-white rounded-lg shadow-sm p-8">
-                <div className="mb-4">
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
-                    {t("onlineRegistrationBadge")}
-                  </Badge>
-                </div>
-
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
                   {currentPost.title}
                 </h1>
@@ -238,13 +229,13 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
                   </div>
                   <div className="flex items-center gap-2">
                     <Eye className="w-4 h-4" />
-                    <span>{currentPost.view?.toLocaleString("vi-VN") || 0} {t("views")}</span>
+                    <span>{currentPost.view?.toLocaleString("vi-VN") || 0} views</span>
                   </div>
                 </div>
 
                 {/* Share Buttons */}
                 <div className="flex items-center gap-3 mb-6 pb-6 border-b">
-                  <span className="text-gray-600 text-sm font-medium">{t("share")}</span>
+                  <span className="text-gray-600 text-sm font-medium">Share:</span>
                   <Button variant="outline" size="icon" className="hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300 transition-colors" onClick={() => handleShare("facebook")}>
                     <Facebook className="w-4 h-4" />
                   </Button>
@@ -271,7 +262,7 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
                 <Dialog open={qrOpen} onOpenChange={setQrOpen}>
                   <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                      <DialogTitle>{t("shareQrTitle")}</DialogTitle>
+                      <DialogTitle>Share via QR</DialogTitle>
                     </DialogHeader>
                     <div className="flex flex-col items-center justify-center p-4 gap-4">
                       <QRCodeCanvas
@@ -280,7 +271,7 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
                         size={200}
                       />
                       <p className="text-sm text-gray-500 text-center">
-                        {t("scanQr")}
+                        Scan the QR code to view the post
                       </p>
                       <div className="flex gap-3">
                         <Button
@@ -290,7 +281,7 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
                           onClick={handleCopyQR}
                         >
                           <Copy className="w-4 h-4" />
-                          {t("copy")}
+                          Copy
                         </Button>
                         <Button
                           variant="outline"
@@ -299,7 +290,7 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
                           onClick={handleDownloadQR}
                         >
                           <Download className="w-4 h-4" />
-                          {t("download")}
+                          Download
                         </Button>
                       </div>
                     </div>
@@ -307,14 +298,14 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
                 </Dialog>
 
                 {/* Featured Image */}
-                  <div className="relative w-full aspect-video mb-8 rounded-lg overflow-hidden">
-                    <Image
-                      src={getThumbnailSrc(currentPost.thumbnail_compress_info, currentPost.thumbnail_path, "/images/service-1.png")}
-                      alt={currentPost.title || ""}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                <div className="relative w-full aspect-video mb-8 rounded-lg overflow-hidden">
+                  <Image
+                    src={getThumbnailSrc(currentPost.thumbnail_compress_info, currentPost.thumbnail_path, "/images/service-1.png")}
+                    alt={currentPost.title || ""}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
 
                 {/* Summary */}
                 {currentPost.summary && (
@@ -361,10 +352,10 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
                 {/* Tags */}
                 <div className="mb-6">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-gray-600 font-medium">{t("tags")}</span>
-                    {[t("tagOnlineReg"), t("tagInspection"), t("tagCalibration"), t("tagTesting")].map((tag) => (
-                      <Badge key={tag} variant="secondary" className="bg-gray-100 text-gray-700 hover:bg-gray-200">
-                        {tag}
+                    <span className="text-gray-600 font-medium">Tags:</span>
+                    {currentPost?.tags?.map((tag) => (
+                      <Badge key={tag.id || tag.name} variant="secondary" className="bg-gray-100 text-gray-700 hover:bg-gray-200">
+                        {tag.name}
                       </Badge>
                     ))}
                   </div>
@@ -386,7 +377,7 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
 
               {/* Related Services */}
               <div className="mt-12">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">{t("relatedServices")}</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Related Services</h2>
                 <div className="grid md:grid-cols-3 gap-6">
                   {relatedServices.map((service) => (
                     <ServiceCard
@@ -410,7 +401,7 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
               <div className="sticky top-6 space-y-4">
                 <Card className="overflow-hidden">
                   <div className="bg-[#1e40af] px-4 py-3 flex items-center justify-between">
-                    <h3 className="text-base font-bold text-white">{t("latestServices")}</h3>
+                    <h3 className="text-base font-bold text-white">Latest Services</h3>
                     <Newspaper className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -441,7 +432,7 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
                   </div>
                   <div className="px-4 py-2.5 bg-gray-50 text-center border-t border-gray-100">
                     <a href="/services" className="text-blue-600 font-semibold text-xs hover:text-blue-700 inline-flex items-center gap-1">
-                      {t("viewAll")}
+                      View All
                       <ArrowRight className="w-3.5 h-3.5" />
                     </a>
                   </div>
@@ -458,15 +449,14 @@ export default function ServiceDetailView({ slug, initialPost }: ServiceDetailVi
                   </div>
                   <div className="space-y-3 relative z-10">
                     <div>
-                      <h3 className="text-white font-bold text-base mb-1">{t("requestQuote")}</h3>
-                      <p className="text-blue-50 text-xs line-clamp-2">{currentPost.title}</p>
+                      <h3 className="text-white font-bold text-base mb-1">Request a Quote</h3>
                     </div>
                     <Button
                       onClick={() => setIsQuoteModalOpen(true)}
                       className="w-full bg-white text-blue-600 hover:bg-blue-50 font-semibold shadow-md hover:shadow-lg"
                       size="default"
                     >
-                      {t("submitRequest")}
+                      Submit Request
                     </Button>
                   </div>
                 </Card>

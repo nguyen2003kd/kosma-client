@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -53,6 +58,12 @@ export const getApiV10CalibrationId = (
 
 
 
+export const getGetApiV10CalibrationIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/calibration/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10CalibrationIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/calibration/${id}`
@@ -60,6 +71,87 @@ export const getGetApiV10CalibrationIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10CalibrationIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10CalibrationId>>>, TError = void>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10CalibrationIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10CalibrationId>>> = ({ signal }) => getApiV10CalibrationId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10CalibrationIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10CalibrationId>>>
+export type GetApiV10CalibrationIdInfiniteQueryError = void
+
+
+export function useGetApiV10CalibrationIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10CalibrationId>>>, TError = void>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10CalibrationId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10CalibrationId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10CalibrationIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10CalibrationId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10CalibrationId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10CalibrationId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10CalibrationIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10CalibrationId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get calibration by ID
+ */
+
+export function useGetApiV10CalibrationIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10CalibrationId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10CalibrationIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get calibration by ID
+ */
+export const prefetchGetApiV10CalibrationIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10CalibrationIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10CalibrationIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData>>, }
 ) => {
 
@@ -75,7 +167,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10CalibrationIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10CalibrationId>>>
@@ -124,6 +216,20 @@ export function useGetApiV10CalibrationId<TData = Awaited<ReturnType<typeof getA
   return query;
 }
 
+/**
+ * @summary Get calibration by ID
+ */
+export const prefetchGetApiV10CalibrationIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10CalibrationId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10CalibrationIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -274,6 +380,12 @@ export const getApiV10Calibration = (
 
 
 
+export const getGetApiV10CalibrationInfiniteQueryKey = (params?: GetApiV10CalibrationParams,) => {
+    return [
+    'infinite', `/api/v1.0/calibration`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10CalibrationQueryKey = (params?: GetApiV10CalibrationParams,) => {
     return [
     `/api/v1.0/calibration`, ...(params ? [params]: [])
@@ -281,6 +393,87 @@ export const getGetApiV10CalibrationQueryKey = (params?: GetApiV10CalibrationPar
     }
 
     
+export const getGetApiV10CalibrationInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Calibration>>>, TError = unknown>(params?: GetApiV10CalibrationParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10CalibrationInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10Calibration>>> = ({ signal }) => getApiV10Calibration(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10CalibrationInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Calibration>>>
+export type GetApiV10CalibrationInfiniteQueryError = unknown
+
+
+export function useGetApiV10CalibrationInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Calibration>>>, TError = unknown>(
+ params: undefined |  GetApiV10CalibrationParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Calibration>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Calibration>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10CalibrationInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Calibration>>>, TError = unknown>(
+ params?: GetApiV10CalibrationParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Calibration>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Calibration>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10CalibrationInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Calibration>>>, TError = unknown>(
+ params?: GetApiV10CalibrationParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all calibration
+ */
+
+export function useGetApiV10CalibrationInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Calibration>>>, TError = unknown>(
+ params?: GetApiV10CalibrationParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10CalibrationInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all calibration
+ */
+export const prefetchGetApiV10CalibrationInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10Calibration>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10CalibrationParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10CalibrationInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10CalibrationQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10Calibration>>, TError = unknown>(params?: GetApiV10CalibrationParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData>>, }
 ) => {
 
@@ -296,7 +489,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10CalibrationQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Calibration>>>
@@ -345,6 +538,20 @@ export function useGetApiV10Calibration<TData = Awaited<ReturnType<typeof getApi
   return query;
 }
 
+/**
+ * @summary Get all calibration
+ */
+export const prefetchGetApiV10CalibrationQuery = async <TData = Awaited<ReturnType<typeof getApiV10Calibration>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10CalibrationParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Calibration>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10CalibrationQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
