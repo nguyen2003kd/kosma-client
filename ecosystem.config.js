@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "kosmo-frontend-client-staging",
       script: "pnpm",
-      args: "start:staging",
+      args: "start",
       cwd: "/opt/kosmo-staging/kosmo-frontend",
       env: {
         NODE_ENV: "staging",
