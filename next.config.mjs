@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: "standalone", // disable on Windows to avoid symlink EPERM build errors
+  output: process.env.NODE_ENV === "staging" || process.env.NODE_ENV === "production" ? "standalone" : undefined,
   async redirects() {
     return [
       {
