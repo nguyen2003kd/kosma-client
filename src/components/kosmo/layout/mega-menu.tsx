@@ -1,17 +1,39 @@
 ﻿"use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
+import { useGetApiV10PostByTagsTagIds } from "@/api/endpoints/post";
+import { getThumbnailSrc } from "@/lib/responsive-image";
+import { kosmoSpaces } from "@/configs/kosmo-spaces";
+import type { PostExtended } from "@/types/post";
 
-const services = [
-  { name: "Interior Design", href: "/kosmo/spaces/closets", image: "/images/kosmo/living.jpg" },
-  { name: "Commercial Fit-Out", href: "/kosmo/spaces/garages", image: "/images/kosmo/showroom.jpg" },
-  { name: "Residential Renovation", href: "/kosmo/spaces/home-offices", image: "/images/kosmo/office.jpg" },
-  { name: "Custom Joinery", href: "/kosmo/spaces/pantries", image: "/images/kosmo/kitchen.jpg" },
-  { name: "Construction Drawings", href: "/kosmo/spaces/laundry-rooms", image: "/images/kosmo/lounge.jpg" },
-  { name: "Branding", href: "/kosmo/spaces/mudrooms", image: "/images/kosmo/living.jpg" },
-];
+const FALLBACK_IMAGE = "/images/kosmo/living.jpg";
+
+function ServiceImage({ post }: { post: PostExtended }) {
+  const src = getThumbnailSrc(
+    post.thumbnail_compress_info,
+    post.thumbnail_path,
+    FALLBACK_IMAGE,
+  );
+  const [currentSrc, setCurrentSrc] = useState(src);
+
+  return (
+    <Image
+      src={currentSrc}
+      alt={post.title || ""}
+      fill
+      sizes="(max-width: 1280px) 0px, 200px"
+      className="object-cover transition-transform duration-500 group-hover:scale-105"
+      onError={() => {
+        if (currentSrc !== FALLBACK_IMAGE) setCurrentSrc(FALLBACK_IMAGE);
+      }}
+    />
+  );
+}
+
+const services = kosmoSpaces;
 
 const projectTypes = [
   { name: "Nail Salon Design & Construction", href: "/kosmo/solutions/walk-in-closets" },
@@ -24,6 +46,26 @@ const projectTypes = [
 
 export function MegaMenu() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [hoveredServiceIndex, setHoveredServiceIndex] = useState(0);
+
+  const hoveredService = services[hoveredServiceIndex];
+  const tagIdsParam = hoveredService?.tagIds?.join(",") || "";
+
+  const { data: tagPostsData, isLoading: isLoadingPosts } = useGetApiV10PostByTagsTagIds(
+    tagIdsParam,
+    {
+      filters: "is_hidden==false",
+      sortField: "created_at",
+      sortOrder: "desc",
+      pageSize: 6,
+      filterBy: "CLIENT",
+    },
+    {
+      query: { enabled: tagIdsParam.length > 0 },
+    },
+  );
+
+  const tagPosts = (tagPostsData?.responseData?.rows as PostExtended[]) || [];
 
   return (
     <div className="hidden xl:flex items-center gap-7">
@@ -37,19 +79,39 @@ export function MegaMenu() {
             <div className="col-span-1">
               <h3 className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-black-800 mb-4">Our Services</h3>
               <ul className="space-y-3">
-                {services.map((item) => (
-                  <li key={item.name}><Link href={item.href} className="text-[14px] text-ink hover:text-black-800 transition-colors">{item.name}</Link></li>
+                {services.map((item, index) => (
+                  <li
+                    key={item.name}
+                    onMouseEnter={() => setHoveredServiceIndex(index)}
+                  >
+                    <Link
+                      href={item.href}
+                      className={`text-[14px] transition-colors ${hoveredServiceIndex === index ? "text-black-800 font-semibold" : "text-ink hover:text-black-800"}`}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
-            <div className="col-span-3 grid grid-cols-3 gap-4">
-              {services.map((item) => (
-                <Link key={item.name} href={item.href} className="group relative aspect-[4/3] rounded-xl overflow-hidden">
-                  <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${item.image})` }} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black-950/80 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3"><span className="text-white font-serif text-[18px]">{item.name}</span></div>
-                </Link>
-              ))}
+            <div className="col-span-3 grid grid-cols-2 grid-rows-3 gap-4">
+              {isLoadingPosts ? (
+                <div className="col-span-2 row-span-3 flex items-center justify-center text-gray-400 text-sm">
+                  Loading...
+                </div>
+              ) : tagPosts.length > 0 ? (
+                tagPosts.map((post) => (
+                  <Link key={post.id} href={`/services/${post.slug || ""}`} className="group relative aspect-[4/3] rounded-xl overflow-hidden">
+                    <ServiceImage post={post} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black-950/80 to-transparent" />
+                    <div className="absolute bottom-3 left-3 right-3"><span className="text-white font-serif text-[18px]">{post.title}</span></div>
+                  </Link>
+                ))
+              ) : (
+                <div className="col-span-2 row-span-3 flex items-center justify-center text-gray-400 text-sm">
+                  No posts available for this service.
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -76,9 +138,9 @@ export function MegaMenu() {
       </div>
 
       <Link href="/kosmo/about" className="h-[78px] flex items-center text-[14px] font-semibold text-ink hover:text-black-800">About</Link>
-      <Link href="/kosmo/process" className="h-[78px] flex items-center text-[14px] font-semibold text-ink hover:text-black-800">Process</Link>
+      {/* <Link href="/kosmo/process" className="h-[78px] flex items-center text-[14px] font-semibold text-ink hover:text-black-800">Process</Link>
       <Link href="/kosmo/gallery" className="h-[78px] flex items-center text-[14px] font-semibold text-ink hover:text-black-800">Gallery</Link>
-      <Link href="/kosmo/locations" className="h-[78px] flex items-center text-[14px] font-semibold text-ink hover:text-black-800">Service Areas</Link>
+      <Link href="/kosmo/locations" className="h-[78px] flex items-center text-[14px] font-semibold text-ink hover:text-black-800">Service Areas</Link> */}
     </div>
   );
 }

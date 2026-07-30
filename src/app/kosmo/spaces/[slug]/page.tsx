@@ -1,4 +1,10 @@
 import { PageHero, SectionHeading, SplitContent, SolutionCard, ConsultationForm } from "@/components/kosmo/ui";
+import { getSpaceBySlug } from "@/configs/kosmo-spaces";
+import baseConfig from "@/configs/base";
+import { getThumbnailSrc } from "@/lib/responsive-image";
+import type { PostExtended } from "@/types/post";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 const spacesData: Record<string, {
   title: string;
@@ -69,8 +75,38 @@ const spacesData: Record<string, {
   },
 };
 
-export default function SpacePage({ params }: { params: { slug: string } }) {
-  const space = spacesData[params.slug];
+interface SpacePageProps {
+  params: Promise<{ slug: string }>;
+}
+
+async function getPostsByTagIds(tagIds: string[]): Promise<PostExtended[]> {
+  if (!tagIds || tagIds.length === 0) return [];
+  try {
+    const url = `${baseConfig.backendDomain}/api/v1.0/post/by-tags/${tagIds.join(",")}?filters=is_hidden==false&sortField=created_at&sortOrder=desc&pageSize=999&filterBy=CLIENT`;
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data?.responseData?.rows as PostExtended[]) || [];
+  } catch {
+    return [];
+  }
+}
+
+export async function generateMetadata({ params }: SpacePageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const space = spacesData[slug];
+  if (!space) {
+    return { title: "Space Not Found" };
+  }
+  return {
+    title: space.title,
+    description: space.subtitle,
+  };
+}
+
+export default async function SpacePage({ params }: SpacePageProps) {
+  const { slug } = await params;
+  const space = spacesData[slug];
 
   if (!space) {
     return (
@@ -81,6 +117,10 @@ export default function SpacePage({ params }: { params: { slug: string } }) {
     );
   }
 
+  // Fetch posts by tag IDs configured for this space
+  const kosmoSpace = getSpaceBySlug(slug);
+  const posts = await getPostsByTagIds(kosmoSpace?.tagIds || []);
+
   return (
     <>
       <PageHero title={space.title} subtitle={space.subtitle} breadcrumbs={[{ label: "Home", href: "/kosmo/home" }, { label: space.title }]} backgroundImage="/images/kosmo/living.jpg" />
@@ -90,6 +130,33 @@ export default function SpacePage({ params }: { params: { slug: string } }) {
           <SplitContent image="/images/kosmo/kitchen.jpg" eyebrow="Our Services" title={`Why Choose ${space.title}?`} description={space.description} features={space.features} cta={{ label: "Request a Quote", href: "/kosmo/consultation" }} />
         </div>
       </section>
+
+      {posts.length > 0 && (
+        <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
+          <div className="container-kosmo">
+            <SectionHeading title="Related Posts" subtitle="Articles tagged for this space." />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+              {posts.map((post) => {
+                const image = getThumbnailSrc(
+                  post.thumbnail_compress_info,
+                  post.thumbnail_path,
+                  "/images/kosmo/living.jpg",
+                );
+                const summary = post.summary?.replace(/<[^>]*>/g, "") || "";
+                return (
+                  <SolutionCard
+                    key={post.id}
+                    title={post.title || ""}
+                    description={summary}
+                    image={image}
+                    href={`/services/${post.slug || ""}`}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {space.solutions.length > 0 && (
         <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">

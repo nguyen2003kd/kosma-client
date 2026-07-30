@@ -1,10 +1,13 @@
 /* eslint-disable */
+import type { FooterMutateLanguage } from './footerMutateLanguage';
 import type { FooterMutateAddressItem } from './footerMutateAddressItem';
 import type { FooterMutateSocialLinks } from './footerMutateSocialLinks';
 import type { FooterMutateLinksItem } from './footerMutateLinksItem';
 import type { FooterMutateTotalViews } from './footerMutateTotalViews';
 
 export interface FooterMutate {
+  /** Language of the footer */
+  language: FooterMutateLanguage;
   /**
    * Footer description
    * @nullable

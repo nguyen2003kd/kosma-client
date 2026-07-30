@@ -1,17 +1,17 @@
 import { CategoryWithChildren } from "@/api/models/categoryWithChildren";
 import baseConfig from "@/configs/base";
-import {  getMockPostsForCategory } from "@/utils/mock-data";
+import { getMockPostsForCategory } from "@/utils/mock-data";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import DynamicCategoryPage from "./views/category-page";
 import DynamicPostDetailPage from "./views/post-detail-page";
 import type { PostExtended } from "@/types/post";
 interface DynamicPageProps {
-  params: { slug: string[] };
-  searchParams: { date?: string };
+  params: Promise<{ slug: string[] }>;
+  searchParams: Promise<{ date?: string }>;
 }
 interface NewsDetailPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string[] }>;
 }
 
 const createMockCategory = (slug: string): CategoryWithChildren => {
@@ -84,8 +84,9 @@ async function getPost(slug: string): Promise<PostExtended | null> {
 export async function generateMetadata({
   params,
 }: NewsDetailPageProps): Promise<Metadata> {
-  const lastSlug = params.slug.at(-1);
-  const post = await getPost(lastSlug??'');
+  const { slug } = await params;
+  const lastSlug = slug.at(-1);
+  const post = await getPost(lastSlug ?? '');
   if (!post) {
     return {
       title: "Không tìm thấy tin tức",
@@ -100,7 +101,7 @@ export async function generateMetadata({
         ? `${baseConfig.backendDomain}${post.thumbnail_path}`
         : undefined;
 
-  const pageUrl = `${baseConfig.frontendDomain}/${params.slug}`;
+  const pageUrl = `${baseConfig.frontendDomain}/${slug.join('/')}`;
   const description = post.summary?.replace(/<[^>]*>/g, "").slice(0, 160) || "Tin tức mới nhất";
 
   return {
@@ -132,9 +133,11 @@ export default async function DynamicPage({
   params,
   searchParams,
 }: DynamicPageProps) {
-  const [firstSlug, secondSlug] = params.slug;
+  const { slug } = await params;
+  const { date } = await searchParams;
+  const [firstSlug, secondSlug] = slug;
 
-  if (params.slug.length === 1) {
+  if (slug.length === 1) {
     const post = await getPost(firstSlug);
 
     if (post) {
@@ -164,12 +167,12 @@ export default async function DynamicPage({
         category={finalCategory}
         categoryEn={categoryEn}
         initialPosts={posts}
-        date={searchParams.date}
+        date={date}
       />
     );
   }
 
-  if (params.slug.length === 2) {
+  if (slug.length === 2) {
     const post = await getPost(secondSlug);
     if (!post) notFound();
 

@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -49,6 +54,12 @@ export const getApiV10AppointmentId = (
 
 
 
+export const getGetApiV10AppointmentIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/appointment/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10AppointmentIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/appointment/${id}`
@@ -56,6 +67,87 @@ export const getGetApiV10AppointmentIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10AppointmentIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AppointmentId>>>, TError = unknown>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10AppointmentIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10AppointmentId>>> = ({ signal }) => getApiV10AppointmentId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10AppointmentIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10AppointmentId>>>
+export type GetApiV10AppointmentIdInfiniteQueryError = unknown
+
+
+export function useGetApiV10AppointmentIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AppointmentId>>>, TError = unknown>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10AppointmentId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10AppointmentId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AppointmentIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AppointmentId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10AppointmentId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10AppointmentId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AppointmentIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AppointmentId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get appointment by ID
+ */
+
+export function useGetApiV10AppointmentIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AppointmentId>>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10AppointmentIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get appointment by ID
+ */
+export const prefetchGetApiV10AppointmentIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError = unknown>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AppointmentIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10AppointmentIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData>>, }
 ) => {
 
@@ -71,7 +163,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10AppointmentIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10AppointmentId>>>
@@ -120,6 +212,20 @@ export function useGetApiV10AppointmentId<TData = Awaited<ReturnType<typeof getA
   return query;
 }
 
+/**
+ * @summary Get appointment by ID
+ */
+export const prefetchGetApiV10AppointmentIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError = unknown>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10AppointmentId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AppointmentIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -268,6 +374,12 @@ export const getApiV10Appointment = (
 
 
 
+export const getGetApiV10AppointmentInfiniteQueryKey = (params?: GetApiV10AppointmentParams,) => {
+    return [
+    'infinite', `/api/v1.0/appointment`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10AppointmentQueryKey = (params?: GetApiV10AppointmentParams,) => {
     return [
     `/api/v1.0/appointment`, ...(params ? [params]: [])
@@ -275,6 +387,87 @@ export const getGetApiV10AppointmentQueryKey = (params?: GetApiV10AppointmentPar
     }
 
     
+export const getGetApiV10AppointmentInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Appointment>>>, TError = unknown>(params?: GetApiV10AppointmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10AppointmentInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10Appointment>>> = ({ signal }) => getApiV10Appointment(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10AppointmentInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Appointment>>>
+export type GetApiV10AppointmentInfiniteQueryError = unknown
+
+
+export function useGetApiV10AppointmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Appointment>>>, TError = unknown>(
+ params: undefined |  GetApiV10AppointmentParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Appointment>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Appointment>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AppointmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Appointment>>>, TError = unknown>(
+ params?: GetApiV10AppointmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Appointment>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Appointment>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AppointmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Appointment>>>, TError = unknown>(
+ params?: GetApiV10AppointmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all appointments
+ */
+
+export function useGetApiV10AppointmentInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Appointment>>>, TError = unknown>(
+ params?: GetApiV10AppointmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10AppointmentInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all appointments
+ */
+export const prefetchGetApiV10AppointmentInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10Appointment>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10AppointmentParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AppointmentInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10AppointmentQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10Appointment>>, TError = unknown>(params?: GetApiV10AppointmentParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData>>, }
 ) => {
 
@@ -290,7 +483,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10AppointmentQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Appointment>>>
@@ -339,6 +532,20 @@ export function useGetApiV10Appointment<TData = Awaited<ReturnType<typeof getApi
   return query;
 }
 
+/**
+ * @summary Get all appointments
+ */
+export const prefetchGetApiV10AppointmentQuery = async <TData = Awaited<ReturnType<typeof getApiV10Appointment>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10AppointmentParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Appointment>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AppointmentQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

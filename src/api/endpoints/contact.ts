@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -53,6 +58,12 @@ export const getApiV10ContactId = (
 
 
 
+export const getGetApiV10ContactIdInfiniteQueryKey = (id?: string,) => {
+    return [
+    'infinite', `/api/v1.0/contact/${id}`
+    ] as const;
+    }
+
 export const getGetApiV10ContactIdQueryKey = (id?: string,) => {
     return [
     `/api/v1.0/contact/${id}`
@@ -60,6 +71,87 @@ export const getGetApiV10ContactIdQueryKey = (id?: string,) => {
     }
 
     
+export const getGetApiV10ContactIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10ContactId>>>, TError = void>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10ContactIdInfiniteQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10ContactId>>> = ({ signal }) => getApiV10ContactId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10ContactIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10ContactId>>>
+export type GetApiV10ContactIdInfiniteQueryError = void
+
+
+export function useGetApiV10ContactIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10ContactId>>>, TError = void>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10ContactId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10ContactId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10ContactIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10ContactId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10ContactId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10ContactId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10ContactIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10ContactId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get contact by ID
+ */
+
+export function useGetApiV10ContactIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10ContactId>>>, TError = void>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10ContactIdInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get contact by ID
+ */
+export const prefetchGetApiV10ContactIdInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10ContactId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10ContactIdInfiniteQueryOptions(id,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10ContactIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10ContactId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData>>, }
 ) => {
 
@@ -75,7 +167,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10ContactIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10ContactId>>>
@@ -124,6 +216,20 @@ export function useGetApiV10ContactId<TData = Awaited<ReturnType<typeof getApiV1
   return query;
 }
 
+/**
+ * @summary Get contact by ID
+ */
+export const prefetchGetApiV10ContactIdQuery = async <TData = Awaited<ReturnType<typeof getApiV10ContactId>>, TError = void>(
+ queryClient: QueryClient, id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10ContactId>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10ContactIdQueryOptions(id,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
@@ -274,6 +380,12 @@ export const getApiV10Contact = (
 
 
 
+export const getGetApiV10ContactInfiniteQueryKey = (params?: GetApiV10ContactParams,) => {
+    return [
+    'infinite', `/api/v1.0/contact`, ...(params ? [params]: [])
+    ] as const;
+    }
+
 export const getGetApiV10ContactQueryKey = (params?: GetApiV10ContactParams,) => {
     return [
     `/api/v1.0/contact`, ...(params ? [params]: [])
@@ -281,6 +393,87 @@ export const getGetApiV10ContactQueryKey = (params?: GetApiV10ContactParams,) =>
     }
 
     
+export const getGetApiV10ContactInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Contact>>>, TError = unknown>(params?: GetApiV10ContactParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10ContactInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10Contact>>> = ({ signal }) => getApiV10Contact(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10ContactInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Contact>>>
+export type GetApiV10ContactInfiniteQueryError = unknown
+
+
+export function useGetApiV10ContactInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Contact>>>, TError = unknown>(
+ params: undefined |  GetApiV10ContactParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Contact>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Contact>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10ContactInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Contact>>>, TError = unknown>(
+ params?: GetApiV10ContactParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Contact>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Contact>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10ContactInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Contact>>>, TError = unknown>(
+ params?: GetApiV10ContactParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all contact
+ */
+
+export function useGetApiV10ContactInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Contact>>>, TError = unknown>(
+ params?: GetApiV10ContactParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10ContactInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get all contact
+ */
+export const prefetchGetApiV10ContactInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10Contact>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10ContactParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10ContactInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10ContactQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10Contact>>, TError = unknown>(params?: GetApiV10ContactParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData>>, }
 ) => {
 
@@ -296,7 +489,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10ContactQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Contact>>>
@@ -345,6 +538,20 @@ export function useGetApiV10Contact<TData = Awaited<ReturnType<typeof getApiV10C
   return query;
 }
 
+/**
+ * @summary Get all contact
+ */
+export const prefetchGetApiV10ContactQuery = async <TData = Awaited<ReturnType<typeof getApiV10Contact>>, TError = unknown>(
+ queryClient: QueryClient, params?: GetApiV10ContactParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Contact>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10ContactQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

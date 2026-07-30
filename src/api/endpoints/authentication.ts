@@ -1,17 +1,22 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -386,6 +391,12 @@ export const getApiV10AuthProfile = (
 
 
 
+export const getGetApiV10AuthProfileInfiniteQueryKey = () => {
+    return [
+    'infinite', `/api/v1.0/auth/profile`
+    ] as const;
+    }
+
 export const getGetApiV10AuthProfileQueryKey = () => {
     return [
     `/api/v1.0/auth/profile`
@@ -393,6 +404,87 @@ export const getGetApiV10AuthProfileQueryKey = () => {
     }
 
     
+export const getGetApiV10AuthProfileInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AuthProfile>>>, TError = UnauthorizedResponse>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10AuthProfileInfiniteQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10AuthProfile>>> = ({ signal }) => getApiV10AuthProfile(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10AuthProfileInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10AuthProfile>>>
+export type GetApiV10AuthProfileInfiniteQueryError = UnauthorizedResponse
+
+
+export function useGetApiV10AuthProfileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AuthProfile>>>, TError = UnauthorizedResponse>(
+  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10AuthProfile>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10AuthProfile>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AuthProfileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AuthProfile>>>, TError = UnauthorizedResponse>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10AuthProfile>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10AuthProfile>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10AuthProfileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AuthProfile>>>, TError = UnauthorizedResponse>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get user profile
+ */
+
+export function useGetApiV10AuthProfileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10AuthProfile>>>, TError = UnauthorizedResponse>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10AuthProfileInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get user profile
+ */
+export const prefetchGetApiV10AuthProfileInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError = UnauthorizedResponse>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AuthProfileInfiniteQueryOptions(options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10AuthProfileQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError = UnauthorizedResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData>>, }
 ) => {
 
@@ -408,7 +500,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10AuthProfileQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10AuthProfile>>>
@@ -457,6 +549,20 @@ export function useGetApiV10AuthProfile<TData = Awaited<ReturnType<typeof getApi
   return query;
 }
 
+/**
+ * @summary Get user profile
+ */
+export const prefetchGetApiV10AuthProfileQuery = async <TData = Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError = UnauthorizedResponse>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10AuthProfile>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10AuthProfileQueryOptions(options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 

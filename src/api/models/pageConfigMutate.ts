@@ -1,6 +1,9 @@
 /* eslint-disable */
+import type { PageConfigMutateLanguage } from './pageConfigMutateLanguage';
 
 export interface PageConfigMutate {
+  /** Language of the configuration */
+  language: PageConfigMutateLanguage;
   /**
    * Configuration key (unique)
    * @minLength 1

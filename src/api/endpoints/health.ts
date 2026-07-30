@@ -1,15 +1,20 @@
 /* eslint-disable */
 import {
+  useInfiniteQuery,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
@@ -43,6 +48,12 @@ export const getApiV10Health = (
 
 
 
+export const getGetApiV10HealthInfiniteQueryKey = () => {
+    return [
+    'infinite', `/api/v1.0/health`
+    ] as const;
+    }
+
 export const getGetApiV10HealthQueryKey = () => {
     return [
     `/api/v1.0/health`
@@ -50,6 +61,87 @@ export const getGetApiV10HealthQueryKey = () => {
     }
 
     
+export const getGetApiV10HealthInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Health>>>, TError = HealthCheck>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10HealthInfiniteQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10Health>>> = ({ signal }) => getApiV10Health(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10HealthInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Health>>>
+export type GetApiV10HealthInfiniteQueryError = HealthCheck
+
+
+export function useGetApiV10HealthInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Health>>>, TError = HealthCheck>(
+  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Health>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Health>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10HealthInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Health>>>, TError = HealthCheck>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10Health>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10Health>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10HealthInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Health>>>, TError = HealthCheck>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Health check endpoint
+ */
+
+export function useGetApiV10HealthInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10Health>>>, TError = HealthCheck>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10HealthInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Health check endpoint
+ */
+export const prefetchGetApiV10HealthInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10Health>>, TError = HealthCheck>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10HealthInfiniteQueryOptions(options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
 export const getGetApiV10HealthQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10Health>>, TError = HealthCheck>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData>>, }
 ) => {
 
@@ -65,7 +157,7 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV10HealthQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10Health>>>
@@ -114,6 +206,20 @@ export function useGetApiV10Health<TData = Awaited<ReturnType<typeof getApiV10He
   return query;
 }
 
+/**
+ * @summary Health check endpoint
+ */
+export const prefetchGetApiV10HealthQuery = async <TData = Awaited<ReturnType<typeof getApiV10Health>>, TError = HealthCheck>(
+ queryClient: QueryClient,  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10Health>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10HealthQueryOptions(options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
 
 
 
