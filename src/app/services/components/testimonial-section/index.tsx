@@ -1,9 +1,9 @@
 "use client";
 
-import VideoTestimonialCard from "@/components/common/components/video-testimonial-card";
+import VideoTestimonialCard from "@/components/common/video-testimonial-card";
 
 export default function TestimonialSection() {
-  const handlePlayClick = () => {};
+  const handlePlayClick = () => { };
 
   return (
     <section className="bg-white py-16">

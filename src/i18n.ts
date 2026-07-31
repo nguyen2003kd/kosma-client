@@ -29,6 +29,7 @@ i18n
       "pages/contact",
       "pages/news",
       "pages/services",
+      "pages/solutions",
       "pages/search",
       "pages/login",
       "pages/register",

@@ -1,5 +1,5 @@
 {
-  "name": "case-smeq",
+  "name": "kosmo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,9 +8,7 @@
     "start": "next start",
     "staging": "PORT=3002 HOST=0.0.0.0 node .next/standalone/server.js",
     "lint": "next lint",
-    "gen:api": "orval",
-    "shadcn:init": "npx shadcn@latest init",
-    "shadcn:add:all": "powershell -ExecutionPolicy Bypass -File ./scripts/shadcn-add-all.ps1"
+    "gen:api": "orval"
   },
   "dependencies": {
     "@casl/ability": "^6.8.0",
@@ -41,8 +39,8 @@
     "@radix-ui/react-toggle": "^1.1.10",
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
-    "@tanstack/react-query": "^5.90.12",
-    "@tanstack/react-query-devtools": "^5.91.1",
+    "@tanstack/react-query": "^5.101.4",
+    "@tanstack/react-query-devtools": "^5.101.4",
     "@tiptap/react": "^3.13.0",
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.13.2",
@@ -62,7 +60,7 @@
     "next": "16.2.2",
     "qrcode.react": "^4.2.0",
     "react": "^18",
-    "react-day-picker": "^9.12.0",
+    "react-day-picker": "^10.0.1",
     "react-dom": "^18",
     "react-hook-form": "^7.68.0",
     "react-i18next": "^14.1.0",

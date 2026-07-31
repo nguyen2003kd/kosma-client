@@ -1,15 +1,14 @@
-import Providers from "@/components/providers";
-import { AbilityProvider } from "@/components/providers/ability-provider";
+import type { Metadata } from "next";
+import { dehydrate } from "@tanstack/react-query";
+import Script from "next/script";
+import "./globals.css";
 import baseConfig from "@/configs/base";
 import { getQueryClient } from "@/lib/get-query-client";
 import { prefetchLayoutData } from "@/lib/prefetch-helpers";
-import { Toaster } from "@components/ui/toaster";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
-import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Script from "next/script";
+import { KosmoHeader, KosmoFooter } from "@/components/layout";
+import Providers from "@/app/_providers";
 
-import "./globals.css";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -30,8 +29,7 @@ export const metadata: Metadata = {
     default: "Kosmo DNC | Interior Design & Construction in Maryland",
     template: "%s | Kosmo DNC",
   },
-  description:
-    "Kosmo DNC provides interior design, commercial fit-outs, residential renovations, project management and branding in Maryland and Northern Virginia.",
+  description: "Kosmo DNC provides interior design, commercial fit-outs, residential renovations, project management and branding in Maryland and Northern Virginia.",
   keywords: [
     "interior design and construction Maryland",
     "commercial interior design Maryland",
@@ -53,9 +51,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Kosmo DNC | Interior Design & Construction in Maryland",
-    description:
-      "Interior design, commercial fit-outs, residential renovations, construction and branding services in Maryland and Northern Virginia.",
+    title: "Kosmo DNC | Design, Build & Brand",
+    description: "Interior design, commercial fit-outs, residential renovations, construction and branding services in Maryland and Northern Virginia.",
     url: baseConfig.frontendDomain,
     siteName: "Kosmo DNC",
     images: [
@@ -71,18 +68,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kosmo DNC | Interior Design & Construction in Maryland",
-    description:
-      "Interior design, commercial fit-outs, residential renovations, construction and branding services in Maryland and Northern Virginia.",
+    title: "Kosmo DNC | Design, Build & Brand",
+    description: "Interior design, commercial fit-outs, residential renovations, construction and branding services in Maryland and Northern Virginia.",
     images: [`${baseConfig.frontendDomain}/seo.png`],
   },
 };
 
-export default async function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function KosmoLayout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
   await prefetchLayoutData(queryClient);
 
@@ -102,24 +94,10 @@ export default async function RootLayout({
           `}
         </Script>
 
-        <Providers>
-          <AbilityProvider>
-            <HydrationBoundary state={dehydrate(queryClient)}>
-              <main className="min-h-screen">{children}</main>
-            </HydrationBoundary>
-          </AbilityProvider>
-          <Toaster
-            richColors
-            closeButton
-            position="bottom-right"
-            toastOptions={{
-              duration: 3000,
-              className: "p-3 gap-2",
-              classNames: {
-                closeButton: "left-auto right-0 top-0 -translate-y-2.5 translate-x-0",
-              },
-            }}
-          />
+        <Providers dehydratedState={dehydrate(queryClient)}>
+          <KosmoHeader />
+          <main className="min-h-screen">{children}</main>
+          <KosmoFooter />
         </Providers>
       </body>
     </html>

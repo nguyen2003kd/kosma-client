@@ -1,7 +1,7 @@
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/get-query-client';
 import { constructMetadata } from '@/lib/seo';
-import ProductView from '@/components/product-view';
+import { ProductView } from '@/components/features';
 import type { Metadata } from 'next';
 
 interface Product {
@@ -17,13 +17,13 @@ async function getProduct(id: string): Promise<Product> {
   const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
     next: { revalidate: 60 },
   });
-  
+
   if (!res.ok) {
     throw new Error('Failed to fetch product');
   }
-  
+
   const data = await res.json();
-  
+
   return {
     id: data.id.toString(),
     name: data.title,
@@ -37,7 +37,7 @@ async function getProduct(id: string): Promise<Product> {
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   try {
     const product = await getProduct(params.id);
-    
+
     return constructMetadata({
       title: product.name,
       description: product.description,

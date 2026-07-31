@@ -4,7 +4,7 @@ import { usePostApiV10Contact } from "@/api/endpoints/contact";
 import { Contact } from "@/api/models/contact";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/common/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toaster";
