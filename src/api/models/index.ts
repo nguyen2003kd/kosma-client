@@ -167,6 +167,7 @@ export * from './getApiV10PermissionParams';
 export * from './getApiV10PostApprovalHistoryParams';
 export * from './getApiV10PostByTagsTagIdsFilterBy';
 export * from './getApiV10PostByTagsTagIdsParams';
+export * from './getApiV10PostCategoryByUrlParams';
 export * from './getApiV10PostCategoryId200';
 export * from './getApiV10PostCategoryId200AllOf';
 export * from './getApiV10PostCategoryParams';

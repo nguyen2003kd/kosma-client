@@ -4,7 +4,7 @@ import {
   useGetApiV10Post,
   useGetApiV10PostSlugSlug,
 } from "@/api/endpoints/post";
-import ServiceCard from "@/components/common/components/service-card";
+import ServiceCard from "@/components/common/service-card";
 import { Loading } from "@/components/common/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -313,14 +313,14 @@ export default function NewsDetailView({ slug, initialPost }: NewsDetailViewProp
                 </Dialog>
 
                 {/* Featured Image */}
-                  <div className="relative w-full aspect-video mb-8 rounded-lg overflow-hidden">
-                    <Image
-                      src={getThumbnailSrc(currentPost.thumbnail_compress_info, currentPost.thumbnail_path, "/images/service-1.png")}
-                      alt={currentPost.title || ""}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                <div className="relative w-full aspect-video mb-8 rounded-lg overflow-hidden">
+                  <Image
+                    src={getThumbnailSrc(currentPost.thumbnail_compress_info, currentPost.thumbnail_path, "/images/service-1.png")}
+                    alt={currentPost.title || ""}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
 
                 {/* Summary */}
                 {currentPost.summary && (
@@ -424,9 +424,8 @@ export default function NewsDetailView({ slug, initialPost }: NewsDetailViewProp
                       <a
                         key={news.id}
                         href={news.link}
-                        className={`flex gap-4 group hover:bg-blue-50 px-4 py-3 transition-colors ${
-                          index !== latestNews.slice(0, 10).length - 1 ? "border-b border-gray-100" : ""
-                        }`}
+                        className={`flex gap-4 group hover:bg-blue-50 px-4 py-3 transition-colors ${index !== latestNews.slice(0, 10).length - 1 ? "border-b border-gray-100" : ""
+                          }`}
                       >
                         <div className="flex-shrink-0 text-3xl font-bold text-gray-200">
                           {String(index + 1).padStart(2, "0")}
