@@ -1,4 +1,4 @@
-import DatePicker from "@/components/common/components/date-picker";
+import DatePicker from "@/components/common/date-picker";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid, List, Newspaper } from "lucide-react";
 import { useTranslation } from "react-i18next";

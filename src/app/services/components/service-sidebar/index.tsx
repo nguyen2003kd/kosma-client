@@ -40,16 +40,11 @@ export default function ServiceSidebar({
           {relatedServices.slice(0, 5).map((service, index) => (
             <a
               key={service.id}
-              href={`${
-                typeof service.id === "string" && service.id.startsWith("mock-")
-                  ? "/"
-                  : "/services/"
-              }${service.slug || ""}`}
-              className={`flex gap-4 group hover:bg-blue-50 px-4 py-3 transition-colors ${
-                index !== relatedServices.slice(0, 5).length - 1
+              href={`/services/${service.slug || ""}`}
+              className={`flex gap-4 group hover:bg-blue-50 px-4 py-3 transition-colors ${index !== relatedServices.slice(0, 5).length - 1
                   ? "border-b border-gray-100"
                   : ""
-              }`}
+                }`}
             >
               {/* Number */}
               <div className="flex-shrink-0 text-3xl font-bold text-gray-200">

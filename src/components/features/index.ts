@@ -4,7 +4,7 @@
 // Example structure (uncomment when you add these):
 // export * from './auth';
 // export * from './cart';
-// export * from './product';
+export * from './product';
 // export * from './user';
 
 // Placeholder export để tránh lỗi khi import
