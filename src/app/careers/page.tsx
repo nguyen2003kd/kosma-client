@@ -2,14 +2,14 @@
 
 import React, { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import {MapPin , Search, MessageCircleQuestionMark , ArrowRight, Users, RefreshCw, Clock, UploadCloud, X, FileText } from "lucide-react";
+import { MapPin, Search, MessageCircleQuestionMark, ArrowRight, Users, RefreshCw, Clock, UploadCloud, X, FileText } from "lucide-react";
 import { usePostApiV10Candidate } from "@/api/endpoints/candidate";
 import { usePostApiV10File } from "@/api/endpoints/file";
 import type { CandidateMutate } from "@/api/models/candidateMutate";
 import { usePostApiV10Question } from "@/api/endpoints/question";
 import type { QuestionMutate } from "@/api/models/questionMutate";
 import { z } from "zod";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/common/input";
 import { Button } from "@/components/ui/button";
 import { toastErrorMessage, toast } from "@/components/ui/toaster";
 import baseConfig from "@/configs/base";
@@ -136,7 +136,7 @@ export default function CareersPage() {
   };
 
   const resetAppForm = () => {
-    setAppForm({name: "", address: "", phone: "", email: "", foreign_language: "", it_skill: "", degree: "", major: "", position: "", recruitment_id: ""});
+    setAppForm({ name: "", address: "", phone: "", email: "", foreign_language: "", it_skill: "", degree: "", major: "", position: "", recruitment_id: "" });
     setAppErrors({});
     setFiles([]);
     setFileError("");
@@ -443,7 +443,7 @@ export default function CareersPage() {
                 Căn cứ vào nhu cầu tuyển dụng
               </p> */}
             </div>
-            
+
             <div className="flex w-full md:w-max flex-col md:flex-row items-center gap-2 rounded-2xl md:rounded-full bg-card p-2 border border-border shadow-md hover:shadow-lg transition-shadow mt-4">
               <div className="flex w-full md:w-[380px] items-center gap-3 px-4 h-12">
                 <Search className="h-5 w-5 text-muted-foreground shrink-0" />
@@ -478,43 +478,43 @@ export default function CareersPage() {
                 {t("noJobsFound")}
               </div>
             ) : (
-             filteredJobs.map((job) => (
-              <Link
-                key={job.id}
-                href={`/careers/${job.id}`}
-                // target="_blank"
-                // rel="noopener noreferrer"
-                className="group relative flex flex-col gap-3 rounded-xl border border-border bg-card p-5 transition-all hover:border-primary hover:shadow-md"
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <div className="inline-flex rounded bg-[#1589d9] px-3 py-1.5 text-sm font-bold text-white uppercase">
-                    {job.title}
+              filteredJobs.map((job) => (
+                <Link
+                  key={job.id}
+                  href={`/careers/${job.id}`}
+                  // target="_blank"
+                  // rel="noopener noreferrer"
+                  className="group relative flex flex-col gap-3 rounded-xl border border-border bg-card p-5 transition-all hover:border-primary hover:shadow-md"
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="inline-flex rounded bg-[#1589d9] px-3 py-1.5 text-sm font-bold text-white uppercase">
+                      {job.title}
+                    </div>
+                    <ArrowRight className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-primary shrink-0" />
                   </div>
-                  <ArrowRight className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-primary shrink-0" />
-                </div>
 
-                <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="h-4 w-4" />
-                  <span>{t("deadlineLabel")} {job.deadline ? new Date(job.deadline).toLocaleDateString("vi-VN") : t("updating")}</span>
-                </div>
+                  <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
+                    <Clock className="h-4 w-4" />
+                    <span>{t("deadlineLabel")} {job.deadline ? new Date(job.deadline).toLocaleDateString("vi-VN") : t("updating")}</span>
+                  </div>
 
-                <div className="mt-1 flex items-center gap-6 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4" />
-                    <span>
-                      {t("quantity")}:{" "}
-                      <strong className="text-foreground">
-                        {job.count.toString().padStart(2, "0")}
-                      </strong>
-                    </span>
+                  <div className="mt-1 flex items-center gap-6 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      <span>
+                        {t("quantity")}:{" "}
+                        <strong className="text-foreground">
+                          {job.count.toString().padStart(2, "0")}
+                        </strong>
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-[#1589d9]">
+                      <MapPin className="h-4 w-4" />
+                      <span>{job.department}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 text-[#1589d9]">
-                    <MapPin className="h-4 w-4" />
-                    <span>{job.department}</span>
-                  </div>
-                </div>
-              </Link>
-             ))
+                </Link>
+              ))
             )}
           </div>
         </div>
@@ -579,7 +579,7 @@ export default function CareersPage() {
               </div>
               <p className="text-white/90 text-[15px] mt-2">{t("questionModalDesc")}</p>
             </div>
-            
+
             <form className="p-6 md:p-8 space-y-6" onSubmit={handleQuestionSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -599,7 +599,7 @@ export default function CareersPage() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-[14px] font-semibold flex items-center gap-2 text-foreground/80">
-                    <svg className="h-4 w-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> 
+                    <svg className="h-4 w-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                     {t("phone")} <span className="text-red-500">*</span>
                   </label>
                   <Input
@@ -672,19 +672,19 @@ export default function CareersPage() {
                     setQuestionForm((prev) => ({ ...prev, question: e.target.value }))
                   }
                   className="flex min-h-[140px] w-full rounded-xl border border-muted-foreground/20 bg-muted/40 px-4 py-3 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4a55e6] focus-visible:border-[#4a55e6] focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 resize-none shadow-sm transition-all"
-                  placeholder={t("questionPlaceholder")} 
+                  placeholder={t("questionPlaceholder")}
                   required
                 />
               </div>
               <div className="pt-2">
-                 <Button
+                <Button
                   type="submit"
                   disabled={isSubmittingQuestion}
                   className="w-full h-14 text-base font-semibold bg-[#4a55e6] hover:bg-[#3944d6] shadow-lg shadow-[#4a55e6]/20 rounded-xl transition-all"
-                 >
+                >
                   <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
                   {isSubmittingQuestion ? t("sending") : t("sendQuestion")}
-                 </Button>
+                </Button>
               </div>
             </form>
           </div>

@@ -25,6 +25,7 @@ import type {
 
 import type {
   DeleteApiV10PostCategoryId200,
+  GetApiV10PostCategoryByUrlParams,
   GetApiV10PostCategoryId200,
   GetApiV10PostCategoryParams,
   PostApiV10PostCategory200,
@@ -361,6 +362,201 @@ export const useDeleteApiV10PostCategoryId = <TError = void,
       return useMutation(mutationOptions, queryClient);
     }
     /**
+ * Retrieve all postCategory records (with associated post + category) whose category's `link` matches the given `categoryUrl` (full path excluding domain, e.g. "/services/inspection").
+ * @summary Get postCategory by category URL
+ */
+export const getApiV10PostCategoryByUrl = (
+    params: GetApiV10PostCategoryByUrlParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return mainInstance<ResponseGetAllData>(
+      {url: `/api/v1.0/postCategory/by-url`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetApiV10PostCategoryByUrlInfiniteQueryKey = (params?: GetApiV10PostCategoryByUrlParams,) => {
+    return [
+    'infinite', `/api/v1.0/postCategory/by-url`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+export const getGetApiV10PostCategoryByUrlQueryKey = (params?: GetApiV10PostCategoryByUrlParams,) => {
+    return [
+    `/api/v1.0/postCategory/by-url`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getGetApiV10PostCategoryByUrlInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>>, TError = void>(params: GetApiV10PostCategoryByUrlParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10PostCategoryByUrlInfiniteQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>> = ({ signal }) => getApiV10PostCategoryByUrl(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10PostCategoryByUrlInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>>
+export type GetApiV10PostCategoryByUrlInfiniteQueryError = void
+
+
+export function useGetApiV10PostCategoryByUrlInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>>, TError = void>(
+ params: GetApiV10PostCategoryByUrlParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10PostCategoryByUrlInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>>, TError = void>(
+ params: GetApiV10PostCategoryByUrlParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10PostCategoryByUrlInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>>, TError = void>(
+ params: GetApiV10PostCategoryByUrlParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get postCategory by category URL
+ */
+
+export function useGetApiV10PostCategoryByUrlInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>>, TError = void>(
+ params: GetApiV10PostCategoryByUrlParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10PostCategoryByUrlInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get postCategory by category URL
+ */
+export const prefetchGetApiV10PostCategoryByUrlInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError = void>(
+ queryClient: QueryClient, params: GetApiV10PostCategoryByUrlParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10PostCategoryByUrlInfiniteQueryOptions(params,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
+export const getGetApiV10PostCategoryByUrlQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError = void>(params: GetApiV10PostCategoryByUrlParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10PostCategoryByUrlQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>> = ({ signal }) => getApiV10PostCategoryByUrl(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn,   retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10PostCategoryByUrlQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>>
+export type GetApiV10PostCategoryByUrlQueryError = void
+
+
+export function useGetApiV10PostCategoryByUrl<TData = Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError = void>(
+ params: GetApiV10PostCategoryByUrlParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10PostCategoryByUrl<TData = Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError = void>(
+ params: GetApiV10PostCategoryByUrlParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10PostCategoryByUrl<TData = Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError = void>(
+ params: GetApiV10PostCategoryByUrlParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get postCategory by category URL
+ */
+
+export function useGetApiV10PostCategoryByUrl<TData = Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError = void>(
+ params: GetApiV10PostCategoryByUrlParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10PostCategoryByUrlQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get postCategory by category URL
+ */
+export const prefetchGetApiV10PostCategoryByUrlQuery = async <TData = Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError = void>(
+ queryClient: QueryClient, params: GetApiV10PostCategoryByUrlParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10PostCategoryByUrl>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10PostCategoryByUrlQueryOptions(params,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
+/**
  * Retrieve a list of postCategory with pagination, filtering and sorting
  * @summary Get all postCategory
  */
