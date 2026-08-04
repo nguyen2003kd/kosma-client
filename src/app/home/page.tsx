@@ -9,13 +9,21 @@ const services = [
   { title: "Branding", description: "Website design, product labels, business cards, and brand identity.", image: "/images/exterior.jpg", href: "/spaces/mudrooms" },
 ];
 
-const projects = [
-  { title: "Kosmo Nail Bar — Rockville", description: "1,770 sqft nail salon design & build at Montrose Crossing.", image: "/images/living.jpg", href: "/gallery" },
-  { title: "Kosmo Nail Bar — Dumfries", description: "1,898 sqft full design, construction, joinery & branding.", image: "/images/lounge.jpg", href: "/gallery" },
-  { title: "Kosmo Nail Bar — Annapolis", description: "1,150 sqft commercial fit-out completed in 2015.", image: "/images/showroom.jpg", href: "/gallery" },
-  { title: "Kitchen Renovation — Annapolis", description: "160 sqft residential kitchen renovation with custom joinery.", image: "/images/living.jpg", href: "/gallery" },
-  { title: "Lux Nail Spa — Bel Air", description: "1,350 sqft nail salon renovation in Bel Air, MD.", image: "/images/office.jpg", href: "/gallery" },
-  { title: "Kosmo Nail Bar — McLean", description: "1,350 sqft interior design & construction in McLean, VA.", image: "/images/kitchen.jpg", href: "/gallery" },
+const solutions = [
+  {
+    id: "design",
+    title: "Design",
+    description: "Interior design, space planning, and 3D renderings for residential and commercial projects.",
+    image: "/images/living.jpg",
+    href: "/solutions/design",
+  },
+  {
+    id: "construction",
+    title: "Construction",
+    description: "Design-build construction combining licensed trades crews with modern technology.",
+    image: "/images/lounge.jpg",
+    href: "/solutions/construction",
+  },
 ];
 
 const process = [
@@ -47,7 +55,7 @@ export default function KosmoHomePage() {
         subtitle="Kosmo DNC provides interior design, commercial fit-outs, residential renovations, and branding in Maryland and Northern Virginia."
         backgroundImage="/images/hero.jpg"
         ctaPrimary={{ label: "Get a Quote", href: "/consultation" }}
-        ctaSecondary={{ label: "View Projects", href: "/gallery" }}
+        ctaSecondary={{ label: "View Solutions", href: "/solutions" }}
         offer="Free Project Consultation"
       />
 
@@ -64,9 +72,9 @@ export default function KosmoHomePage() {
 
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
-          <SectionHeading eyebrow="Our Projects" title="Recent Work" subtitle="Explore commercial and residential projects across Maryland and Northern Virginia." />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
-            {projects.map((project) => (<SolutionCard key={project.title} {...project} />))}
+          <SectionHeading eyebrow="Our Solutions" title="Design & Construction" subtitle="From concept to completion — we handle every aspect of your project." />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 md:gap-8 max-w-5xl mx-auto">
+            {solutions.map((s) => (<SolutionCard key={s.id} {...s} />))}
           </div>
         </div>
       </section>

@@ -36,7 +36,7 @@ function ServiceImage({ post }: { post: PostExtended }) {
   );
 }
 
-export function MegaMenu({ categoriesData }: { categoriesData: GetApiV10Category200 | undefined }) {
+export function MegaMenu({ categoriesData }: { categoriesData?: GetApiV10Category200 | null }) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [hoveredChildIndex, setHoveredChildIndex] = useState(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);

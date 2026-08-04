@@ -7,7 +7,7 @@ import type { GetApiV10Category200 } from "@/api/models";
 import type { CategoryWithChildren } from "@/api/models/categoryWithChildren";
 import type { Category } from "@/api/models/category";
 
-export function MobileNav({ categoriesData }: { categoriesData: GetApiV10Category200 | undefined }) {
+export function MobileNav({ categoriesData }: { categoriesData?: GetApiV10Category200 | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedRoot, setExpandedRoot] = useState<string | null>(null);
 

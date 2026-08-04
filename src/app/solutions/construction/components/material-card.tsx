@@ -3,20 +3,23 @@
 import Image from "next/image";
 import { Check, Plus, Star } from "lucide-react";
 import { useState } from "react";
+import { useCartStore } from "@/stores/cart-store";
 
 const FALLBACK_IMAGE = "/images/living.jpg";
 
 export interface MaterialProduct {
   id: string;
+  sku?: string;
   name: string;
   price: number;
   originalPrice?: number;
   image: string;
   category: string;
-  rating: number;
-  reviews: number;
+  rating?: number;
+  reviews?: number;
   inStock: boolean;
   brand?: string;
+  slug?: string;
 }
 
 interface MaterialCardProps {
@@ -26,10 +29,16 @@ interface MaterialCardProps {
 export function MaterialCard({ product }: MaterialCardProps) {
   const [added, setAdded] = useState(false);
   const [imgSrc, setImgSrc] = useState(product.image);
+  const addItem = useCartStore((state) => state.addItem);
 
   const handleAdd = () => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
     setAdded(true);
-    // TODO: integrate with cart API/context when available
     setTimeout(() => setAdded(false), 1800);
   };
 
@@ -84,7 +93,7 @@ export function MaterialCard({ product }: MaterialCardProps) {
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
                 key={i}
-                className={`w-3.5 h-3.5 ${i < Math.round(product.rating)
+                className={`w-3.5 h-3.5 ${i < Math.round(product.rating ?? 0)
                   ? "fill-gold text-gold"
                   : "text-gray-300"
                   }`}
