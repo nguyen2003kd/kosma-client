@@ -1,36 +1,36 @@
 export const PAGE_IDS = {
-  // ========== TRANG CHỦ ==========
-  /** Vị trí dịch vụ ở trang chủ */
+  // ========== HOME PAGE ==========
+  /** Service position on the home page */
   HOME_SERVICES: "bf9d73fa-f067-4c5a-97ed-8c64c310e706",
 
-  /** Vị trí tin tức ở trang chủ */
+  /** News position on the home page */
   HOME_NEWS: "76ffefe3-c59d-4f2d-9018-8e225c974f04",
 
-  /** Vị trí tin mới ở trang chủ */
+  /** Latest news position on the home page */
   HOME_LATEST_NEWS: "670f5635-20d6-479f-9c45-07141de757f3",
 
-  /** Vị trí tài liệu ở trang chủ */
+  /** Document position on the home page */
   HOME_CAPABILITIES: "f5577d43-9d31-485e-9eed-08ce8d40e465",
 
-  /** Vị trí tài liệu mới ở trang chủ */
+  /** New document position on the home page */
   HOME_NEW_CAPABILITIES: "f21e6667-cdfb-47c6-8b7e-c797bb5d5808",
 
-  /** Vị trí hỗ trợ doanh nghiệp ở trang chủ */
+  /** Business support position on the home page */
   HOME_BUSINESS_SUPPORT: "04a0fec7-fb7c-42cc-a37d-15626842d9e2",
 
-  // ========== TRANG GIỚI THIỆU ==========
-  /** Vị trí cùng chuyên mục ở trang giới thiệu */
+  // ========== ABOUT PAGE ==========
+  /** Related services position on the about page */
   ABOUT_RELATED_SERVICES: "b388e6f9-d867-4826-bb76-324c028f6e0b",
 
-  // ========== TRANG DỊCH VỤ ==========
-  /** Vị trí dịch vụ mới nhất ở trang dịch vụ */
+  // ========== SERVICES PAGE ==========
+  /** Latest services position on the services page */
   SERVICES_LATEST: "70e5cc0f-eaa9-4da1-9049-13ade4158ffb",
 
-  // ========== VỊ TRÍ CHUNG ==========
-  /** Vị trí mới nhất (dùng chung cho nhiều trang) */
+  // ========== COMMON POSITIONS ==========
+  /** Latest position (shared across multiple pages) */
   LATEST_POSTS: "8ce2c9ab-2e4b-4821-9f98-3a207a8b29da",
 
-  /** Vị trí tin nổi bật */
+  /** Featured news position */
   FEATURED_NEWS: "219b8b20-d507-4778-9e18-3a1b9dc13ebd",
 
   // ========== ADDITIONAL POSITIONS (English) ==========

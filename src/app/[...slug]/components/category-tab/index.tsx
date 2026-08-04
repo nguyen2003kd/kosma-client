@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 
 interface CategoryTabProps {
   categories: Category[];
-  // TẠM THỜI ẨN CERTIFICATION - TODO: uncomment khi cần hiển thị
+  // TEMPORARILY HIDDEN CERTIFICATION - TODO: uncomment when needed
   // showCertification?: boolean;
   // activeCertification?: boolean;
   // isCertificationPage?: boolean;
@@ -137,7 +137,7 @@ export default function CategoryTab({
           })}
 
           {/*
-          /* TẠM THỜI ẨN CERTIFICATION - TODO: Uncomment khi cần hiển thị
+          /* TEMPORARILY HIDDEN CERTIFICATION - TODO: Uncomment when needed
           showCertification && (
             <button
               onClick={() => router.push("/certification")}
@@ -150,7 +150,7 @@ export default function CategoryTab({
               <div className="w-5 h-5  rounded-full flex items-center justify-center flex-shrink-0">
                 <Shield className={`w-5 h-5 ${activeCertification ? "text-blue-600" : "text-gray-700"}`} />
               </div>
-              <span className="flex-1 text-left text-sm">Chứng nhận, công nhận, chỉ định</span>
+              <span className="flex-1 text-left text-sm">Certification, accreditation, and designation</span>
               {activeCertification && <Check className="w-5 h-5 text-blue-600" />}
             </button>
           )

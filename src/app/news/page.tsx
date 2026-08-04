@@ -16,7 +16,7 @@ export default function NewsPage() {
         fallback={
           <div className="min-h-screen flex items-center justify-center bg-[#19426D]">
             <Loading
-              text={t("loading") || "Đang tải tin tức..."}
+              text={t("loading") || "Loading news..."}
               size="lg"
               className="text-white"
             />
@@ -30,14 +30,14 @@ export default function NewsPage() {
   );
 }
 
-// Mock data - sẽ thay bằng API call thực tế
+// Mock data - will be replaced with actual API call
 // const featuredNews = {
 //   id: 1,
-//   title: "Chính sách hỗ trợ doanh nghiệp vừa và nhỏ năm 2024",
+//   title: "Support policy for small and medium enterprises in 2024",
 //   excerpt:
-//     "Chính phủ công bố gói hỗ trợ mới dành cho doanh nghiệp vừa và nhỏ với tổng giá trị 50,000 tỷ đồng...",
-//   category: "Chính sách",
-//   author: "Nguyễn Văn A",
+//     "The government announces a new support package for small and medium enterprises with a total value of 50,000 billion VND...",
+//   category: "Policy",
+//   author: "Nguyen Van A",
 //   date: "2024-12-05",
 //   image: "/images/news-placeholder.jpg",
 //   featured: true,
@@ -46,64 +46,64 @@ export default function NewsPage() {
 // const newsList = [
 //   {
 //     id: 2,
-//     title: "10 xu hướng Marketing Digital cho SME trong năm 2024",
+//     title: "10 Digital Marketing trends for SMEs in 2024",
 //     excerpt:
-//       "Khám phá những xu hướng marketing digital mới nhất giúp doanh nghiệp vừa và nhỏ tăng trưởng...",
+//       "Discover the latest digital marketing trends to help small and medium enterprises grow...",
 //     category: "Marketing",
-//     author: "Trần Thị B",
+//     author: "Tran Thi B",
 //     date: "2024-12-04",
 //     image: "/images/news-placeholder.jpg",
 //   },
 //   {
 //     id: 3,
-//     title: "Cách quản lý dòng tiền hiệu quả cho doanh nghiệp nhỏ",
+//     title: "How to manage cash flow effectively for small businesses",
 //     excerpt:
-//       "Hướng dẫn chi tiết về cách quản lý dòng tiền để duy trì hoạt động kinh doanh ổn định...",
-//     category: "Tài chính",
-//     author: "Lê Văn C",
+//       "Detailed guide on cash flow management to maintain stable business operations...",
+//     category: "Finance",
+//     author: "Le Van C",
 //     date: "2024-12-03",
 //     image: "/images/news-placeholder.jpg",
 //   },
 //   {
 //     id: 4,
-//     title: "Chuyển đổi số - Cơ hội hay thách thức cho SME?",
+//     title: "Digital transformation - Opportunity or challenge for SMEs?",
 //     excerpt:
-//       "Phân tích về vai trò của chuyển đổi số trong việc nâng cao năng lực cạnh tranh...",
-//     category: "Công nghệ",
-//     author: "Phạm Thị D",
+//       "Analysis of the role of digital transformation in improving competitiveness...",
+//     category: "Technology",
+//     author: "Pham Thi D",
 //     date: "2024-12-02",
 //     image: "/images/news-placeholder.jpg",
 //   },
 //   {
 //     id: 5,
-//     title: "Thủ tục thành lập doanh nghiệp năm 2024 - Những điểm mới",
+//     title: "Business registration procedures in 2024 - What's new",
 //     excerpt:
-//       "Các quy định mới về thủ tục thành lập doanh nghiệp có hiệu lực từ tháng 1/2024...",
-//     category: "Pháp lý",
-//     author: "Hoàng Văn E",
+//       "New regulations on business registration procedures effective from January 2024...",
+//     category: "Legal",
+//     author: "Hoang Van E",
 //     date: "2024-12-01",
 //     image: "/images/news-placeholder.jpg",
 //   },
 //   {
 //     id: 6,
-//     title: "Kinh nghiệm quản lý nhân sự từ các CEO thành công",
+//     title: "HR management experience from successful CEOs",
 //     excerpt:
-//       "Chia sẻ từ những CEO đã xây dựng đội ngũ nhân sự hiệu quả cho doanh nghiệp nhỏ...",
-//     category: "Quản trị",
-//     author: "Đỗ Thị F",
+//       "Sharing from CEOs who have built effective HR teams for small businesses...",
+//     category: "Management",
+//     author: "Do Thi F",
 //     date: "2024-11-30",
 //     image: "/images/news-placeholder.jpg",
 //   },
 // ];
 
 // const categories = [
-//   "Tất cả",
-//   "Chính sách",
-//   "Tài chính",
+//   "All",
+//   "Policy",
+//   "Finance",
 //   "Marketing",
-//   "Công nghệ",
-//   "Pháp lý",
-//   "Quản trị",
+//   "Technology",
+//   "Legal",
+//   "Management",
 // ];
 
 // export default function NewsPage() {
@@ -114,10 +114,10 @@ export default function NewsPage() {
 //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 //           <div className="text-center">
 //             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-//               Tin tức & Bài viết
+//               News & Articles
 //             </h1>
 //             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-//               Cập nhật thông tin mới nhất về doanh nghiệp vừa và nhỏ
+//               Latest updates on small and medium enterprises
 //             </p>
 //           </div>
 //         </div>
@@ -181,7 +181,7 @@ export default function NewsPage() {
 //                 href={`/news/${featuredNews.id}`}
 //                 className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
 //               >
-//                 Đọc thêm
+//                 Read more
 //                 <ArrowRight className="w-4 h-4" />
 //               </a>
 //             </div>
@@ -193,7 +193,7 @@ export default function NewsPage() {
 //       <section className="py-12">
 //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 //           <h2 className="text-2xl font-bold text-gray-900 mb-8">
-//             Bài viết mới nhất
+//             Latest articles
 //           </h2>
 
 //           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -232,7 +232,7 @@ export default function NewsPage() {
 //                     href={`/news/${news.id}`}
 //                     className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium text-sm"
 //                   >
-//                     Đọc thêm
+//                     Read more
 //                     <ArrowRight className="w-4 h-4" />
 //                   </a>
 //                 </div>
@@ -243,7 +243,7 @@ export default function NewsPage() {
 //           {/* Pagination */}
 //           <div className="mt-12 flex justify-center gap-2">
 //             <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
-//               Trang trước
+//               Previous
 //             </button>
 //             <button className="px-4 py-2 bg-blue-600 text-white rounded-md">
 //               1
@@ -255,7 +255,7 @@ export default function NewsPage() {
 //               3
 //             </button>
 //             <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
-//               Trang sau
+//               Next
 //             </button>
 //           </div>
 //         </div>
@@ -265,19 +265,19 @@ export default function NewsPage() {
 //       <section className="bg-blue-600 py-16">
 //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 //           <h2 className="text-3xl font-bold text-white mb-4">
-//             Đăng ký nhận tin tức mới nhất
+//             Subscribe for the latest news
 //           </h2>
 //           <p className="text-xl text-blue-100 mb-8">
-//             Nhận bản tin hàng tuần về doanh nghiệp vừa và nhỏ
+//             Receive weekly newsletters about small and medium enterprises
 //           </p>
 //           <div className="max-w-md mx-auto flex gap-2">
 //             <input
 //               type="email"
-//               placeholder="Email của bạn"
+//               placeholder="Your email"
 //               className="flex-1 px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-white"
 //             />
 //             <button className="px-6 py-3 bg-white text-blue-600 rounded-md font-medium hover:bg-gray-100 transition-colors">
-//               Đăng ký
+//               Subscribe
 //             </button>
 //           </div>
 //         </div>

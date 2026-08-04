@@ -165,7 +165,7 @@ export function KosmoFooter() {
       <div className="border-t border-white/20 py-4 sm:py-5">
         <div className="container-kosmo flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 text-center sm:text-left">
           <p className="text-[11px] sm:text-[12px] text-white/80">
-            Â© {new Date().getFullYear()} Kosmo DNC. All rights reserved.
+            Copyright © {new Date().getFullYear()} Kosmo DNC. All rights reserved.
           </p>
           <div className="flex gap-4 sm:gap-6">
             <Link href="/privacy" className="text-[11px] sm:text-[12px] text-white/80 hover:text-white transition-colors">

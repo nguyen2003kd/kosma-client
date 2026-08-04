@@ -141,7 +141,7 @@ export function UserNav({ user }: UserNavProps) {
               className="cursor-pointer rounded-md px-3 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition-colors group"
             >
               <Calendar className="mr-3 h-4 w-4 text-gray-500 group-hover:text-blue-600 transition-colors" />
-              <span className="font-medium">Lịch công tác</span>
+              <span className="font-medium">Work schedule</span>
             </DropdownMenuItem>
           </Can>
         </div>

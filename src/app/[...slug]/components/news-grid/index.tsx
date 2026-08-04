@@ -19,7 +19,7 @@ interface NewsGridProps {
 
 export default function NewsGrid({
   categoryId,
-  categoryName = "Bài viết",
+  categoryName = "Articles",
   categoryCode,
   date: initialDate,
 }: NewsGridProps) {

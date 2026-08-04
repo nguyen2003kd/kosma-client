@@ -454,13 +454,13 @@ export default function DynamicPostDetailPage({
                     className="text-gray-700 hover:text-blue-600 hover:border-blue-300"
                   >
                     <ChevronLeft className="w-4 h-4 mr-2" />
-                    Bài trước
+                    Previous article
                   </Button>
                   <Button
                     variant="outline"
                     className="text-gray-700 hover:text-blue-600 hover:border-blue-300"
                   >
-                    Bài sau
+                    Next article
                     <ChevronRight className="w-4 h-4 ml-2" />
                   </Button>
                 </div> */}

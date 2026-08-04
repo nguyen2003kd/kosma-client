@@ -61,7 +61,7 @@ export function PageLoading() {
   );
 }
 
-// Card skeleton - sử dụng Skeleton component
+// Card skeleton - uses Skeleton component
 export function CardSkeleton() {
   return (
     <div className="border rounded-lg p-4 space-y-4">
@@ -139,9 +139,8 @@ export function SidebarNewsSkeleton() {
         {Array.from({ length: 5 }).map((_, index) => (
           <div
             key={index}
-            className={`flex gap-4 px-4 py-3 ${
-              index !== 9 ? "border-b border-gray-100" : ""
-            }`}
+            className={`flex gap-4 px-4 py-3 ${index !== 9 ? "border-b border-gray-100" : ""
+              }`}
           >
             <Skeleton className="flex-shrink-0 h-9 w-9" />
             <div className="flex-1 space-y-2">
@@ -158,7 +157,7 @@ export function SidebarNewsSkeleton() {
   );
 }
 
-// chỉ phần form gửi yêu cầu
+// Only the request form section
 export function RequestFormSkeleton() {
   return (
     <div className="rounded-xl p-5 shadow-lg border border-gray-200 bg-white">
@@ -171,7 +170,7 @@ export function RequestFormSkeleton() {
   );
 }
 
-// Sidebar skeleton - cái này dùng cho service details
+// Sidebar skeleton - used for service details
 export function SidebarSkeleton() {
   return (
     <div className="sticky top-6 space-y-4">

@@ -4,8 +4,8 @@ import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
-import { useGetApiV10Category } from "@/api/endpoints/category";
 import { useGetApiV10Post } from "@/api/endpoints/post";
+import type { GetApiV10Category200 } from "@/api/models";
 import type { CategoryWithChildren } from "@/api/models/categoryWithChildren";
 import type { Category } from "@/api/models/category";
 import { getThumbnailSrc } from "@/lib/responsive-image";
@@ -36,14 +36,10 @@ function ServiceImage({ post }: { post: PostExtended }) {
   );
 }
 
-export function MegaMenu() {
+export function MegaMenu({ categoriesData }: { categoriesData: GetApiV10Category200 }) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [hoveredChildIndex, setHoveredChildIndex] = useState(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const { data: categoriesData, isLoading: isLoadingCategories } = useGetApiV10Category({
-    language: "en",
-  });
 
   const rootCategories = (categoriesData?.responseData as CategoryWithChildren[]) || [];
 
@@ -97,7 +93,7 @@ export function MegaMenu() {
       className="hidden xl:flex items-center gap-7"
       onMouseLeave={scheduleClose}
     >
-      {isLoadingCategories && rootCategories.length === 0 ? (
+      {rootCategories.length === 0 ? (
         <span className="text-sm text-gray-400">Loading...</span>
       ) : (
         rootCategories.map((cat) => {

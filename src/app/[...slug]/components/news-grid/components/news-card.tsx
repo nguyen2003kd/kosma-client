@@ -22,9 +22,8 @@ export default function NewsCard({
   categoryCode,
   categoryName,
 }: NewsCardProps) {
-  const postUrl = `/${
-    categoryCode || post.category?.link?.replace(/^\//, "") || "post"
-  }/${post.slug || ""}`;
+  const postUrl = `/${categoryCode || post.category?.link?.replace(/^\//, "") || "post"
+    }/${post.slug || ""}`;
 
   if (viewMode === "list") {
     return (
@@ -80,7 +79,7 @@ export default function NewsCard({
                 href={postUrl}
                 className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group/link"
               >
-                Xem chi tiết
+                View details
                 <ArrowRight className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -135,7 +134,7 @@ export default function NewsCard({
             href={postUrl}
             className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group/link"
           >
-            Xem chi tiết
+            View details
             <ArrowRight className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform" />
           </a>
         </div>

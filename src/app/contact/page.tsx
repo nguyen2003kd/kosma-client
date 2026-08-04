@@ -3,19 +3,19 @@
 // import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import ContactRegistrationSection from "./components/contact-registration";
 
-// Note: metadata không export được trong client component
-// Sẽ cần tạo metadata ở server component hoặc chuyển sang server component
+// Note: metadata cannot be exported in client component
+// Will need to create metadata in server component or convert to server component
 
 // const contactInfo = [
 //   {
 //     icon: MapPin,
-//     title: "Địa chỉ",
-//     content: "123 Đường ABC, Quận 1, TP.HCM",
+//     title: "Address",
+//     content: "123 ABC Street, District 1, HCMC",
 //     color: "blue",
 //   },
 //   {
 //     icon: Phone,
-//     title: "Điện thoại",
+//     title: "Phone",
 //     content: "(028) 1234 5678",
 //     color: "green",
 //   },
@@ -27,8 +27,8 @@ import ContactRegistrationSection from "./components/contact-registration";
 //   },
 //   {
 //     icon: Clock,
-//     title: "Giờ làm việc",
-//     content: "Thứ 2 - Thứ 6: 8:00 - 17:30",
+//     title: "Working hours",
+//     content: "Monday - Friday: 8:00 - 17:30",
 //     color: "orange",
 //   },
 // ];
@@ -99,10 +99,10 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Liên hệ với chúng tôi
+              Contact us
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-              Chúng tôi luôn sẵn sàng hỗ trợ bạn
+              We are always ready to support you
             </p>
           </div>
         </div>
@@ -144,13 +144,13 @@ export default function ContactPage() {
       {/* Form */}
       {/* <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Gửi tin nhắn cho chúng tôi
+                Send us a message
               </h2>
 
               {submitStatus === "success" && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg">
-                  Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong thời gian
-                  sớm nhất.
+                  Thank you for contacting us! We will respond as soon as
+                  possible.
                 </div>
               )}
 
@@ -161,7 +161,7 @@ export default function ContactPage() {
                       htmlFor="name"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Họ và tên <span className="text-red-500">*</span>
+                      Full name <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -171,7 +171,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Nguyễn Văn A"
+                      placeholder="John Doe"
                     />
                   </div>
 
@@ -201,7 +201,7 @@ export default function ContactPage() {
                       htmlFor="phone"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Số điện thoại
+                      Phone number
                     </label>
                     <input
                       type="tel"
@@ -219,7 +219,7 @@ export default function ContactPage() {
                       htmlFor="company"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Tên công ty
+                      Company name
                     </label>
                     <input
                       type="text"
@@ -228,7 +228,7 @@ export default function ContactPage() {
                       value={formData.company}
                       onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Công ty ABC"
+                      placeholder="ABC Company"
                     />
                   </div>
                 </div>
@@ -238,7 +238,7 @@ export default function ContactPage() {
                     htmlFor="subject"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Chủ đề <span className="text-red-500">*</span>
+                    Subject <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="subject"
@@ -248,11 +248,11 @@ export default function ContactPage() {
                     required
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    <option value="">Chọn chủ đề</option>
-                    <option value="tu-van">Tư vấn dịch vụ</option>
-                    <option value="bao-gia">Báo giá</option>
-                    <option value="hop-tac">Hợp tác kinh doanh</option>
-                    <option value="khac">Khác</option>
+                    <option value="">Select subject</option>
+                    <option value="tu-van">Service consultation</option>
+                    <option value="bao-gia">Quotation</option>
+                    <option value="hop-tac">Business partnership</option>
+                    <option value="khac">Other</option>
                   </select>
                 </div>
 
@@ -261,7 +261,7 @@ export default function ContactPage() {
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Nội dung <span className="text-red-500">*</span>
+                    Content <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     id="message"
@@ -271,7 +271,7 @@ export default function ContactPage() {
                     required
                     rows={6}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                    placeholder="Nhập nội dung tin nhắn của bạn..."
+                    placeholder="Enter your message content..."
                   />
                 </div>
 
@@ -280,7 +280,7 @@ export default function ContactPage() {
                   disabled={isSubmitting}
                   className="w-full px-6 py-3 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Đang gửi..." : "Gửi tin nhắn"}
+                  {isSubmitting ? "Sending..." : "Send message"}
                 </button>
               </form>
             </div> */}
@@ -288,45 +288,45 @@ export default function ContactPage() {
       {/* Map & Additional Info */}
       {/* <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Tìm chúng tôi
+                Find us
               </h2> */}
 
       {/* Map placeholder */}
       {/* <div className="bg-gray-200 rounded-lg h-64 mb-6 flex items-center justify-center">
                 <div className="text-center">
                   <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                  <p className="text-gray-500">Bản đồ sẽ được tích hợp ở đây</p>
+                  <p className="text-gray-500">Map will be integrated here</p>
                 </div>
               </div> */}
 
       {/* FAQ */}
       {/* <div className="bg-blue-50 p-6 rounded-lg">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  Câu hỏi thường gặp
+                  Frequently asked questions
                 </h3>
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-medium text-gray-900 mb-1">
-                      Thời gian phản hồi?
+                      Response time?
                     </h4>
                     <p className="text-sm text-gray-600">
-                      Chúng tôi phản hồi trong vòng 24h làm việc
+                      We respond within 24 business hours
                     </p>
                   </div>
                   <div>
                     <h4 className="font-medium text-gray-900 mb-1">
-                      Có tư vấn miễn phí không?
+                      Is there a free consultation?
                     </h4>
                     <p className="text-sm text-gray-600">
-                      Có, buổi tư vấn đầu tiên hoàn toàn miễn phí
+                      Yes, the first consultation is completely free
                     </p>
                   </div>
                   <div>
                     <h4 className="font-medium text-gray-900 mb-1">
-                      Hỗ trợ trực tuyến?
+                      Online support?
                     </h4>
                     <p className="text-sm text-gray-600">
-                      Có hỗ trợ qua Zalo, email và điện thoại
+                      Support available via Zalo, email, and phone
                     </p>
                   </div>
                 </div>

@@ -87,9 +87,9 @@ export const mapApiNodeToOrgNode = (node: ApiOrgNode): OrgNode => {
   return {
     id: node.id || crypto.randomUUID(),
     department_id: node.department_id || '',
-    department_name: node.department_name || 'Chưa xác định',
-    full_name: node.full_name || 'Chưa cập nhật',
-    position: node.position || 'Chưa cập nhật',
+    department_name: node.department_name || 'Unspecified',
+    full_name: node.full_name || 'Not updated',
+    position: node.position || 'Not updated',
     avatar_url: node.avatar_url || null,
     description: node.description || null,
     color: node.color || null,

@@ -231,7 +231,7 @@ export function IconPicker({ value, onChange, className }: IconPickerProps) {
       >
         <div className='flex min-w-0 items-center gap-2'>
           <SelectedIcon className='h-5 w-5 shrink-0' />
-          <span className='truncate'>{value || 'Chọn icon'}</span>
+          <span className='truncate'>{value || 'Select icon'}</span>
         </div>
         <LucideIcons.ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
       </Button>
@@ -241,13 +241,13 @@ export function IconPicker({ value, onChange, className }: IconPickerProps) {
           <div className='border-b p-3'>
             <Input
               autoFocus
-              placeholder='Tìm kiếm icon... (VD: system, setting, phone, message)'
+              placeholder='Search icon... (e.g.: system, setting, phone, message)'
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className='h-9'
             />
             <p className='mt-2 text-xs text-gray-500'>
-              Tìm thấy {filteredIcons.length} / {iconList.length} icons
+              Found {filteredIcons.length} / {iconList.length} icons
             </p>
           </div>
           <ScrollArea className='h-[300px]'>
@@ -273,7 +273,7 @@ export function IconPicker({ value, onChange, className }: IconPickerProps) {
                 })}
               </div>
             ) : (
-              <div className='py-6 text-center text-sm text-gray-500'>Không tìm thấy icon &quot;{search}&quot;</div>
+              <div className='py-6 text-center text-sm text-gray-500'>No icon found for &quot;{search}&quot;</div>
             )}
           </ScrollArea>
         </div>

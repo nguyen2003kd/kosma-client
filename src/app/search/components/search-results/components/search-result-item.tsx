@@ -49,7 +49,7 @@ export default function SearchResultItem({ result, t }: SearchResultItemProps) {
 
           {/* Category Badge and Date */}
           <div className="flex items-center gap-3 mb-3">
-            {/* category name vì backend không trả ra categoryId ra api post nên check bằng is_service */}
+            {/* category name - backend does not return categoryId in post API, so check by is_service */}
             <span className="inline-block px-3 py-1 text-xs font-medium text-gray-800 bg-white border border-gray-300 rounded">
               {result.is_service ? t("service") : t("news")}
             </span>

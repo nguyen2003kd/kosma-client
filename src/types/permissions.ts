@@ -191,8 +191,8 @@ export function isUserRole(obj: unknown): obj is UserRole {
 // =============================================================================
 
 /**
- * Một permission cụ thể của module với action name động
- * Ví dụ: { view_detail: true, update: false, delete: true, create_post_info: false }
+ * A specific module permission with dynamic action names
+ * Example: { view_detail: true, update: false, delete: true, create_post_info: false }
  */
 export type ModulePermissions = Record<string, boolean>;
 
@@ -201,12 +201,12 @@ export interface ModulePermission {
   name: string;
   description: string;
   /**
-   * Dynamic permissions: key = action name từ API, value = có/không
-   * Ví dụ news: { view_detail: true, update: false, delete: false, create_post_info: true }
+   * Dynamic permissions: key = action name from API, value = yes/no
+   * Example news: { view_detail: true, update: false, delete: false, create_post_info: true }
    */
   permissions: ModulePermissions;
   /**
-   * Danh sach tất cả actions có thể có của module này (lấy từ backend)
+   * List of all possible actions for this module (fetched from backend)
    */
   availableActions: string[];
 }

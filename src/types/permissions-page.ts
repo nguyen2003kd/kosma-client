@@ -1,11 +1,11 @@
 /**
- * Types cho hệ thống phân quyền fine-grained
- * Permissions là dynamic theo resource (không cố định view/create/edit/delete)
+ * Types for the fine-grained permission system
+ * Permissions are dynamic per resource (not fixed view/create/edit/delete)
  */
 
 /**
- * Một permission cụ thể của module với action name động
- * Ví dụ: { view_detail: true, update: false, delete: true, create_post_info: false }
+ * A specific module permission with dynamic action names
+ * Example: { view_detail: true, update: false, delete: true, create_post_info: false }
  */
 export type ModulePermissions = Record<string, boolean>;
 

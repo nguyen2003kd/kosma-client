@@ -16,14 +16,14 @@ interface NewsDetailPageProps {
 
 const createMockCategory = (slug: string): CategoryWithChildren => {
   const displayName =
-    slug === "post" ? "Bài viết" : slug.charAt(0).toUpperCase() + slug.slice(1);
+    slug === "post" ? "Articles" : slug.charAt(0).toUpperCase() + slug.slice(1);
 
   return {
     id: `mock-category-${slug}`,
     name: displayName,
     code: `mock-category-${slug}`,
     link: `/${slug}`,
-    description: `Danh mục ${displayName}`,
+    description: `Category ${displayName}`,
     categories: [],
   } as CategoryWithChildren;
 };
@@ -89,8 +89,8 @@ export async function generateMetadata({
   const post = await getPost(lastSlug ?? '');
   if (!post) {
     return {
-      title: "Không tìm thấy tin tức",
-      description: ` không tồn tại hoặc đã bị xóa.`,
+      title: "News not found",
+      description: ` does not exist or has been deleted.`,
     };
   }
 
@@ -102,13 +102,13 @@ export async function generateMetadata({
         : undefined;
 
   const pageUrl = `${baseConfig.frontendDomain}/${slug.join('/')}`;
-  const description = post.summary?.replace(/<[^>]*>/g, "").slice(0, 160) || "Tin tức mới nhất";
+  const description = post.summary?.replace(/<[^>]*>/g, "").slice(0, 160) || "Latest news";
 
   return {
-    title: post.title || "Tin tức",
+    title: post.title || "News",
     description,
     openGraph: {
-      title: post.title || "Tin tức",
+      title: post.title || "News",
       description,
       url: pageUrl,
       type: "article",
@@ -120,7 +120,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title || "Tin tức",
+      title: post.title || "News",
       description,
       ...(thumbnailUrl && { images: [thumbnailUrl] }),
     },
@@ -144,7 +144,7 @@ export default async function DynamicPage({
       return (
         <DynamicPostDetailPage
           post={post}
-          categoryName={post.category?.name || "Bài viết"}
+          categoryName={post.category?.name || "Articles"}
           categorySlug={post.category?.link?.replace(/^\//, "") || ""}
           urlCategoryId={post.category?.id}
         />

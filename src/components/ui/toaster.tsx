@@ -29,7 +29,7 @@ const ToastLayout = (props: { title?: string; content: ReactNode }) => {
   const { title, content } = props
   return (
     <div>
-      <h2 className='font-semibold'>{title || 'Thông báo'}</h2>
+      <h2 className='font-semibold'>{title || 'Notification'}</h2>
       {content}
     </div>
   )
@@ -37,16 +37,16 @@ const ToastLayout = (props: { title?: string; content: ReactNode }) => {
 
 const toast = Object.assign((title: (() => ReactNode) | ReactNode, data?: never) => sonner(title, data), {
   success: (props: { title?: string; content: ReactNode }) =>
-    sonner.success(<ToastLayout title={props.title || 'Thành công'} content={props.content} />),
+    sonner.success(<ToastLayout title={props.title || 'Success'} content={props.content} />),
   warning: (props: { title?: string; content: ReactNode }) =>
-    sonner.warning(<ToastLayout title={props.title || 'Cảnh báo'} content={props.content} />),
+    sonner.warning(<ToastLayout title={props.title || 'Warning'} content={props.content} />),
   error: (props: { title?: string; content: ReactNode }) =>
-    sonner.error(<ToastLayout title={props.title || 'Lỗi'} content={props.content} />)
+    sonner.error(<ToastLayout title={props.title || 'Error'} content={props.content} />)
 })
 
 // Toast error message
 const toastErrorMessage = (error: unknown) => {
-  sonner.error('Thất bại', {
+  sonner.error('Failed', {
     description: extractErrorMessage(error)
   })
 }

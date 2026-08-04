@@ -61,7 +61,7 @@ export const extractErrorMessage = (error: unknown): string => {
     }
 
     // Fallback to axios error message
-    return error.message || "Có lỗi xảy ra, vui lòng thử lại sau";
+    return error.message || "An error occurred, please try again later";
   }
 
   // Handle regular Error objects
@@ -104,5 +104,5 @@ export const extractErrorMessage = (error: unknown): string => {
     if (errorObj.message_en) return errorObj.message_en;
   }
 
-  return "Có lỗi xảy ra, vui lòng thử lại sau";
+  return "An error occurred, please try again later";
 };
