@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { MaterialCard, type MaterialProduct } from "./material-card";
-import { getProducts } from "@/api/endpoints/product";
+import { useGetApiV10Product } from "@/api/endpoints/product";
+import type { GetApiV10ProductParams } from "@/api/models";
 
 const MATERIAL_CATEGORIES = [
   { id: "all", label: "All Products" },
@@ -19,43 +20,42 @@ const SORT_OPTIONS = [
   { value: "price-desc", label: "Price: High to Low" },
 ] as const;
 
-interface ProductsResponse {
-  success: boolean;
-  data: {
-    count: number;
-    rows: Array<{
-      id: string;
-      sku: string;
-      name: string;
-      slug: string;
-      description?: string | null;
-      price?: number | null;
-      original_price?: number | null;
-      category?: string | null;
-      product_type?: string;
-      brand?: string | null;
-      thumbnail_path?: string | null;
-      stock?: number | null;
-      status?: string;
-      is_featured?: boolean | null;
-      rating?: number;
-      reviews?: number;
-    }>;
-  };
+type ProductRow = {
+  id: string;
+  sku?: string;
+  name: string;
+  slug?: string;
+  description?: string | null;
+  price?: number | null;
+  original_price?: number | null;
+  category?: string | null;
+  product_type?: string;
+  brand?: string | null;
+  thumbnail_path?: string | null;
+  stock?: number | null;
+  status?: string;
+  is_featured?: boolean | null;
+  rating?: number;
+  reviews?: number;
+};
+
+function toNumber(value: unknown): number {
+  const n = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(n) ? n : 0;
 }
 
-function transformToMaterialProduct(item: ProductsResponse['data']['rows'][0]): MaterialProduct {
+function transformToMaterialProduct(item: ProductRow): MaterialProduct {
   return {
     id: item.id,
     sku: item.sku,
     name: item.name,
-    price: item.price ?? 0,
-    originalPrice: item.original_price ?? undefined,
+    price: toNumber(item.price),
+    originalPrice: item.original_price != null ? toNumber(item.original_price) : undefined,
     image: item.thumbnail_path ?? "/images/living.jpg",
     category: item.category ?? "materials",
-    rating: item.rating ?? 4.5,
-    reviews: item.reviews ?? 0,
-    inStock: (item.stock ?? 0) > 0 && item.status !== 'out_of_stock',
+    rating: toNumber(item.rating) || 4.5,
+    reviews: toNumber(item.reviews),
+    inStock: toNumber(item.stock) > 0 && item.status !== 'out_of_stock',
     brand: item.brand ?? undefined,
     slug: item.slug,
   };
@@ -65,64 +65,59 @@ export function MaterialsMarketplace() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc">("featured");
   const [search, setSearch] = useState("");
-  const [products, setProducts] = useState<MaterialProduct[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  // Fetch products from API
-  useEffect(() => {
-    async function fetchProducts() {
-      setLoading(true);
-      setError(null);
-      try {
-        const params: Record<string, string | number> = {
-          page: 1,
-          pageSize: 50,
-          status: "active",
-        };
-        if (activeCategory !== "all") {
-          params.category = activeCategory;
-        }
+  // Build query params following the same pattern as other pages
+  // (e.g. construction/page.tsx, news/components/news-grid). The product
+  // list endpoint uses `responseData.rows` / `responseData.count` and
+  // filters via the sequelize-api-paginate `filters` string syntax.
+  const queryParams = useMemo<GetApiV10ProductParams>(() => {
+    const filters = [
+      "status==active",
+      activeCategory !== "all" ? `category==${activeCategory}` : "",
+    ]
+      .filter(Boolean)
+      .join(",");
 
-        const res = await getProducts(params) as ProductsResponse;
-        if (res.success && res.data?.rows) {
-          const transformed = res.data.rows.map(transformToMaterialProduct);
-          setProducts(transformed);
-        }
-      } catch (err) {
-        console.error("Failed to fetch products:", err);
-        setError("Failed to load products");
-      } finally {
-        setLoading(false);
-      }
+    const params: GetApiV10ProductParams = {
+      page: 1,
+      pageSize: 50,
+      filters,
+    };
+
+    if (sortBy === "price-asc") {
+      params.sortField = "price";
+      params.sortOrder = "asc";
+    } else if (sortBy === "price-desc") {
+      params.sortField = "price";
+      params.sortOrder = "desc";
     }
-    fetchProducts();
-  }, [activeCategory]);
+
+    return params;
+  }, [activeCategory, sortBy]);
+
+  const { data, isLoading: loading, error } = useGetApiV10Product(queryParams);
+
+  const products = useMemo<MaterialProduct[]>(() => {
+    const rows =
+      ((data as unknown as { responseData?: { rows?: ProductRow[] } })
+        ?.responseData?.rows) ?? [];
+    return rows.map(transformToMaterialProduct);
+  }, [data]);
 
   const filteredProducts = useMemo(() => {
-    let result = products;
+    if (!search.trim()) return products;
+    const q = search.trim().toLowerCase();
+    return products.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        (p.brand?.toLowerCase().includes(q)) ||
+        p.category.toLowerCase().includes(q),
+    );
+  }, [products, search]);
 
-    if (search.trim()) {
-      const q = search.trim().toLowerCase();
-      result = result.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          (p.brand?.toLowerCase().includes(q)) ||
-          p.category.toLowerCase().includes(q),
-      );
-    }
-
-    const sorted = [...result];
-    switch (sortBy) {
-      case "price-asc":
-        sorted.sort((a, b) => a.price - b.price);
-        break;
-      case "price-desc":
-        sorted.sort((a, b) => b.price - a.price);
-        break;
-    }
-    return sorted;
-  }, [products, search, sortBy]);
+  const errorMessage = error
+    ? (error as { message?: string })?.message || "Failed to load products"
+    : null;
 
   return (
     <div className="space-y-6">
@@ -134,11 +129,10 @@ export function MaterialsMarketplace() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`px-3.5 sm:px-4 py-2 rounded-full text-[12px] sm:text-[13px] font-bold transition-all ${
-                isActive
-                  ? "bg-ink text-white shadow-soft"
-                  : "bg-white text-gray-700 border border-mutedLine hover:border-ink/40 hover:text-ink"
-              }`}
+              className={`px-3.5 sm:px-4 py-2 rounded-full text-[12px] sm:text-[13px] font-bold transition-all ${isActive
+                ? "bg-ink text-white shadow-soft"
+                : "bg-white text-gray-700 border border-mutedLine hover:border-ink/40 hover:text-ink"
+                }`}
             >
               {cat.label}
             </button>
@@ -190,9 +184,9 @@ export function MaterialsMarketplace() {
             </div>
           ))}
         </div>
-      ) : error ? (
+      ) : errorMessage ? (
         <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">
-          <p className="text-[14px] text-red-600">{error}</p>
+          <p className="text-[14px] text-red-600">{errorMessage}</p>
           <button
             onClick={() => window.location.reload()}
             className="mt-2 text-[13px] text-ink underline hover:text-gold"
