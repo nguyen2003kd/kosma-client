@@ -100,34 +100,38 @@ export function MegaMenu({ categoriesData }: { categoriesData?: GetApiV10Categor
           const hasChildren = (cat.categories?.length ?? 0) > 0;
           const isActive = activeMenu === cat.id;
 
+          const underline = (
+            <span className="relative">
+              {cat.name}
+              <span
+                className={`absolute -bottom-1 left-0 w-full h-[1px] bg-ink transition-transform duration-200 origin-left ${isActive ? "scale-x-100" : "scale-x-0"
+                  }`}
+              />
+            </span>
+          );
+
+          if (hasChildren) {
+            return (
+              <div
+                key={cat.id || cat.name}
+                onMouseEnter={() => handleRootEnter(cat)}
+              >
+                <button className="flex items-center gap-1 h-[78px] text-[14px] font-semibold text-ink hover:text-black-800 transition-colors">
+                  {underline}
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`} />
+                </button>
+              </div>
+            );
+          }
+
           return (
             <Link
               key={cat.id || cat.name}
               href={cat.link || "#"}
-              onMouseEnter={() => (hasChildren ? handleRootEnter(cat) : handleRootLeave())}
+              className="flex items-center h-[78px] text-[14px] font-semibold text-ink hover:text-black-800 transition-colors"
+              onMouseEnter={handleRootLeave}
             >
-              {hasChildren ? (
-                <button className="flex items-center gap-1 h-[78px] text-[14px] font-semibold text-ink hover:text-black-800 transition-colors">
-                  <span className="relative">
-                    {cat.name}
-                    <span
-                      className={`absolute -bottom-1 left-0 w-full h-[1px] bg-ink transition-transform duration-200 origin-left ${isActive ? "scale-x-100" : "scale-x-0"
-                        }`}
-                    />
-                  </span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`} />
-                </button>
-              ) : (
-                <span className="flex items-center h-[78px] text-[14px] font-semibold text-ink hover:text-black-800 transition-colors">
-                  <span className="relative">
-                    {cat.name}
-                    <span
-                      className={`absolute -bottom-1 left-0 w-full h-[1px] bg-ink transition-transform duration-200 origin-left ${isActive ? "scale-x-100" : "scale-x-0"
-                        }`}
-                    />
-                  </span>
-                </span>
-              )}
+              {underline}
             </Link>
           );
         })
