@@ -100,9 +100,9 @@ export default function CheckoutPage() {
 
     try {
       const res = (await createOrderMutation.mutateAsync({ data: payload })) as unknown as {
-        responseData?: { code?: string; order_code?: string; id?: string };
+        responseData?: { order?: { code?: string; id?: string } };
       };
-      const code = res?.responseData?.code || res?.responseData?.order_code || res?.responseData?.id || "";
+      const code = res?.responseData?.order?.code || res?.responseData?.order?.id || "";
       setOrderCode(code);
       setIsSuccess(true);
       clearCart();
