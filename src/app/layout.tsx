@@ -78,7 +78,12 @@ export const metadata: Metadata = {
 export default async function KosmoLayout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
 
-  const categoriesData = await getApiV10Category({ language: "en" });
+  let categoriesData = null;
+  try {
+    categoriesData = await getApiV10Category({ language: "en" });
+  } catch {
+    // Backend unavailable during build — render without categories
+  }
 
   return (
     <html lang="en">

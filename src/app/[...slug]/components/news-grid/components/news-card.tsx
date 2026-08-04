@@ -59,9 +59,9 @@ export default function NewsCard({
             </h3>
 
             {/* Description */}
-            <p className="text-gray-600 text-sm line-clamp-2">
+            <div className="text-gray-600 text-sm line-clamp-2 [&_p]:mb-0">
               {parse(post.summary || "")}
-            </p>
+            </div>
           </div>
 
           {/* Footer - Date & Link */}
@@ -114,9 +114,9 @@ export default function NewsCard({
         </h3>
 
         {/* Description */}
-        <p className="text-gray-500 text-sm line-clamp-2">
+        <div className="text-gray-500 text-sm line-clamp-2 [&_p]:mb-0">
           {parse(post.summary || "")}
-        </p>
+        </div>
       </CardContent>
 
       {/* Footer */}

@@ -1,183 +1,114 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MaterialCard, type MaterialProduct } from "./material-card";
+import { getProducts } from "@/api/endpoints/product";
 
 const MATERIAL_CATEGORIES = [
   { id: "all", label: "All Products" },
-  { id: "toilet", label: "Toilets" },
-  { id: "sink", label: "Sinks & Basins" },
+  { id: "toilets", label: "Toilets" },
+  { id: "sinks", label: "Sinks & Basins" },
   { id: "lighting", label: "Lighting" },
   { id: "hardware", label: "Hardware" },
   { id: "materials", label: "Building Materials" },
 ] as const;
 
-// Mock data — replace with API call when product endpoint is available
-const PRODUCTS: MaterialProduct[] = [
-  {
-    id: "p1",
-    name: "One-Piece Elongated Toilet with Soft-Close Seat",
-    price: 289.0,
-    originalPrice: 349.0,
-    image: "/images/material-toilet.jpg",
-    category: "toilet",
-    rating: 4.6,
-    reviews: 128,
-    inStock: true,
-    brand: "Kosmo Bath",
-  },
-  {
-    id: "p2",
-    name: "Wall-Mounted Compact Toilet Concealed Cistern",
-    price: 459.0,
-    image: "/images/material-toilet-2.jpg",
-    category: "toilet",
-    rating: 4.8,
-    reviews: 64,
-    inStock: true,
-    brand: "Kosmo Bath",
-  },
-  {
-    id: "p3",
-    name: "Undermount Ceramic Bathroom Sink",
-    price: 129.0,
-    originalPrice: 169.0,
-    image: "/images/material-sink.jpg",
-    category: "sink",
-    rating: 4.4,
-    reviews: 92,
-    inStock: true,
-    brand: "Kosmo Bath",
-  },
-  {
-    id: "p4",
-    name: "Vessel Rectangular Basin with Faucet Hole",
-    price: 189.0,
-    image: "/images/material-sink-2.jpg",
-    category: "sink",
-    rating: 4.5,
-    reviews: 47,
-    inStock: true,
-    brand: "Kosmo Bath",
-  },
-  {
-    id: "p5",
-    name: "LED Recessed Downlight 12W Dimmable",
-    price: 24.99,
-    image: "/images/material-lighting.jpg",
-    category: "lighting",
-    rating: 4.7,
-    reviews: 312,
-    inStock: true,
-    brand: "Kosmo Light",
-  },
-  {
-    id: "p6",
-    name: "Modern Pendant Light Brushed Nickel",
-    price: 149.0,
-    originalPrice: 199.0,
-    image: "/images/material-lighting-2.jpg",
-    category: "lighting",
-    rating: 4.3,
-    reviews: 56,
-    inStock: true,
-    brand: "Kosmo Light",
-  },
-  {
-    id: "p7",
-    name: "Stainless Steel Door Hinges Set (10 pcs)",
-    price: 39.99,
-    image: "/images/material-hardware.jpg",
-    category: "hardware",
-    rating: 4.5,
-    reviews: 184,
-    inStock: true,
-    brand: "Kosmo Build",
-  },
-  {
-    id: "p8",
-    name: "Brushed Nickel Cabinet Pulls Handle (Pack of 20)",
-    price: 59.0,
-    image: "/images/material-hardware-2.jpg",
-    category: "hardware",
-    rating: 4.6,
-    reviews: 73,
-    inStock: false,
-    brand: "Kosmo Build",
-  },
-  {
-    id: "p9",
-    name: "Premium Porcelain Floor Tile 24x24 (per box)",
-    price: 89.0,
-    originalPrice: 109.0,
-    image: "/images/material-tile.jpg",
-    category: "materials",
-    rating: 4.7,
-    reviews: 221,
-    inStock: true,
-    brand: "Kosmo Build",
-  },
-  {
-    id: "p10",
-    name: "Waterproof Cement Board 1/2 in. 3x5 ft",
-    price: 19.99,
-    image: "/images/material-board.jpg",
-    category: "materials",
-    rating: 4.4,
-    reviews: 98,
-    inStock: true,
-    brand: "Kosmo Build",
-  },
-  {
-    id: "p11",
-    name: "Two-Piece Dual Flush Toilet WaterSense",
-    price: 199.0,
-    image: "/images/material-toilet-3.jpg",
-    category: "toilet",
-    rating: 4.2,
-    reviews: 156,
-    inStock: true,
-    brand: "Kosmo Bath",
-  },
-  {
-    id: "p12",
-    name: "Track Light Kit 4-Head Adjustable LED",
-    price: 79.0,
-    originalPrice: 99.0,
-    image: "/images/material-lighting-3.jpg",
-    category: "lighting",
-    rating: 4.5,
-    reviews: 41,
-    inStock: true,
-    brand: "Kosmo Light",
-  },
-];
-
 const SORT_OPTIONS = [
   { value: "featured", label: "Featured" },
   { value: "price-asc", label: "Price: Low to High" },
   { value: "price-desc", label: "Price: High to Low" },
-  { value: "rating", label: "Top Rated" },
 ] as const;
+
+interface ProductsResponse {
+  success: boolean;
+  data: {
+    count: number;
+    rows: Array<{
+      id: string;
+      sku: string;
+      name: string;
+      slug: string;
+      description?: string | null;
+      price?: number | null;
+      original_price?: number | null;
+      category?: string | null;
+      product_type?: string;
+      brand?: string | null;
+      thumbnail_path?: string | null;
+      stock?: number | null;
+      status?: string;
+      is_featured?: boolean | null;
+      rating?: number;
+      reviews?: number;
+    }>;
+  };
+}
+
+function transformToMaterialProduct(item: ProductsResponse['data']['rows'][0]): MaterialProduct {
+  return {
+    id: item.id,
+    sku: item.sku,
+    name: item.name,
+    price: item.price ?? 0,
+    originalPrice: item.original_price ?? undefined,
+    image: item.thumbnail_path ?? "/images/living.jpg",
+    category: item.category ?? "materials",
+    rating: item.rating ?? 4.5,
+    reviews: item.reviews ?? 0,
+    inStock: (item.stock ?? 0) > 0 && item.status !== 'out_of_stock',
+    brand: item.brand ?? undefined,
+    slug: item.slug,
+  };
+}
 
 export function MaterialsMarketplace() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<(typeof SORT_OPTIONS)[number]["value"]>("featured");
+  const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc">("featured");
   const [search, setSearch] = useState("");
+  const [products, setProducts] = useState<MaterialProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch products from API
+  useEffect(() => {
+    async function fetchProducts() {
+      setLoading(true);
+      setError(null);
+      try {
+        const params: Record<string, string | number> = {
+          page: 1,
+          pageSize: 50,
+          status: "active",
+        };
+        if (activeCategory !== "all") {
+          params.category = activeCategory;
+        }
+
+        const res = await getProducts(params) as ProductsResponse;
+        if (res.success && res.data?.rows) {
+          const transformed = res.data.rows.map(transformToMaterialProduct);
+          setProducts(transformed);
+        }
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        setError("Failed to load products");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
+  }, [activeCategory]);
 
   const filteredProducts = useMemo(() => {
-    let result = PRODUCTS;
-
-    if (activeCategory !== "all") {
-      result = result.filter((p) => p.category === activeCategory);
-    }
+    let result = products;
 
     if (search.trim()) {
       const q = search.trim().toLowerCase();
       result = result.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
-          p.brand?.toLowerCase().includes(q),
+          (p.brand?.toLowerCase().includes(q)) ||
+          p.category.toLowerCase().includes(q),
       );
     }
 
@@ -189,12 +120,9 @@ export function MaterialsMarketplace() {
       case "price-desc":
         sorted.sort((a, b) => b.price - a.price);
         break;
-      case "rating":
-        sorted.sort((a, b) => b.rating - a.rating);
-        break;
     }
     return sorted;
-  }, [activeCategory, sortBy, search]);
+  }, [products, search, sortBy]);
 
   return (
     <div className="space-y-6">
@@ -235,9 +163,7 @@ export function MaterialsMarketplace() {
           </label>
           <select
             value={sortBy}
-            onChange={(e) =>
-              setSortBy(e.target.value as (typeof SORT_OPTIONS)[number]["value"])
-            }
+            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
             className="rounded-lg border border-mutedLine bg-white px-3 py-2.5 text-[13px] sm:text-[14px] text-ink focus:outline-none focus:border-ink/60 transition-colors"
           >
             {SORT_OPTIONS.map((opt) => (
@@ -250,24 +176,49 @@ export function MaterialsMarketplace() {
       </div>
 
       {/* Result count */}
-      <p className="text-[13px] text-gray-600">
-        {filteredProducts.length}{" "}
-        {filteredProducts.length === 1 ? "product" : "products"} available
-      </p>
-
-      {/* Product grid */}
-      {filteredProducts.length === 0 ? (
+      {loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="rounded-[--radius-md] overflow-hidden bg-white border border-mutedLine">
+              <div className="h-44 sm:h-48 bg-gray-100 animate-pulse" />
+              <div className="p-4 sm:p-5 space-y-3">
+                <div className="h-4 bg-gray-100 rounded animate-pulse w-1/3" />
+                <div className="h-6 bg-gray-100 rounded animate-pulse" />
+                <div className="h-3 bg-gray-100 rounded animate-pulse w-1/2" />
+                <div className="h-10 bg-gray-100 rounded animate-pulse" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : error ? (
+        <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">
+          <p className="text-[14px] text-red-600">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-2 text-[13px] text-ink underline hover:text-gold"
+          >
+            Try again
+          </button>
+        </div>
+      ) : filteredProducts.length === 0 ? (
         <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">
           <p className="text-[14px] text-gray-700">
             No products match your search. Try a different keyword or category.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-          {filteredProducts.map((product) => (
-            <MaterialCard key={product.id} product={product} />
-          ))}
-        </div>
+        <>
+          <p className="text-[13px] text-gray-600">
+            {filteredProducts.length}{" "}
+            {filteredProducts.length === 1 ? "product" : "products"} available
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+            {filteredProducts.map((product) => (
+              <MaterialCard key={product.id} product={product} />
+            ))}
+          </div>
+        </>
       )}
 
       {/* Info banner */}

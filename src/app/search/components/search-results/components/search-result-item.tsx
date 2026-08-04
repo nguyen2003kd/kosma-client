@@ -65,9 +65,9 @@ export default function SearchResultItem({ result, t }: SearchResultItemProps) {
 
           {/* Description */}
           {result.summary && (
-            <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
+            <div className="text-gray-600 text-sm line-clamp-3 leading-relaxed [&_p]:mb-0">
               {parse(result.summary)}
-            </p>
+            </div>
           )}
         </div>
       </div>

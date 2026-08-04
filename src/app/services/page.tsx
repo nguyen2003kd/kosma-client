@@ -117,7 +117,7 @@ function ServicesContent() {
         subtitle={t("allServices")}
         breadcrumbs={[
           { label: "Home", href: "/home" },
-          { label: t("title") },
+          { label: "Services" },
         ]}
         backgroundImage="/images/hero.jpg"
       />

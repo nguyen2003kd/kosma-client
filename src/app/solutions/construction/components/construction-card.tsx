@@ -57,9 +57,9 @@ export default function ConstructionCard({
         <h3 className="font-serif text-[18px] sm:text-[20px] text-ink mb-2 line-clamp-2 leading-tight group-hover:text-gold transition-colors">
           {post.title}
         </h3>
-        <p className="text-[13px] sm:text-[14px] text-gray-700 line-clamp-2 flex-grow">
+        <div className="text-[13px] sm:text-[14px] text-gray-700 line-clamp-2 flex-grow [&_p]:mb-0">
           {parse(post.summary || "")}
-        </p>
+        </div>
 
         <div className="mt-4 pt-3 border-t border-line flex items-center justify-between">
           <p className="text-gray-600 text-xs flex items-center gap-1.5">

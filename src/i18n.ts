@@ -14,7 +14,7 @@ i18n
     })
   )
   .init({
-    fallbackLng: "vi",
+    fallbackLng: "en",
     supportedLngs: ["vi", "en"],
     defaultNS: "header",
     load: "languageOnly",
@@ -50,7 +50,7 @@ i18n
       caches: ["localStorage", "cookie"],
     },
     react: {
-      useSuspense: false,
+      useSuspense: true,
     },
   });
 

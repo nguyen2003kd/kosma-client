@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Phone, Calendar, MapPin } from "lucide-react";
+import { Phone, Calendar, MapPin, ShoppingCart } from "lucide-react";
 import { MegaMenu } from "./mega-menu";
 import { MobileNav } from "./mobile-nav";
+import { useCartStore } from "@/stores/cart-store";
 import type { GetApiV10Category200 } from "@/api/models";
 
-export function KosmoHeader({ categoriesData }: { categoriesData: GetApiV10Category200 }) {
+export function KosmoHeader({ categoriesData }: { categoriesData?: GetApiV10Category200 | null }) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const itemCount = useCartStore((state) => state.getItemCount());
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,6 +64,19 @@ export function KosmoHeader({ categoriesData }: { categoriesData: GetApiV10Categ
             >
               <MapPin className="w-4 h-4" />
             </a>
+
+            {/* Cart */}
+            <Link
+              href="/cart"
+              className="relative flex items-center justify-center w-11 h-11 rounded-full border border-black-800/15 text-ink hover:bg-cream transition-colors"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold px-1">
+                  {itemCount > 99 ? "99+" : itemCount}
+                </span>
+              )}
+            </Link>
 
             {/* Mobile Nav */}
             <MobileNav categoriesData={categoriesData} />

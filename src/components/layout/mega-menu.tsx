@@ -36,7 +36,7 @@ function ServiceImage({ post }: { post: PostExtended }) {
   );
 }
 
-export function MegaMenu({ categoriesData }: { categoriesData: GetApiV10Category200 }) {
+export function MegaMenu({ categoriesData }: { categoriesData?: GetApiV10Category200 | null }) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [hoveredChildIndex, setHoveredChildIndex] = useState(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -118,10 +118,7 @@ export function MegaMenu({ categoriesData }: { categoriesData: GetApiV10Category
                   <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`} />
                 </button>
               ) : (
-                <Link
-                  href={cat.link || "#"}
-                  className="flex items-center h-[78px] text-[14px] font-semibold text-ink hover:text-black-800 transition-colors"
-                >
+                <span className="flex items-center h-[78px] text-[14px] font-semibold text-ink hover:text-black-800 transition-colors">
                   <span className="relative">
                     {cat.name}
                     <span
@@ -129,7 +126,7 @@ export function MegaMenu({ categoriesData }: { categoriesData: GetApiV10Category
                         }`}
                     />
                   </span>
-                </Link>
+                </span>
               )}
             </Link>
           );

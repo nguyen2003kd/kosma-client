@@ -132,7 +132,7 @@ function SolutionsContent() {
         subtitle="Two ways we bring your space to life — interior design and construction. Choose a path below to explore our work."
         breadcrumbs={[
           { label: "Home", href: "/home" },
-          { label: t("title") },
+          { label: "Solutions" },
         ]}
         backgroundImage="/images/living.jpg"
       />

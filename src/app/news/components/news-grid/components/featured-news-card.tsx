@@ -49,9 +49,9 @@ export default function FeaturedNewsCard({ post }: FeaturedNewsCardProps) {
           </h2>
 
           {/* Description */}
-          <p className="text-white/90 text-sm md:text-base mb-3 md:mb-4 line-clamp-2 leading-relaxed drop-shadow-md max-w-[60%]">
+          <div className="text-white/90 text-sm md:text-base mb-3 md:mb-4 line-clamp-2 leading-relaxed drop-shadow-md max-w-[60%] [&_p]:mb-0">
             {parse(post.summary || "")}
-          </p>
+          </div>
 
           {/* Footer - Compact */}
           <div className="flex items-center gap-4">
