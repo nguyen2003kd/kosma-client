@@ -3,11 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { CheckCircle, ArrowLeft } from "lucide-react";
 import { useCartStore } from "@/stores/cart-store";
 import { PageHero } from "@/components/common";
-import { createOrder } from "@/api/endpoints/order";
+import { usePostApiV10Order } from "@/api/endpoints/order";
+import type { PostApiV10OrderBody } from "@/api/models";
 
 interface FormData {
   firstName: string;
@@ -36,14 +36,18 @@ const INITIAL_FORM: FormData = {
 };
 
 export default function CheckoutPage() {
-  const router = useRouter();
   const { items, total, shippingFee, clearCart, getSubtotal } = useCartStore();
   const [form, setForm] = useState<FormData>(INITIAL_FORM);
   const [errors, setErrors] = useState<Partial<FormData>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [orderCode, setOrderCode] = useState('');
-  const [orderError, setOrderError] = useState('');
+
+  const createOrderMutation = usePostApiV10Order();
+
+  const isSubmitting = createOrderMutation.isPending;
+  const orderError = createOrderMutation.error
+    ? (createOrderMutation.error as { message?: string })?.message || "Failed to place order. Please try again."
+    : "";
 
   const grandTotal = total; // total already includes shipping from cart-store
 
@@ -76,33 +80,34 @@ export default function CheckoutPage() {
     e.preventDefault();
     if (!validate()) return;
 
-    setIsSubmitting(true);
-    try {
-      const { data } = await createOrder({
-        customer_name: `${form.firstName} ${form.lastName}`,
-        customer_email: form.email,
-        customer_phone: form.phone,
-        shipping_address: `${form.address}, ${form.city}, ${form.state} ${form.zip}`,
-        notes: form.notes,
-        payment_method: form.paymentMethod,
-        items: items.map((item) => ({
-          product_id: item.id,
-          product_name: item.name,
-          quantity: item.quantity,
-          unit_price: item.price,
-        })),
-      });
+    const payload: PostApiV10OrderBody = {
+      customer_name: `${form.firstName} ${form.lastName}`.trim(),
+      customer_email: form.email,
+      customer_phone: form.phone,
+      shipping_address: form.address,
+      shipping_city: form.city,
+      shipping_state: form.state,
+      shipping_zip: form.zip,
+      notes: form.notes,
+      payment_method: form.paymentMethod,
+      items: items.map((item) => ({
+        product_id: item.id,
+        product_name: item.name,
+        quantity: item.quantity,
+        unit_price: Number(item.price) || 0,
+      })),
+    };
 
-      if (data?.order) {
-        setOrderCode(data.order.code || '');
-        setIsSuccess(true);
-        clearCart();
-      }
-    } catch (err) {
-      console.error("Checkout error:", err);
-      setOrderError(err instanceof Error ? err.message : 'Failed to place order. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+    try {
+      const res = (await createOrderMutation.mutateAsync({ data: payload })) as unknown as {
+        responseData?: { order?: { code?: string; id?: string } };
+      };
+      const code = res?.responseData?.order?.code || res?.responseData?.order?.id || "";
+      setOrderCode(code);
+      setIsSuccess(true);
+      clearCart();
+    } catch {
+      // surfaced via createOrderMutation.error / orderError
     }
   };
 
@@ -218,11 +223,10 @@ export default function CheckoutPage() {
                         name="firstName"
                         value={form.firstName}
                         onChange={handleChange}
-                        className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${
-                          errors.firstName
-                            ? "border-red-400 focus:border-red-500"
-                            : "border-mutedLine focus:border-ink/60"
-                        }`}
+                        className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${errors.firstName
+                          ? "border-red-400 focus:border-red-500"
+                          : "border-mutedLine focus:border-ink/60"
+                          }`}
                         placeholder="John"
                       />
                       {errors.firstName && <p className="text-red-500 text-[12px] mt-1">{errors.firstName}</p>}
@@ -236,11 +240,10 @@ export default function CheckoutPage() {
                         name="lastName"
                         value={form.lastName}
                         onChange={handleChange}
-                        className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${
-                          errors.lastName
-                            ? "border-red-400 focus:border-red-500"
-                            : "border-mutedLine focus:border-ink/60"
-                        }`}
+                        className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${errors.lastName
+                          ? "border-red-400 focus:border-red-500"
+                          : "border-mutedLine focus:border-ink/60"
+                          }`}
                         placeholder="Doe"
                       />
                       {errors.lastName && <p className="text-red-500 text-[12px] mt-1">{errors.lastName}</p>}
@@ -254,11 +257,10 @@ export default function CheckoutPage() {
                         name="email"
                         value={form.email}
                         onChange={handleChange}
-                        className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${
-                          errors.email
-                            ? "border-red-400 focus:border-red-500"
-                            : "border-mutedLine focus:border-ink/60"
-                        }`}
+                        className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${errors.email
+                          ? "border-red-400 focus:border-red-500"
+                          : "border-mutedLine focus:border-ink/60"
+                          }`}
                         placeholder="john@example.com"
                       />
                       {errors.email && <p className="text-red-500 text-[12px] mt-1">{errors.email}</p>}
@@ -272,11 +274,10 @@ export default function CheckoutPage() {
                         name="phone"
                         value={form.phone}
                         onChange={handleChange}
-                        className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${
-                          errors.phone
-                            ? "border-red-400 focus:border-red-500"
-                            : "border-mutedLine focus:border-ink/60"
-                        }`}
+                        className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${errors.phone
+                          ? "border-red-400 focus:border-red-500"
+                          : "border-mutedLine focus:border-ink/60"
+                          }`}
                         placeholder="(301) 555-0123"
                       />
                       {errors.phone && <p className="text-red-500 text-[12px] mt-1">{errors.phone}</p>}
@@ -299,11 +300,10 @@ export default function CheckoutPage() {
                         name="address"
                         value={form.address}
                         onChange={handleChange}
-                        className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${
-                          errors.address
-                            ? "border-red-400 focus:border-red-500"
-                            : "border-mutedLine focus:border-ink/60"
-                        }`}
+                        className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${errors.address
+                          ? "border-red-400 focus:border-red-500"
+                          : "border-mutedLine focus:border-ink/60"
+                          }`}
                         placeholder="123 Main Street, Apt 4B"
                       />
                       {errors.address && <p className="text-red-500 text-[12px] mt-1">{errors.address}</p>}
@@ -318,9 +318,8 @@ export default function CheckoutPage() {
                           name="city"
                           value={form.city}
                           onChange={handleChange}
-                          className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${
-                            errors.city ? "border-red-400 focus:border-red-500" : "border-mutedLine focus:border-ink/60"
-                          }`}
+                          className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${errors.city ? "border-red-400 focus:border-red-500" : "border-mutedLine focus:border-ink/60"
+                            }`}
                           placeholder="Rockville"
                         />
                         {errors.city && <p className="text-red-500 text-[12px] mt-1">{errors.city}</p>}
@@ -334,9 +333,8 @@ export default function CheckoutPage() {
                           name="state"
                           value={form.state}
                           onChange={handleChange}
-                          className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${
-                            errors.state ? "border-red-400 focus:border-red-500" : "border-mutedLine focus:border-ink/60"
-                          }`}
+                          className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${errors.state ? "border-red-400 focus:border-red-500" : "border-mutedLine focus:border-ink/60"
+                            }`}
                           placeholder="MD"
                         />
                         {errors.state && <p className="text-red-500 text-[12px] mt-1">{errors.state}</p>}
@@ -350,9 +348,8 @@ export default function CheckoutPage() {
                           name="zip"
                           value={form.zip}
                           onChange={handleChange}
-                          className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${
-                            errors.zip ? "border-red-400 focus:border-red-500" : "border-mutedLine focus:border-ink/60"
-                          }`}
+                          className={`w-full rounded-lg border bg-white px-4 py-2.5 text-[14px] text-ink placeholder:text-gray-400 focus:outline-none transition-colors ${errors.zip ? "border-red-400 focus:border-red-500" : "border-mutedLine focus:border-ink/60"
+                            }`}
                           placeholder="20850"
                         />
                         {errors.zip && <p className="text-red-500 text-[12px] mt-1">{errors.zip}</p>}
@@ -367,11 +364,10 @@ export default function CheckoutPage() {
                     Payment Method
                   </h2>
                   <div className="space-y-3">
-                    <label className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-colors ${
-                      form.paymentMethod === "cod"
-                        ? "border-ink bg-cream"
-                        : "border-mutedLine hover:border-ink/40"
-                    }`}>
+                    <label className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-colors ${form.paymentMethod === "cod"
+                      ? "border-ink bg-cream"
+                      : "border-mutedLine hover:border-ink/40"
+                      }`}>
                       <input
                         type="radio"
                         name="paymentMethod"
@@ -385,11 +381,10 @@ export default function CheckoutPage() {
                         <p className="text-[12px] text-gray-500">Pay when you receive your order</p>
                       </div>
                     </label>
-                    <label className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-colors ${
-                      form.paymentMethod === "bank_transfer"
-                        ? "border-ink bg-cream"
-                        : "border-mutedLine hover:border-ink/40"
-                    }`}>
+                    <label className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-colors ${form.paymentMethod === "bank_transfer"
+                      ? "border-ink bg-cream"
+                      : "border-mutedLine hover:border-ink/40"
+                      }`}>
                       <input
                         type="radio"
                         name="paymentMethod"
