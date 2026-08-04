@@ -7,7 +7,7 @@ import { MegaMenu } from "./mega-menu";
 import { MobileNav } from "./mobile-nav";
 import type { GetApiV10Category200 } from "@/api/models";
 
-export function KosmoHeader({ categoriesData }: { categoriesData: GetApiV10Category200 }) {
+export function KosmoHeader({ categoriesData }: { categoriesData: GetApiV10Category200 | undefined }) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
