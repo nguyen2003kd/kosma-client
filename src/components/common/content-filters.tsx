@@ -46,16 +46,15 @@ export default function ContentFilters({
           <TabsList
             className={`grid w-full h-auto`}
             style={{
-              gridTemplateColumns: `repeat(${
-                categories.length + 1
-              }, minmax(0, 1fr))`,
+              gridTemplateColumns: `repeat(${categories.length + 1
+                }, minmax(0, 1fr))`,
             }}
           >
             <TabsTrigger
               value="all"
               className="text-xs px-1 py-2 whitespace-normal h-auto min-h-[2.5rem]"
             >
-              Tất cả
+              All
             </TabsTrigger>
             {categories.map((cat) => (
               <TabsTrigger
@@ -81,7 +80,7 @@ export default function ContentFilters({
               {date ? (
                 format(date, "dd/MM/yyyy", { locale: vi })
               ) : (
-                <span>Chọn ngày</span>
+                <span>Select date</span>
               )}
             </Button>
           </PopoverTrigger>

@@ -22,9 +22,8 @@ export default function NewsCard({
   categoryCode,
   categoryName,
 }: NewsCardProps) {
-  const postUrl = `/${
-    categoryCode || post.category?.link?.replace(/^\//, "") || "post"
-  }/${post.slug || ""}`;
+  const postUrl = `/${categoryCode || post.category?.link?.replace(/^\//, "") || "post"
+    }/${post.slug || ""}`;
 
   if (viewMode === "list") {
     return (
@@ -60,9 +59,9 @@ export default function NewsCard({
             </h3>
 
             {/* Description */}
-            <p className="text-gray-600 text-sm line-clamp-2">
+            <div className="text-gray-600 text-sm line-clamp-2 [&_p]:mb-0">
               {parse(post.summary || "")}
-            </p>
+            </div>
           </div>
 
           {/* Footer - Date & Link */}
@@ -80,7 +79,7 @@ export default function NewsCard({
                 href={postUrl}
                 className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group/link"
               >
-                Xem chi tiết
+                View details
                 <ArrowRight className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -115,9 +114,9 @@ export default function NewsCard({
         </h3>
 
         {/* Description */}
-        <p className="text-gray-500 text-sm line-clamp-2">
+        <div className="text-gray-500 text-sm line-clamp-2 [&_p]:mb-0">
           {parse(post.summary || "")}
-        </p>
+        </div>
       </CardContent>
 
       {/* Footer */}
@@ -135,7 +134,7 @@ export default function NewsCard({
             href={postUrl}
             className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group/link"
           >
-            Xem chi tiết
+            View details
             <ArrowRight className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform" />
           </a>
         </div>

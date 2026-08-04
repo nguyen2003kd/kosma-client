@@ -7,5 +7,5 @@
 export * from './product';
 // export * from './user';
 
-// Placeholder export để tránh lỗi khi import
+// Placeholder export to avoid import errors
 export const FEATURE_COMPONENTS_PLACEHOLDER = 'Add your feature components here';

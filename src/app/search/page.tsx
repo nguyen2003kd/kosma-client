@@ -20,7 +20,7 @@ function SearchContent() {
     pageSize: 50,
   });
 
-  // Hiện tại đang search theo like title và summary nhé
+  // Currently searching by like on title and summary
   const results = (data?.responseData?.rows as unknown as SearchResult[]) || [];
 
   return (

@@ -61,7 +61,7 @@ const applicationSchema = z.object({
   foreign_language: z.string().trim().min(1, "validation.foreignLanguageRequired"),
   it_skill: z.string().trim().min(1, "validation.itSkillRequired"),
   degree: z
-    .enum(["Trung cấp", "Cao đẳng", "Đại học", "Thạc sĩ", "Tiến sĩ"])
+    .enum(["Associate", "College", "Bachelor", "Master", "PhD"])
     .refine((val) => !!val, "validation.degreeRequired"),
   major: z.string().trim().min(1, "validation.majorRequired"),
   position: z.string().trim().min(1, "validation.positionRequired"),
@@ -99,11 +99,11 @@ const filesSchema = z
   .max(MAX_FILES, `validation.fileMax`);
 
 const EDUCATION_LEVEL_MAP: Record<string, string> = {
-  "Trung cấp": "trung_cap",
-  "Cao đẳng": "cao_dang",
-  "Đại học": "dai_hoc",
-  "Thạc sĩ": "thac_si",
-  "Tiến sĩ": "tien_si",
+  "Associate": "trung_cap",
+  "College": "cao_dang",
+  "Bachelor": "dai_hoc",
+  "Master": "thac_si",
+  "PhD": "tien_si",
 };
 
 type ApplicationFormValues = z.infer<typeof applicationSchema>;
@@ -405,8 +405,8 @@ export default function CareersPage() {
             {t("hiringNow")}
           </div>
           {/* <p className="mx-auto mb-12 max-w-2xl text-lg text-primary-foreground/90 sm:text-xl">
-            Trung tâm Dịch vụ Phân tích thí nghiệm và Tiêu chuẩn Chất lượng
-            Thành phố Hồ Chí Minh thông báo tuyển dụng nhân sự
+            Testing and Quality Standards Service Center
+            Ho Chi Minh City announces recruitment
           </p> */}
           <div className="flex flex-wrap justify-center gap-8 sm:gap-16 mb-20">
             <div className="flex flex-col items-center">
@@ -424,7 +424,7 @@ export default function CareersPage() {
             {/* <div className="flex flex-col items-center">
               <span className="text-4xl font-bold sm:text-5xl">TP.HCM</span>
               <span className="mt-2 text-sm text-primary-foreground/80">
-                Địa điểm
+                Location
               </span>
             </div> */}
           </div>
@@ -437,10 +437,10 @@ export default function CareersPage() {
           <div className="mb-10 flex flex-col items-center gap-6 border-b pb-12">
             <div className="text-center">
               {/* <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                Vị trí đang tuyển
+                Open Positions
               </h2>
               <p className="mt-2 text-muted-foreground">
-                Căn cứ vào nhu cầu tuyển dụng
+                Based on recruitment needs
               </p> */}
             </div>
 
@@ -592,7 +592,7 @@ export default function CareersPage() {
                     onChange={(e) =>
                       setQuestionForm((prev) => ({ ...prev, name: e.target.value }))
                     }
-                    placeholder="Nguyễn Văn A"
+                    placeholder="John Doe"
                     required
                     className="h-12 bg-muted/40 border-muted-foreground/20 focus-visible:ring-[#4a55e6] focus-visible:border-[#4a55e6]"
                   />
@@ -641,7 +641,7 @@ export default function CareersPage() {
                     onChange={(e) =>
                       setQuestionForm((prev) => ({ ...prev, address: e.target.value }))
                     }
-                    placeholder="TP. Hồ Chí Minh"
+                    placeholder="New York, NY"
                     required
                     className="h-12 bg-muted/40 border-muted-foreground/20 focus-visible:ring-[#4a55e6] focus-visible:border-[#4a55e6]"
                   />
@@ -923,11 +923,11 @@ export default function CareersPage() {
                           <SelectValue placeholder={t("selectDegree")} />
                         </SelectTrigger>
                         <SelectContent className="z-[70]">
-                          <SelectItem value="Trung cấp">1. {t("degreeAssociate")}</SelectItem>
-                          <SelectItem value="Cao đẳng">2. {t("degreeCollege")}</SelectItem>
-                          <SelectItem value="Đại học">3. {t("degreeBachelor")}</SelectItem>
-                          <SelectItem value="Thạc sĩ">4. {t("degreeMaster")}</SelectItem>
-                          <SelectItem value="Tiến sĩ">5. {t("degreePhD")}</SelectItem>
+                          <SelectItem value="Associate">1. {t("degreeAssociate")}</SelectItem>
+                          <SelectItem value="College">2. {t("degreeCollege")}</SelectItem>
+                          <SelectItem value="Bachelor">3. {t("degreeBachelor")}</SelectItem>
+                          <SelectItem value="Master">4. {t("degreeMaster")}</SelectItem>
+                          <SelectItem value="PhD">5. {t("degreePhD")}</SelectItem>
                         </SelectContent>
                       </Select>
                       {appErrors.degree && (

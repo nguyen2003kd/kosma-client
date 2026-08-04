@@ -72,15 +72,15 @@ function formatEmploymentType(type: string | null | undefined, t?: (key: string)
 }
 
 function formatCurrency(amount: string | null | undefined, t?: (key: string) => string): string {
-  if (!amount) return t ? t("detail.negotiable") : "Thỏa thuận";
+  if (!amount) return t ? t("detail.negotiable") : "Negotiable";
   const num = parseFloat(amount);
-  if (isNaN(num)) return t ? t("detail.negotiable") : "Thỏa thuận";
-  return `${num.toLocaleString("vi-VN")} VNĐ`;
+  if (isNaN(num)) return t ? t("detail.negotiable") : "Negotiable";
+  return `${num.toLocaleString("en-US")} VND`;
 }
 
 function formatDate(dateStr: string | null | undefined, t?: (key: string) => string): string {
-  if (!dateStr) return t ? t("updating") : "Đang cập nhật";
-  return new Date(dateStr).toLocaleDateString("vi-VN");
+  if (!dateStr) return t ? t("updating") : "Updating";
+  return new Date(dateStr).toLocaleDateString("en-US");
 }
 
 // ---------------------------------------------------------------------------
@@ -104,31 +104,31 @@ export default function JobDetailPage({ params }: PageProps) {
   // Hardcoded job data (no API yet)
   // ---------------------------------------------------------------------------
   const job = {
-    title: "Nhân viên Kỹ thuật Cầu đường",
+    title: "Civil Engineer",
     description:
-      "Tham gia xây dựng và quản lý các dự án hạ tầng giao thông.\n" +
-      "- Phụ trách giám sát thi công các công trình cầu đường.\n" +
-      "- Lập kế hoạch và báo cáo tiến độ định kỳ.\n" +
-      "- Phối hợp với các đơn vị liên quan để đảm bảo chất lượng và an toàn lao động.",
-    location: "Hà Nội",
+      "Join the construction and management of infrastructure projects.\n" +
+      "- Responsible for supervising construction of road and bridge projects.\n" +
+      "- Plan and report progress regularly.\n" +
+      "- Coordinate with related units to ensure quality and workplace safety.",
+    location: "New York",
     updated_at: "2026-07-15",
     salary_min: "15000000",
     salary_max: "30000000",
     quantity: 3,
     deadline: "2026-08-31",
     benefits:
-      "- Lương thưởng KPI hàng tháng.\n" +
-      "- Bảo hiểm đầy đủ theo luật lao động.\n" +
-      "- Du lịch công tác và team building hàng năm.\n" +
-      "- Môi trường làm việc chuyên nghiệp, cơ hội thăng tiến rõ ràng.",
+      "- Monthly KPI-based bonus.\n" +
+      "- Full insurance per labor law.\n" +
+      "- Annual business travel and team building.\n" +
+      "- Professional work environment with clear advancement opportunities.",
     requirements:
-      "- Tốt nghiệp Đại học chuyên ngành Xây dựng / Cầu đường.\n" +
-      "- Có ít nhất 2 năm kinh nghiệm ở vị trí tương đương.\n" +
-      "- Thành thạo AutoCAD, Civil 3D là một lợi thế.\n" +
-      "- Kỹ năng làm việc nhóm và chịu được áp lực cao.",
+      "- Bachelor's degree in Civil Engineering / Construction.\n" +
+      "- At least 2 years of experience in a similar position.\n" +
+      "- Proficiency in AutoCAD, Civil 3D is a plus.\n" +
+      "- Teamwork skills and ability to work under high pressure.",
     required_documents:
-      "Sơ yếu lý lịch\nCV ứng tuyển\nBản sao bằng cấp\nCCCD photo\n",
-    experience: "2+ năm",
+      "Resume\nCV\nCopies of degrees\nID copy\n",
+    experience: "2+ years",
     employment_type: "full_time",
     file_id: "hardcoded-file-1",
   };
@@ -136,8 +136,8 @@ export default function JobDetailPage({ params }: PageProps) {
   // File modal
   const [isFileModalOpen, setIsFileModalOpen] = useState(false);
   const fileInfo = {
-    name: "Thông báo tuyển dụng KOSMO 2026",
-    path: "/files/thong-bao-tuyen-dung-2026.pdf",
+    name: "KOSMO Recruitment Notice 2026",
+    path: "/files/recruitment-notice-2026.pdf",
   };
 
   // Similar jobs (hardcoded)
@@ -151,22 +151,22 @@ export default function JobDetailPage({ params }: PageProps) {
   const similarJobs: JobRow[] = [
     {
       id: "hardcoded-2",
-      title: "Kỹ sư Quản lý Dự án",
-      location: "Hà Nội",
+      title: "Project Manager",
+      location: "New York",
       quantity: 2,
       deadline: "2026-09-15",
     },
     {
       id: "hardcoded-3",
-      title: "Chuyên viên Kế toán Xây dựng",
-      location: "TP. Hồ Chí Minh",
+      title: "Construction Accountant",
+      location: "Los Angeles",
       quantity: 1,
       deadline: "2026-08-20",
     },
     {
       id: "hardcoded-4",
-      title: "Nhân viên Hành chính Nhân sự",
-      location: "Đà Nẵng",
+      title: "HR Administrative Staff",
+      location: "Chicago",
       quantity: 2,
       deadline: "2026-09-01",
     },
@@ -763,11 +763,11 @@ export default function JobDetailPage({ params }: PageProps) {
                   className="w-full text-sm rounded-md border border-input bg-background px-3 py-2.5 outline-none focus:border-[#3b82f6] transition-colors text-muted-foreground focus:text-foreground"
                 >
                   <option value="" disabled>{t("selectDegree")}</option>
-                  <option value="Trung cấp">{t("degreeAssociate")}</option>
-                  <option value="Cao đẳng">{t("degreeCollege")}</option>
-                  <option value="Đại học">{t("degreeBachelor")}</option>
-                  <option value="Thạc sĩ">{t("degreeMaster")}</option>
-                  <option value="Tiến sĩ">{t("degreePhD")}</option>
+                  <option value="Associate">{t("degreeAssociate")}</option>
+                  <option value="College">{t("degreeCollege")}</option>
+                  <option value="Bachelor">{t("degreeBachelor")}</option>
+                  <option value="Master">{t("degreeMaster")}</option>
+                  <option value="PhD">{t("degreePhD")}</option>
                 </select>
               </div>
               <div>
@@ -810,7 +810,7 @@ export default function JobDetailPage({ params }: PageProps) {
               <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 dark:border-red-900 dark:bg-red-950/30">
                 <AlertCircle className="h-4 w-4 shrink-0 text-red-500" />
                 <p className="text-sm font-medium text-red-600 dark:text-red-400">
-                  Tin tuyển dụng này đã hết hạn nộp hồ sơ.
+                  This job posting has expired.
                 </p>
               </div>
             )} */}

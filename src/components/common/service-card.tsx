@@ -65,7 +65,7 @@ export default function ServiceCard({
               strokeWidth={1.5}
             />
             <p className="text-gray-400 font-medium text-sm">
-              Không có hình ảnh
+              No image available
             </p>
           </div>
         )}
@@ -109,7 +109,7 @@ export default function ServiceCard({
             className="inline-flex items-center gap-2"
             style={{ color: linkColor }}
           >
-            Xem chi tiết
+            View details
             <ArrowRight className="w-4 h-4" />
           </Link>
         </Button>

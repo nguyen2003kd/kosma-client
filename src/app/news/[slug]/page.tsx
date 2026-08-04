@@ -29,8 +29,8 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: "Không tìm thấy tin tức",
-      description: "Bài viết không tồn tại hoặc đã bị xóa.",
+      title: "News not found",
+      description: "The article does not exist or has been deleted.",
     };
   }
 
@@ -42,13 +42,13 @@ export async function generateMetadata({
         : undefined;
 
   const pageUrl = `${baseConfig.frontendDomain}/news/${params.slug}`;
-  const description = post.summary?.replace(/<[^>]*>/g, "").slice(0, 160) || "Tin tức mới nhất";
+  const description = post.summary?.replace(/<[^>]*>/g, "").slice(0, 160) || "Latest news";
 
   return {
-    title: post.title || "Tin tức",
+    title: post.title || "News",
     description,
     openGraph: {
-      title: post.title || "Tin tức",
+      title: post.title || "News",
       description,
       url: pageUrl,
       type: "article",
@@ -60,7 +60,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title || "Tin tức",
+      title: post.title || "News",
       description,
       ...(thumbnailUrl && { images: [thumbnailUrl] }),
     },

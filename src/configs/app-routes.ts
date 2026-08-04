@@ -31,10 +31,10 @@ export type AppRouteConfig = {
 };
 
 export const APP_ROUTES: AppRouteConfig[] = [
-  
+
   {
     path: '/work-schedule',
     access: { resources: ['work-schedule'], requiredActions: ['view'] },
-    sidebar: { label: 'Lịch Công tác', icon: 'work-schedule' },
+    sidebar: { label: 'Work Schedule', icon: 'work-schedule' },
   },
 ];

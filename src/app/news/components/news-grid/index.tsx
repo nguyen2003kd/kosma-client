@@ -59,13 +59,13 @@ export default function NewsGrid() {
       const categories = newsCategory?.categories || [];
       const categoryName = selectedCategory
         ? categories.find((cat) => cat.id === selectedCategory)?.name ||
-          "Tin tức"
-        : "Tin tức";
+        "News"
+        : "News";
       return {
         newsSubCategories: categories,
         currentCategoryName: categoryName,
         newsCategoryId: newsCategory?.id || "",
-        rootCategoryName: newsCategory?.name || "Tin tức",
+        rootCategoryName: newsCategory?.name || "News",
       };
     }, [categoriesData, selectedCategory]);
 
@@ -128,11 +128,11 @@ export default function NewsGrid() {
             {rootCategoryName}
           </h1>
           {/* <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-            Cập nhật thông tin mới nhất
+            Latest updates
           </h1>
           <p className="text-blue-100 text-lg max-w-3xl mx-auto">
-            Theo dõi các hoạt động, sự kiện nổi bật và các bài viết chuyên ngành
-            từ CASE-SMEQ.
+            Follow the activities, notable events, and industry articles
+            from CASE-SMEQ.
           </p> */}
         </div>
       </section>

@@ -1,177 +1,187 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { Facebook, Instagram } from "lucide-react";
+import { useGetApiV10Footer } from "@/api/endpoints/footer";
+import { Loader2 } from "lucide-react";
 
-const services = [
-  { name: "Interior Design", href: "/spaces/closets" },
-  { name: "Commercial Fit-Out", href: "/spaces/garages" },
-  { name: "Nail Salon Design & Construction", href: "/spaces/home-offices" },
-  { name: "Residential Renovation", href: "/spaces/pantries" },
-  { name: "Custom Joinery", href: "/spaces/laundry-rooms" },
-  { name: "Branding", href: "/spaces/mudrooms" },
-];
+// ---------------------------------------------------------------------------
+// Types for the nested footer structure (matches new backend schema).
+// Using local types to avoid depending on generated API models.
+// ---------------------------------------------------------------------------
+interface FooterElementData {
+  id?: string;
+  type?: string;
+  content?: string | null;
+  link?: string | null;
+}
 
-const projects = [
-  { name: "Commercial Projects", href: "/gallery" },
-  { name: "Residential Projects", href: "/gallery" },
-  { name: "Nail Salon Portfolio", href: "/gallery" },
-  { name: "Kitchen Renovation", href: "/gallery" },
-  { name: "Custom Joinery", href: "/gallery" },
-];
+interface FooterRowData {
+  id?: string;
+  footer_elements?: FooterElementData[] | null;
+}
 
-const company = [
-  { name: "About Us", href: "/about" },
-  { name: "Our Process", href: "/process" },
-  { name: "Gallery", href: "/gallery" },
-  { name: "Service Areas", href: "/locations" },
-  { name: "Get a Quote", href: "/consultation" },
-];
+interface FooterColumnData {
+  id?: string;
+  title?: string | null;
+  footer_rows?: FooterRowData[] | null;
+}
+
+interface FooterData {
+  id?: string;
+  language?: string;
+  is_active?: boolean | null;
+  footer_columns?: FooterColumnData[] | null;
+}
+
+function renderElement(el: FooterElementData, key: string) {
+  if (el.type === "image") {
+    const img = (
+      <img
+        src={el.content || ""}
+        alt=""
+        className="h-8 sm:h-10 w-auto opacity-80 hover:opacity-100 transition-opacity"
+      />
+    );
+    if (el.link) {
+      return (
+        <Link key={key} href={el.link} className="inline-flex">
+          {img}
+        </Link>
+      );
+    }
+    return <div key={key}>{img}</div>;
+  }
+
+  // text element
+  const text = (
+    <span className="text-[13px] text-white/80 hover:text-white transition-colors">
+      {el.content}
+    </span>
+  );
+  if (el.link) {
+    const isExternal = /^https?:\/\//.test(el.link);
+    if (isExternal) {
+      return (
+        <a
+          key={key}
+          href={el.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block"
+        >
+          {text}
+        </a>
+      );
+    }
+    return (
+      <Link key={key} href={el.link} className="block">
+        {text}
+      </Link>
+    );
+  }
+  return <div key={key}>{text}</div>;
+}
 
 export function KosmoFooter() {
+  const { data: footersData, isLoading } = useGetApiV10Footer(undefined as any);
+  const rows = (footersData as any)?.responseData?.rows ?? [];
+  const activeFooter: FooterData | undefined = rows.find(
+    (f: any) => f.is_active,
+  );
+  const columns = activeFooter?.footer_columns ?? [];
+
+  if (isLoading) {
+    return (
+      <footer className="bg-black-950 text-white">
+        <div className="container-kosmo py-12 flex items-center justify-center">
+          <Loader2 className="h-6 w-6 animate-spin text-white/60" />
+        </div>
+      </footer>
+    );
+  }
+
   return (
     <footer className="bg-black-950 text-white">
       <div className="container-kosmo py-12 sm:py-16 md:py-[72px]">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
-          {/* Brand Column */}
-          <div className="lg:col-span-1">
-            <Link href="/home" className="inline-flex items-center gap-3 mb-5 sm:mb-6 p-2 sm:p-3 bg-white rounded-lg">
-              <img src="/logo.png" alt="Kosmo DNC - Interior Design & Construction" className="h-10 sm:h-12 w-auto" />
-            </Link>
-            <p className="text-[13px] text-white/80 mb-5 sm:mb-6 leading-relaxed">
-              Interior design, commercial fit-outs, residential renovations,
-              construction and branding services in Maryland and Northern Virginia.
-            </p>
-            <div className="space-y-2 mb-5 sm:mb-6 text-[13px] text-white/80">
-              <p>14229 Travilah Rd, Rockville, MD 20850</p>
-              <p>
-                <a href="tel:+14437360577" className="hover:text-white transition-colors">(443) 736-0577</a>
-                {" · "}
-                <a href="mailto:kosmodnc@gmail.com" className="hover:text-white transition-colors">kosmodnc@gmail.com</a>
-              </p>
-              <p>Mon–Fri 10:00 AM–6:00 PM · Licensed MD #113826</p>
-            </div>
-            <div className="flex gap-3 sm:gap-4">
-              <a
-                href="https://www.facebook.com/Kosmodnc/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                aria-label="Facebook"
+        {columns.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+            {columns.map((col, colIdx) => {
+              const rows = col.footer_rows ?? [];
+              return (
+                <div key={col.id ?? colIdx}>
+                  {col.title && (
+                    <h3 className="text-[12px] font-extrabold uppercase tracking-[0.14em] text-white mb-4">
+                      {col.title}
+                    </h3>
+                  )}
+                  <div className="space-y-4">
+                    {rows.map((row, rowIdx) => {
+                      const elements = row.footer_elements ?? [];
+                      const isMultiCol = elements.length >= 2;
+                      return (
+                        <div
+                          key={row.id ?? rowIdx}
+                          className={
+                            isMultiCol
+                              ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
+                              : "space-y-3"
+                          }
+                        >
+                          {elements.map((el, elIdx) =>
+                            renderElement(
+                              el,
+                              `${col.id ?? colIdx}-${row.id ?? rowIdx}-${el.id ?? elIdx}`,
+                            ),
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          /* Fallback: static content when no footer configured in DB */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+            <div className="lg:col-span-1">
+              <Link
+                href="/home"
+                className="inline-flex items-center gap-3 mb-5 sm:mb-6 p-2 sm:p-3 bg-white rounded-lg"
               >
-                <Facebook className="w-4 sm:w-5 h-4 sm:h-5" />
-              </a>
-              <a
-                href="https://www.instagram.com/kosmo.dnc/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-4 sm:w-5 h-4 sm:h-5" />
-              </a>
-            </div>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h3 className="text-[12px] font-extrabold uppercase tracking-[0.14em] text-white mb-4">
-              Services
-            </h3>
-            <ul className="space-y-3">
-              {services.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-[13px] text-white/80 hover:text-white transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Projects */}
-          <div>
-            <h3 className="text-[12px] font-extrabold uppercase tracking-[0.14em] text-white mb-4">
-              Projects
-            </h3>
-            <ul className="space-y-3">
-              {projects.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-[13px] text-white/80 hover:text-white transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="text-[12px] font-extrabold uppercase tracking-[0.14em] text-white mb-4">
-              Company
-            </h3>
-            <ul className="space-y-3">
-              {company.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-[13px] text-white/80 hover:text-white transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Newsletter */}
-        <div className="mt-10 sm:mt-12 pt-8 sm:pt-10 border-t border-white/20">
-          <div className="flex flex-col lg:flex-row lg:items-center gap-5 sm:gap-6">
-            <div className="flex-1">
-              <h3 className="font-serif text-lg sm:text-xl text-white mb-2">
-                Stay Updated
-              </h3>
-              <p className="text-[13px] text-white/80">
-                Subscribe to get design tips and exclusive offers.
-              </p>
-            </div>
-            <form className="flex flex-col sm:flex-row w-full lg:w-auto gap-3 sm:gap-0">
-              <div className="relative flex-1">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full lg:w-72 h-11 sm:h-12 pl-4 pr-4 rounded-xl sm:rounded-l-full sm:rounded-r-none bg-white/10 border border-white/30 text-white placeholder:text-white/70 focus:outline-none focus:border-white/60"
+                <img
+                  src="/logo.png"
+                  alt="Kosmo DNC"
+                  className="h-10 sm:h-12 w-auto"
                 />
-              </div>
-              <button
-                type="submit"
-                className="h-11 sm:h-12 px-5 sm:px-6 bg-[#d8c29c] text-black-950 font-extrabold text-[14px] rounded-xl sm:rounded-l-none sm:rounded-r-full hover:bg-white/20 transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
+              </Link>
+              <p className="text-[13px] text-white/80 mb-5 sm:mb-6 leading-relaxed">
+                Interior design, commercial fit-outs, residential renovations,
+                construction and branding services in Maryland and Northern
+                Virginia.
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Bottom */}
       <div className="border-t border-white/20 py-4 sm:py-5">
         <div className="container-kosmo flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 text-center sm:text-left">
           <p className="text-[11px] sm:text-[12px] text-white/80">
-            Â© {new Date().getFullYear()} Kosmo DNC. All rights reserved.
+            Copyright © {new Date().getFullYear()} Kosmo DNC. All rights reserved.
           </p>
           <div className="flex gap-4 sm:gap-6">
-            <Link href="/privacy" className="text-[11px] sm:text-[12px] text-white/80 hover:text-white transition-colors">
+            <Link
+              href="/privacy"
+              className="text-[11px] sm:text-[12px] text-white/80 hover:text-white transition-colors"
+            >
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-[11px] sm:text-[12px] text-white/80 hover:text-white transition-colors">
+            <Link
+              href="/terms"
+              className="text-[11px] sm:text-[12px] text-white/80 hover:text-white transition-colors"
+            >
               Terms of Service
             </Link>
           </div>

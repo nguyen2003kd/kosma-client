@@ -1,5 +1,5 @@
 /**
- * Permission hooks cho trang Quản lý phân quyền
+ * Permission hooks for the Permission Management page
  */
 
 'use client';
@@ -7,7 +7,7 @@
 import { useAbility } from '@/hooks/use-ability';
 
 /**
- * role:create → nút tạo vai trò mới
+ * role:create → create new role button
  */
 export function useCanCreateRole(): boolean {
   const ability = useAbility();
@@ -15,7 +15,7 @@ export function useCanCreateRole(): boolean {
 }
 
 /**
- * role:update → nút sửa tên/mô tả vai trò
+ * role:update → edit role name/description button
  */
 export function useCanUpdateRole(): boolean {
   const ability = useAbility();
@@ -23,7 +23,7 @@ export function useCanUpdateRole(): boolean {
 }
 
 /**
- * role:update-permission → nút chỉnh sửa quyền
+ * role:update-permission → edit permissions button
  */
 export function useCanUpdateRolePermission(): boolean {
   const ability = useAbility();
@@ -31,7 +31,7 @@ export function useCanUpdateRolePermission(): boolean {
 }
 
 /**
- * role:add-user → nút thêm người dùng vào vai trò
+ * role:add-user → add user to role button
  */
 export function useCanAddUserToRole(): boolean {
   const ability = useAbility();
@@ -39,7 +39,7 @@ export function useCanAddUserToRole(): boolean {
 }
 
 /**
- * role:delete → xóa vai trò
+ * role:delete → delete role
  */
 export function useCanDeleteRole(): boolean {
   const ability = useAbility();

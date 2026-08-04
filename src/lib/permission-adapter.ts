@@ -1,138 +1,138 @@
 /**
  * Permission Adapter
- * Map giữa backend API format (fine-grained actions) và UI format (dynamic)
+ * Map between backend API format (fine-grained actions) and UI format (dynamic)
  */
 
 import type { ModulePermission } from '@/types/permissions-page';
 import type { Permission as BackendPermission } from '@/api/models/permission';
 
 /**
- * Tên hiển thị tiếng Việt cho từng action
+ * Display labels (English) for each action
  */
 export const ACTION_LABELS: Record<string, string> = {
   // Dashboard
-  view_summary: 'Xem tổng quan',
-  view_overview: 'Xem lượt xem',
-  view_monthly_traffic: 'Xem theo tháng',
+  view_summary: 'View Summary',
+  view_overview: 'View Overview',
+  view_monthly_traffic: 'View Monthly Traffic',
   // News
-  view_detail: 'Xem chi tiết',
-  create_post_info: 'Thêm bài viết',
-  select_thumbnail: 'Chọn ảnh đại diện',
-  add_text_section: 'Thêm section văn bản',
-  add_image_section: 'Thêm section hình ảnh',
+  view_detail: 'View Details',
+  create_post_info: 'Add Post',
+  select_thumbnail: 'Select Thumbnail',
+  add_text_section: 'Add Text Section',
+  add_image_section: 'Add Image Section',
   // Common
-  create: 'Thêm mới',
-  update: 'Sửa',
-  delete: 'Xóa',
-  filter: 'Bộ lọc',
-  read: 'Xem',
-  download: 'Tải về',
+  create: 'Create',
+  update: 'Edit',
+  delete: 'Delete',
+  filter: 'Filter',
+  read: 'View',
+  download: 'Download',
   // Gallery
-  upload: 'Tải lên',
+  upload: 'Upload',
   // Quotation
-  view_statistics: 'Xem thống kê',
-  add_attachment: 'Đính kèm tệp',
-  reply_email: 'Trả lời email',
-  update_status: 'Sửa trạng thái',
-  download_attachment: 'Tải tệp',
-  reply_customer: 'Phản hồi khách hàng',
+  view_statistics: 'View Statistics',
+  add_attachment: 'Attach File',
+  reply_email: 'Reply to Email',
+  update_status: 'Edit Status',
+  download_attachment: 'Download File',
+  reply_customer: 'Reply to Customer',
   // Category
-  add_children: 'Thêm danh mục con',
-  view_post: 'Xem bài viết',
-  edit: 'Chỉnh sửa',
+  add_children: 'Add Subcategory',
+  view_post: 'View Post',
+  edit: 'Edit',
   // Users
-  deactivate: 'Vô hiệu hoá',
+  deactivate: 'Deactivate',
   // Settings
-  create_logo: 'Tạo logo',
-  delete_logo: 'Xóa logo',
-  update_logo: 'Đổi logo',
-  create_banner: 'Tạo banner',
-  update_banner: 'Đổi banner',
-  delete_banner: 'Xóa banner',
-  create_contact: 'Tạo thông tin liên hệ',
-  update_contact: 'Sửa thông tin liên hệ',
-  delete_contact: 'Xóa thông tin liên hệ',
-  manage_banner: 'Quản lý banner',
-  infor_contact: 'Thông tin liên hệ',
-  view: 'Xem',
+  create_logo: 'Create Logo',
+  delete_logo: 'Delete Logo',
+  update_logo: 'Update Logo',
+  create_banner: 'Create Banner',
+  update_banner: 'Update Banner',
+  delete_banner: 'Delete Banner',
+  create_contact: 'Create Contact Info',
+  update_contact: 'Edit Contact Info',
+  delete_contact: 'Delete Contact Info',
+  manage_banner: 'Manage Banner',
+  infor_contact: 'Contact Info',
+  view: 'View',
   // Footer
-  update_system: 'Thông tin hệ thống',
-  update_address: 'Địa chỉ',
-  update_basic_info: 'Thông tin cơ bản',
-  update_social: 'Mạng xã hội',
+  update_system: 'System Info',
+  update_address: 'Address',
+  update_basic_info: 'Basic Info',
+  update_social: 'Social Media',
   // Work Schedule
-  create_collaborate: 'Thêm sự kiện/công tác',
-  edit_collaborate: 'Sửa sự kiện/công tác',
-  create_participants: 'Thêm người tham gia',
-  delete_collaborate: 'Xóa sự kiện/công tác',
+  create_collaborate: 'Add Event/Business Trip',
+  edit_collaborate: 'Edit Event/Business Trip',
+  create_participants: 'Add Participants',
+  delete_collaborate: 'Delete Event/Business Trip',
   // Diagram
-  delete_personnel: 'Xóa nhân sự',
-  edit_personnel: 'Chỉnh sửa thông tin nhân sự',
-  personnel_same_level: 'Thêm người cùng cấp',
-  personnel_inferior: 'Thêm người cấp dưới',
-  personnel_drop: 'Di chuyển nhân sự bằng kéo thả',
-  create_root_node: 'Tạo node gốc',
-  // Duyệt bài
-  approve_post: 'Duyệt bài',
-  view_history: 'Xem lịch sử',
+  delete_personnel: 'Delete Personnel',
+  edit_personnel: 'Edit Personnel Info',
+  personnel_same_level: 'Add Same-Level Personnel',
+  personnel_inferior: 'Add Subordinate',
+  personnel_drop: 'Drag and Drop Personnel',
+  create_root_node: 'Create Root Node',
+  // Post Approval
+  approve_post: 'Approve Post',
+  view_history: 'View History',
   // Role
-  add: 'Thêm',
-  add_user: 'Gán vai trò cho người dùng',
-  update_permission: 'Cập nhật phân quyền',
+  add: 'Add',
+  add_user: 'Assign Role to User',
+  update_permission: 'Update Permissions',
   // Auth
-  login: 'Đăng nhập',
-  logout: 'Đăng xuất',
+  login: 'Login',
+  logout: 'Logout',
 };
 
 /**
- * Lấy label hiển thị cho một action
+ * Get the display label for an action
  */
 export function getActionLabel(action: string): string {
   return ACTION_LABELS[action] || action;
 }
 
 /**
- * Định nghĩa module (resource) với tên hiển thị
+ * Module (resource) definitions with display names
  */
 export const MODULE_DEFINITIONS = [
-  { id: 'dashboard', name: 'Dashboard', description: 'Trang tổng quan' },
-  { id: 'news', name: 'Tin tức', description: 'Quản lý bài viết và tin tức' },
-  { id: 'category', name: 'Danh mục', description: 'Quản lý danh mục sản phẩm' },
-  { id: 'gallery', name: 'Kho ảnh', description: 'Quản lý hình ảnh' },
-  { id: 'gallery_video', name: 'Kho video', description: 'Quản lý video' },
-  { id: 'gallery_document', name: 'Kho tài liệu', description: 'Quản lý tài liệu' },
-  { id: 'quotation', name: 'Báo giá', description: 'Quản lý yêu cầu báo giá' },
-  { id: 'users', name: 'Tài khoản', description: 'Quản lý tài khoản người dùng' },
-  { id: 'settings', name: 'Cài đặt', description: 'Cấu hình banner, logo' },
-  { id: 'contact', name: 'Liên hệ', description: 'Quản lý thông tin liên hệ' },
-  { id: 'template_type', name: 'Loại mẫu', description: 'Quản lý loại mẫu báo giá' },
-  { id: 'footer', name: 'Footer', description: 'Quản lý nội dung footer' },
-  { id: 'role', name: 'Vai trò', description: 'Quản lý vai trò phân quyền' },
-  { id: 'user_role', name: 'Gán vai trò', description: 'Gán vai trò cho người dùng' },
+  { id: 'dashboard', name: 'Dashboard', description: 'Overview page' },
+  { id: 'news', name: 'News', description: 'Manage posts and news' },
+  { id: 'category', name: 'Categories', description: 'Manage product categories' },
+  { id: 'gallery', name: 'Image Library', description: 'Manage images' },
+  { id: 'gallery_video', name: 'Video Library', description: 'Manage videos' },
+  { id: 'gallery_document', name: 'Document Library', description: 'Manage documents' },
+  { id: 'quotation', name: 'Quotation', description: 'Manage quotation requests' },
+  { id: 'users', name: 'Users', description: 'Manage user accounts' },
+  { id: 'settings', name: 'Settings', description: 'Configure banner, logo' },
+  { id: 'contact', name: 'Contact', description: 'Manage contact information' },
+  { id: 'template_type', name: 'Template Types', description: 'Manage quotation template types' },
+  { id: 'footer', name: 'Footer', description: 'Manage footer content' },
+  { id: 'role', name: 'Roles', description: 'Manage roles and permissions' },
+  { id: 'user_role', name: 'Role Assignment', description: 'Assign roles to users' },
   {
     id: 'work-schedule',
-    name: 'Lịch công tác',
-    description: 'Quản lý lịch công tác',
+    name: 'Work Schedule',
+    description: 'Manage work schedules',
   },
   {
     id: 'post-approval-1',
-    name: 'Duyệt bài vòng 1',
-    description: 'Quản lý duyệt bài cấp 1',
+    name: 'Post Approval Round 1',
+    description: 'Manage level 1 post approval',
   },
   {
     id: 'post-approval-2',
-    name: 'Duyệt bài vòng 2',
-    description: 'Quản lý duyệt bài cấp 2',
+    name: 'Post Approval Round 2',
+    description: 'Manage level 2 post approval',
   },
   {
     id: 'diagram',
-    name: 'Sơ đồ tổ chức',
-    description: 'Quản lý các quyền của sơ đồ tổ chức',
+    name: 'Organizational Chart',
+    description: 'Manage organizational chart permissions',
   },
 ];
 
 /**
- * Build danh sach modules từ backend permissions
+ * Build the list of modules from backend permissions
  */
 export function buildModulesFromPermissions(
   backendPermissions: BackendPermission[]
@@ -175,7 +175,7 @@ export function buildModulesFromPermissions(
     modules.push({
       id: resource,
       name: resource,
-      description: `Quản lý ${resource}`,
+      description: `Manage ${resource}`,
       permissions,
       availableActions,
     });
@@ -185,7 +185,7 @@ export function buildModulesFromPermissions(
 }
 
 /**
- * Convert role permissions (từ backend) → ModulePermissions
+ * Convert role permissions (from backend) → ModulePermissions
  */
 export function rolePermissionsToModulePermissions(
   rolePermissions: unknown[],
@@ -196,8 +196,8 @@ export function rolePermissionsToModulePermissions(
     .map(
       (rp) =>
         (rp as Record<string, unknown>)?.permission as
-          | BackendPermission
-          | undefined
+        | BackendPermission
+        | undefined
     )
     .filter((p): p is BackendPermission => !!p);
 

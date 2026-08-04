@@ -134,11 +134,11 @@ export function useUpdateRoleInfo() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['permissions-ui', 'roles'] });
-      toast.success('Thông tin vai trò đã được cập nhật');
+      toast.success('Role information has been updated');
     },
     onError: (error) => {
       console.error('Error updating role:', error);
-      toast.error('Có lỗi xảy ra khi cập nhật vai trò');
+      toast.error('An error occurred while updating the role');
     },
   });
 }
@@ -185,11 +185,11 @@ export function useSaveRole() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['permissions-ui', 'roles'] });
-      toast.success('Vai trò đã được lưu thành công');
+      toast.success('Role has been saved successfully');
     },
     onError: (error) => {
       console.error('Error saving role:', error);
-      toast.error('Có lỗi xảy ra khi lưu vai trò');
+      toast.error('An error occurred while saving the role');
     },
   });
 }
@@ -206,11 +206,11 @@ export function useDeleteRole() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['permissions-ui', 'roles'] });
-      toast.success('Vai trò đã được xóa');
+      toast.success('Role has been deleted');
     },
     onError: (error) => {
       console.error('Error deleting role:', error);
-      toast.error('Có lỗi xảy ra khi xóa vai trò');
+      toast.error('An error occurred while deleting the role');
     },
   });
 }
@@ -229,11 +229,11 @@ export function useAssignRoleToUser() {
       queryClient.invalidateQueries({
         queryKey: ['permissions-ui', 'users-with-roles'],
       });
-      toast.success('Đã gán vai trò cho người dùng');
+      toast.success('Role has been assigned to the user');
     },
     onError: (error) => {
       console.error('Error assigning role:', error);
-      toast.error('Có lỗi xảy ra khi gán vai trò');
+      toast.error('An error occurred while assigning the role');
     },
   });
 }

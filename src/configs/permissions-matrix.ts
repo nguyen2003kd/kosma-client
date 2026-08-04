@@ -63,7 +63,7 @@ export const hasRouteAccess = (
 };
 
 /**
- * Lấy danh sach resources user đang có quyền (dùng cho sidebar filter).
+ * Get the list of resources the user has permission for (used for sidebar filter).
  */
 export const getAccessibleResources = (
   userPermissions: string[]

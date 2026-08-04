@@ -20,7 +20,7 @@ export default function CommonPagination({
   totalPages,
   onPageChange,
 }: // itemsPerPage = 50,
-PaginationProps) {
+  PaginationProps) {
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
 
@@ -65,7 +65,7 @@ PaginationProps) {
   return (
     <div className="flex items-center justify-between">
       {/* <p className="text-sm text-gray-700">
-        Số dòng trên trang: <span className="font-medium">{itemsPerPage}</span>
+        Rows per page: <span className="font-medium">{itemsPerPage}</span>
       </p> */}
 
       <Pagination>

@@ -32,9 +32,9 @@ export const parsePermissions = (
 };
 
 /**
- * Build CASL ability từ user permissions
- * @param permissions Array of permission strings từ backend (e.g., ["dashboard:view_summary", "news:update"])
- * @param roles Array of role names (để xử lý SuperAdmin)
+ * Build CASL ability from user permissions
+ * @param permissions Array of permission strings from backend (e.g., ["dashboard:view_summary", "news:update"])
+ * @param roles Array of role names (to handle SuperAdmin)
  */
 export const buildAbilityFor = (
   permissions: string[] = [],

@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import baseConfig from './src/configs/base'
 import { defineConfig } from 'orval'
 

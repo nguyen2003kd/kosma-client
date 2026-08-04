@@ -2,12 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Phone, Calendar, MapPin } from "lucide-react";
+import { Phone, Calendar, MapPin, ShoppingCart } from "lucide-react";
 import { MegaMenu } from "./mega-menu";
 import { MobileNav } from "./mobile-nav";
+import { useCartStore } from "@/stores/cart-store";
+import type { GetApiV10Category200 } from "@/api/models";
 
-export function KosmoHeader() {
+export function KosmoHeader({ categoriesData }: { categoriesData?: GetApiV10Category200 | null }) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const itemCount = useCartStore((state) => state.getItemCount());
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,14 +36,14 @@ export function KosmoHeader() {
           </Link>
 
           {/* Desktop Navigation */}
-          <MegaMenu />
+          <MegaMenu categoriesData={categoriesData} />
 
           {/* Right Section */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             {/* Schedule Now CTA */}
             <Link
               href="/consultation"
-              className="hidden lg:inline-flex items-center justify-center gap-2 min-h-[46px] px-5 bg-[#1e3a5f] text-white font-extrabold text-[14px] rounded-full hover:bg-[#142a47] transition-colors shadow-button"
+              className="hidden xl:inline-flex items-center justify-center gap-2 min-h-[46px] px-5 bg-[#D8C29C] text-[#0A0A0A] font-bold text-[14px] rounded-full hover:brightness-110 transition-all"
             >
               <Calendar className="w-4 h-4" />
               Schedule Now
@@ -49,21 +52,34 @@ export function KosmoHeader() {
             {/* Phone */}
             <a
               href="tel:+14437360577"
-              className="hidden lg:flex items-center justify-center w-11 h-11 rounded-full border border-black-800/15 text-ink hover:bg-cream transition-colors"
+              className="hidden xl:flex items-center justify-center w-11 h-11 rounded-full border border-black-800/15 text-ink hover:bg-cream transition-colors"
             >
               <Phone className="w-4 h-4" />
             </a>
 
             {/* Location */}
             <a
-              href="#"
-              className="hidden lg:flex items-center justify-center w-11 h-11 rounded-full border border-black-800/15 text-ink hover:bg-cream transition-colors"
+              href="/locations"
+              className="hidden xl:flex items-center justify-center w-11 h-11 rounded-full border border-black-800/15 text-ink hover:bg-cream transition-colors"
             >
               <MapPin className="w-4 h-4" />
             </a>
 
+            {/* Cart */}
+            <Link
+              href="/cart"
+              className="relative flex items-center justify-center w-11 h-11 rounded-full border border-black-800/15 text-ink hover:bg-cream transition-colors"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold px-1">
+                  {itemCount > 99 ? "99+" : itemCount}
+                </span>
+              )}
+            </Link>
+
             {/* Mobile Nav */}
-            <MobileNav />
+            <MobileNav categoriesData={categoriesData} />
           </div>
         </div>
       </div>

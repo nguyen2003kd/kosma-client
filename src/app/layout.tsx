@@ -4,9 +4,10 @@ import Script from "next/script";
 import "./globals.css";
 import baseConfig from "@/configs/base";
 import { getQueryClient } from "@/lib/get-query-client";
-import { prefetchLayoutData } from "@/lib/prefetch-helpers";
+import { getApiV10Category } from "@/api/endpoints/category";
 import localFont from "next/font/local";
-import { KosmoHeader, KosmoFooter } from "@/components/layout";
+import { KosmoFooter } from "@/components/layout/footer";
+import { KosmoHeader } from "@/components/layout/header";
 import Providers from "@/app/_providers";
 
 const geistSans = localFont({
@@ -76,7 +77,13 @@ export const metadata: Metadata = {
 
 export default async function KosmoLayout({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
-  await prefetchLayoutData(queryClient);
+
+  let categoriesData;
+  try {
+    categoriesData = await getApiV10Category({ language: "en" });
+  } catch {
+    categoriesData = undefined;
+  }
 
   return (
     <html lang="en">
@@ -95,7 +102,7 @@ export default async function KosmoLayout({ children }: { children: React.ReactN
         </Script>
 
         <Providers dehydratedState={dehydrate(queryClient)}>
-          <KosmoHeader />
+          <KosmoHeader categoriesData={categoriesData} />
           <main className="min-h-screen">{children}</main>
           <KosmoFooter />
         </Providers>
