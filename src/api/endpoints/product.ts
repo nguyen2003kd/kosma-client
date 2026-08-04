@@ -25,7 +25,8 @@ import type {
 
 import type {
   GetApiV10ProductParams,
-  PostApiV10ProductBody
+  PostApiV10ProductBody,
+  PutApiV10ProductIdBody
 } from '../models';
 
 import { mainInstance } from '../mutator/custom-instance';
@@ -232,11 +233,14 @@ export const prefetchGetApiV10ProductIdQuery = async <TData = Awaited<ReturnType
  */
 export const putApiV10ProductId = (
     id: string,
+    putApiV10ProductIdBody: PutApiV10ProductIdBody,
  ) => {
       
       
       return mainInstance<void>(
-      {url: `/api/v1.0/product/${id}`, method: 'PUT'
+      {url: `/api/v1.0/product/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: putApiV10ProductIdBody
     },
       );
     }
@@ -244,8 +248,8 @@ export const putApiV10ProductId = (
 
 
 export const getPutApiV10ProductIdMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiV10ProductId>>, TError,{id: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof putApiV10ProductId>>, TError,{id: string}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiV10ProductId>>, TError,{id: string;data: PutApiV10ProductIdBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof putApiV10ProductId>>, TError,{id: string;data: PutApiV10ProductIdBody}, TContext> => {
 
 const mutationKey = ['putApiV10ProductId'];
 const {mutation: mutationOptions} = options ?
@@ -257,10 +261,10 @@ const {mutation: mutationOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putApiV10ProductId>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putApiV10ProductId>>, {id: string;data: PutApiV10ProductIdBody}> = (props) => {
+          const {id,data} = props ?? {};
 
-          return  putApiV10ProductId(id,)
+          return  putApiV10ProductId(id,data,)
         }
 
         
@@ -269,18 +273,18 @@ const {mutation: mutationOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type PutApiV10ProductIdMutationResult = NonNullable<Awaited<ReturnType<typeof putApiV10ProductId>>>
-    
+    export type PutApiV10ProductIdMutationBody = PutApiV10ProductIdBody
     export type PutApiV10ProductIdMutationError = unknown
 
     /**
  * @summary Update Product by ID
  */
 export const usePutApiV10ProductId = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiV10ProductId>>, TError,{id: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiV10ProductId>>, TError,{id: string;data: PutApiV10ProductIdBody}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof putApiV10ProductId>>,
         TError,
-        {id: string},
+        {id: string;data: PutApiV10ProductIdBody},
         TContext
       > => {
 
