@@ -39,7 +39,7 @@ export default function CategoryTab({
             <div className="p-2 rounded-full flex-shrink-0">
               <LayoutGrid className="w-5 h-5 text-blue-600" />
             </div>
-            <h2 className="text-base font-bold text-gray-800">Danh mục</h2>
+            <h2 className="text-base font-bold text-gray-800">Categories</h2>
           </div>
           <div className="space-y-2">
             {Array.from({ length: 6 }).map((_, index) => (
@@ -73,7 +73,7 @@ export default function CategoryTab({
           <div className="p-2 rounded-full flex-shrink-0">
             <LayoutGrid className="w-5 h-5 text-blue-600" />
           </div>
-          <h2 className="text-base font-bold text-gray-800">Danh mục</h2>
+          <h2 className="text-base font-bold text-gray-800">Categories</h2>
         </div>
 
         <div className="space-y-2">
@@ -83,18 +83,16 @@ export default function CategoryTab({
               onCategoryChange("");
               router.push("/news", { scroll: false });
             }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-              !selectedCategory
-                ? "bg-blue-50 text-blue-700 font-semibold"
-                : "text-gray-700 hover:bg-gray-50"
-            }`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${!selectedCategory
+              ? "bg-blue-50 text-blue-700 font-semibold"
+              : "text-gray-700 hover:bg-gray-50"
+              }`}
           >
             <LayoutGrid
-              className={`w-5 h-5 ${
-                !selectedCategory ? "text-blue-600" : "text-gray-400"
-              }`}
+              className={`w-5 h-5 ${!selectedCategory ? "text-blue-600" : "text-gray-400"
+                }`}
             />
-            <span className="flex-1 text-left text-sm">Tất cả</span>
+            <span className="flex-1 text-left text-sm">All</span>
             {!selectedCategory && <Check className="w-5 h-5 text-blue-600" />}
           </button>
 
@@ -114,28 +112,25 @@ export default function CategoryTab({
                     scroll: false,
                   });
                 }}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                  selectedCategory === category.id
-                    ? "bg-blue-50 text-blue-700 font-semibold"
-                    : "text-gray-700 hover:bg-gray-50"
-                }`}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${selectedCategory === category.id
+                  ? "bg-blue-50 text-blue-700 font-semibold"
+                  : "text-gray-700 hover:bg-gray-50"
+                  }`}
               >
                 {hasDynamicIcon ? (
                   <DynamicIcon
                     name={category.icon_url!}
-                    className={`w-5 h-5 ${
-                      selectedCategory === category.id
-                        ? "text-blue-600"
-                        : "text-gray-400"
-                    }`}
+                    className={`w-5 h-5 ${selectedCategory === category.id
+                      ? "text-blue-600"
+                      : "text-gray-400"
+                      }`}
                   />
                 ) : (
                   <Icon
-                    className={`w-5 h-5 ${
-                      selectedCategory === category.id
-                        ? "text-blue-600"
-                        : "text-gray-400"
-                    }`}
+                    className={`w-5 h-5 ${selectedCategory === category.id
+                      ? "text-blue-600"
+                      : "text-gray-400"
+                      }`}
                   />
                 )}
                 <span className="flex-1 text-left text-sm">

@@ -17,8 +17,8 @@ export const AccessDeniedNavigation: FC<Props> = () => {
 
 
   useEffect(() => {
-    toast.warning('Không có quyền truy cập', {
-      description: 'Bạn sẽ được chuyển về trang chính.'
+    toast.warning('Access denied', {
+      description: 'You will be redirected to the main page.'
     })
 
 

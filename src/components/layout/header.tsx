@@ -5,8 +5,9 @@ import Link from "next/link";
 import { Phone, Calendar, MapPin } from "lucide-react";
 import { MegaMenu } from "./mega-menu";
 import { MobileNav } from "./mobile-nav";
+import type { GetApiV10Category200 } from "@/api/models";
 
-export function KosmoHeader() {
+export function KosmoHeader({ categoriesData }: { categoriesData: GetApiV10Category200 }) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -33,14 +34,14 @@ export function KosmoHeader() {
           </Link>
 
           {/* Desktop Navigation */}
-          <MegaMenu />
+          <MegaMenu categoriesData={categoriesData} />
 
           {/* Right Section */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             {/* Schedule Now CTA */}
             <Link
               href="/consultation"
-              className="hidden lg:inline-flex items-center justify-center gap-2 min-h-[46px] px-5 bg-[#1e3a5f] text-white font-extrabold text-[14px] rounded-full hover:bg-[#142a47] transition-colors shadow-button"
+              className="hidden xl:inline-flex items-center justify-center gap-2 min-h-[46px] px-5 bg-[#D8C29C] text-[#0A0A0A] font-bold text-[14px] rounded-full hover:brightness-110 transition-all"
             >
               <Calendar className="w-4 h-4" />
               Schedule Now
@@ -49,21 +50,21 @@ export function KosmoHeader() {
             {/* Phone */}
             <a
               href="tel:+14437360577"
-              className="hidden lg:flex items-center justify-center w-11 h-11 rounded-full border border-black-800/15 text-ink hover:bg-cream transition-colors"
+              className="hidden xl:flex items-center justify-center w-11 h-11 rounded-full border border-black-800/15 text-ink hover:bg-cream transition-colors"
             >
               <Phone className="w-4 h-4" />
             </a>
 
             {/* Location */}
             <a
-              href="#"
-              className="hidden lg:flex items-center justify-center w-11 h-11 rounded-full border border-black-800/15 text-ink hover:bg-cream transition-colors"
+              href="/locations"
+              className="hidden xl:flex items-center justify-center w-11 h-11 rounded-full border border-black-800/15 text-ink hover:bg-cream transition-colors"
             >
               <MapPin className="w-4 h-4" />
             </a>
 
             {/* Mobile Nav */}
-            <MobileNav />
+            <MobileNav categoriesData={categoriesData} />
           </div>
         </div>
       </div>

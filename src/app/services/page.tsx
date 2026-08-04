@@ -3,10 +3,9 @@
 import { useGetApiV10Category } from "@/api/endpoints/category";
 import { useGetApiV10Post } from "@/api/endpoints/post";
 import { CategoryWithChildren } from "@/api/models/categoryWithChildren";
-import { Post } from "@/api/models/post";
+import { PageHero, SectionHeading, ConsultationForm } from "@/components/common";
 import QuotationPopupDialog from "@/components/common/quotation-popup/quotation-popup-dialog";
 import { Loading } from "@/components/common/loading";
-import { PAGE_IDS } from "@/constants/page-ids";
 import { buildPostFilters } from "@/lib/filters";
 import { slugify } from "@/lib/slugify";
 import type { PostExtended as PostWithImage } from "@/types/post";
@@ -23,8 +22,8 @@ export default function ServicesPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#19426D]">
-          <Loading text={t("title")} size="lg" className="text-white" />
+        <div className="min-h-screen flex items-center justify-center bg-white">
+          <Loading text={t("title")} size="lg" className="text-ink" />
         </div>
       }
     >
@@ -34,21 +33,20 @@ export default function ServicesPage() {
 }
 
 function ServicesContent() {
-  const { i18n } = useTranslation("pages/services");
+  const { t, i18n } = useTranslation("pages/services");
 
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
+  const locale = i18n.language?.startsWith("en") ? "en-US" : "vi-VN";
 
   const [currentPage, setCurrentPage] = useState(1);
   const [date, setDate] = useState<Date>();
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const currentLang = (i18n.language || "vi").startsWith("en") ? "en" : "vi";
 
-  // server
-  const { data: categoriesData } = useGetApiV10Category({ language: currentLang });
+  const { data: categoriesData } = useGetApiV10Category({ language: "en" });
 
   useEffect(() => {
     if (!categoriesData?.responseData || !categoryParam) {
@@ -67,7 +65,7 @@ function ServicesContent() {
     setSelectedCategory(matched?.id || "");
   }, [categoryParam, categoriesData, pathname]);
 
-  const { serviceSubCategories, currentCategoryName, servicesCategoryId, rootCategoryName } =
+  const { serviceSubCategories, currentCategoryName, rootCategoryName } =
     useMemo(() => {
       const serviceCategory = (
         categoriesData?.responseData as CategoryWithChildren[]
@@ -75,124 +73,125 @@ function ServicesContent() {
       const categories = serviceCategory?.categories || [];
       const categoryName = selectedCategory
         ? categories.find((cat) => cat.id === selectedCategory)?.name || "N/a"
-        : "All services";
+        : t("allServices");
       return {
         serviceSubCategories: categories,
         currentCategoryName: categoryName,
-        servicesCategoryId: serviceCategory?.id || "",
-        rootCategoryName: serviceCategory?.name || "Services",
+        rootCategoryName: serviceCategory?.name || t("title"),
       };
-    }, [categoriesData, selectedCategory, pathname]);
+    }, [categoriesData, selectedCategory, pathname, t]);
+
+  const activeCategoryLink = useMemo(() => {
+    if (selectedCategory) {
+      return serviceSubCategories.find((cat) => cat.id === selectedCategory)?.link || undefined;
+    }
+    return serviceSubCategories[0]?.link || undefined;
+  }, [selectedCategory, serviceSubCategories]);
 
   const filters = useMemo(() => buildPostFilters(date), [date]);
 
-  const { data, isLoading, error } = useGetApiV10Post(
-    {
+  const postQueryParams = useMemo(
+    () => ({
       filters,
       page: currentPage,
       pageSize: 12,
-      position: "true",
-      sortOrderPosition: "ASC",
-      filterBy: "CLIENT",
-      category_id: selectedCategory || servicesCategoryId,
-      page_id: PAGE_IDS.LATEST_POSTS,
-    },
-    {
-      query: {
-        enabled: !!(selectedCategory || servicesCategoryId),
-      },
-    },
+      position: "true" as const,
+      sortOrderPosition: "ASC" as const,
+      filterBy: "CLIENT" as const,
+      ...(selectedCategory ? { category_id: selectedCategory } : {}),
+    }),
+    [filters, currentPage, selectedCategory],
   );
 
-  const { data: relatedServicesData, isLoading: isLoadingRelated } = useGetApiV10Post(
-    {
-      filters: "is_hidden==false",
-      pageSize: 10,
-      position: "true",
-      sortOrderPosition: "ASC",
-      filterBy: "CLIENT",
-      page_id: PAGE_IDS.FEATURED_NEWS,
-      category_id: selectedCategory || servicesCategoryId,
-    },
-    {
-      query: {
-        enabled: !!(selectedCategory || servicesCategoryId),
-      },
-    },
-  );
+  const { data, isLoading, error } = useGetApiV10Post(postQueryParams);
 
-  const relatedServices = (relatedServicesData?.responseData?.rows as Post[]) || [];
   const posts = (data?.responseData?.rows as PostWithImage[]) || [];
   const totalPages = data?.responseData?.count
-    ? Math.ceil(data.responseData.count / (data.responseData.pageSize || 10))
+    ? Math.ceil(data.responseData.count / (data.responseData.pageSize || 12))
     : 1;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Banner */}
-      <section
-        className="relative bg-cover bg-center bg-no-repeat pt-16 pb-32 overflow-hidden"
-        style={{ backgroundImage: "url('/images/banner_service_2.png')" }}
-      >
-        <div className="absolute inset-0 bg-[#1a3a5c]/60" />
-        <div className="relative max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-8xl font-bold text-white mb-4">
-            {rootCategoryName}
-          </h1>
+    <>
+      <PageHero
+        title={rootCategoryName}
+        subtitle={t("allServices")}
+        breadcrumbs={[
+          { label: "Home", href: "/home" },
+          { label: t("title") },
+        ]}
+        backgroundImage="/images/hero.jpg"
+      />
+
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+        <div className="container-kosmo">
+          <SectionHeading
+            eyebrow={t("categoryTitle")}
+            title={currentCategoryName}
+            subtitle={t("allServices")}
+          />
+
+          <ServiceFilters
+            selectedCategory={selectedCategory}
+            onCategoryChange={(categoryId) => {
+              setSelectedCategory(categoryId);
+              setCurrentPage(1);
+            }}
+            categories={serviceSubCategories}
+            isLoading={!categoriesData?.responseData}
+            onNavigate={(path) => router.push(path, { scroll: false })}
+          />
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8">
+            <div className="lg:col-span-3">
+              <ServiceList
+                posts={posts}
+                isLoading={isLoading}
+                error={error}
+                currentCategoryName={currentCategoryName}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                hasFilters={!!(date || selectedCategory)}
+                hasDateFilter={!!date}
+                hasCategoryFilter={!!selectedCategory}
+                onClearDateFilter={() => {
+                  setDate(undefined);
+                  setCurrentPage(1);
+                }}
+                onClearCategoryFilter={() => {
+                  setSelectedCategory("");
+                  setCurrentPage(1);
+                  router.push("/services", { scroll: false });
+                }}
+                locale={locale}
+                categoryLink={activeCategoryLink}
+              />
+            </div>
+
+            <div className="lg:col-span-1">
+              <ServiceSidebar onQuoteClick={() => setIsQuoteModalOpen(true)} />
+            </div>
+          </div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-6 -mt-20 pb-8">
-        <ServiceFilters
-          selectedCategory={selectedCategory}
-          onCategoryChange={(categoryId) => {
-            setSelectedCategory(categoryId);
-            setCurrentPage(1);
-          }}
-          categories={serviceSubCategories}
-          isLoading={!categoriesData?.responseData}
-          onNavigate={(path) => router.push(path, { scroll: false })}
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-6">
-          <div className="lg:col-span-3">
-            <ServiceList
-              posts={posts}
-              isLoading={isLoading}
-              error={error}
-              currentCategoryName={currentCategoryName}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-              hasFilters={!!(date || selectedCategory)}
-              hasDateFilter={!!date}
-              hasCategoryFilter={!!selectedCategory}
-              onClearDateFilter={() => {
-                setDate(undefined);
-                setCurrentPage(1);
-              }}
-              onClearCategoryFilter={() => {
-                setSelectedCategory("");
-                setCurrentPage(1);
-                router.push("/services", { scroll: false });
-              }}
-            />
-          </div>
-
-          <div className="lg:col-span-1">
-            <ServiceSidebar
-              relatedServices={relatedServices}
-              isLoading={isLoadingRelated}
-              onQuoteClick={() => setIsQuoteModalOpen(true)}
-            />
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
+        <div className="container-kosmo">
+          <SectionHeading
+            eyebrow={t("needSupport")}
+            title={t("requestQuote")}
+            subtitle={t("contactForQuote")}
+          />
+          <div className="max-w-4xl mx-auto">
+            <ConsultationForm />
           </div>
         </div>
-      </div>
+      </section>
 
       <QuotationPopupDialog
         open={isQuoteModalOpen}
         onOpenChange={setIsQuoteModalOpen}
       />
-    </div>
+    </>
   );
 }

@@ -17,18 +17,18 @@ export const getResponsiveImage = (
     width < 768
       ? compressInfo.mobile || compressInfo.desktop || ""
       : width < 1024
-      ? compressInfo.tablet || compressInfo.desktop || ""
-      : compressInfo.desktop || "";
+        ? compressInfo.tablet || compressInfo.desktop || ""
+        : compressInfo.desktop || "";
 
   if (selectedPath.startsWith("/images/")) return selectedPath;
   return selectedPath ? `${links.storageEndpoint}${selectedPath}` : "";
 };
 
 /**
- * Lấy URL ảnh thumbnail, ưu tiên compress_info, fallback sang thumbnail_path.
- * @param compressInfo  - ImageCompressInfo (có thể null/undefined)
- * @param thumbnailPath - đường dẫn thô (string | null | undefined)
- * @param fallback      - URL placeholder nếu cả hai đều rỗng
+ * Get the thumbnail image URL, preferring compress_info, falling back to thumbnail_path.
+ * @param compressInfo  - ImageCompressInfo (can be null/undefined)
+ * @param thumbnailPath - raw path (string | null | undefined)
+ * @param fallback      - placeholder URL if both are empty
  */
 export const getThumbnailSrc = (
   compressInfo: ImageCompressInfo | null | undefined,

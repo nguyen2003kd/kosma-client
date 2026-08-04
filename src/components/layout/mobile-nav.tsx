@@ -2,29 +2,16 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { X, ChevronDown, Menu, Phone } from "lucide-react";
+import { X, ChevronDown, Menu, Phone, Calendar, MapPin } from "lucide-react";
+import type { GetApiV10Category200 } from "@/api/models";
+import type { CategoryWithChildren } from "@/api/models/categoryWithChildren";
+import type { Category } from "@/api/models/category";
 
-const services = [
-  { name: "Interior Design", href: "/spaces/closets" },
-  { name: "Commercial Fit-Out", href: "/spaces/garages" },
-  { name: "Residential Renovation", href: "/spaces/home-offices" },
-  { name: "Custom Joinery", href: "/spaces/pantries" },
-  { name: "Construction Drawings", href: "/spaces/laundry-rooms" },
-  { name: "Branding", href: "/spaces/mudrooms" },
-];
-
-const projectTypes = [
-  { name: "Nail Salon Design", href: "/solutions/walk-in-closets" },
-  { name: "Kitchen Renovation", href: "/solutions/reach-in-closets" },
-  { name: "Commercial Fit-Out", href: "/solutions/garage-cabinets" },
-  { name: "Residential Renovation", href: "/solutions/wall-beds" },
-  { name: "Custom Joinery", href: "/solutions/entertainment-centers" },
-  { name: "Branding & Website", href: "/solutions/custom-accessories" },
-];
-
-export function MobileNav() {
+export function MobileNav({ categoriesData }: { categoriesData: GetApiV10Category200 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [expandedRoot, setExpandedRoot] = useState<string | null>(null);
+
+  const rootCategories = (categoriesData?.responseData as CategoryWithChildren[]) || [];
 
   useEffect(() => {
     if (isOpen) {
@@ -39,19 +26,19 @@ export function MobileNav() {
 
   const closeMenu = () => {
     setIsOpen(false);
-    setExpandedSection(null);
+    setExpandedRoot(null);
   };
 
-  const toggleSection = (section: string) => {
-    setExpandedSection(expandedSection === section ? null : section);
+  const toggleRoot = (rootId: string) => {
+    setExpandedRoot(expandedRoot === rootId ? null : rootId);
   };
 
   return (
     <>
-      {/* Menu Trigger Button - hidden on lg+ */}
+      {/* Menu Trigger Button - hidden on xl+ (synced with MegaMenu) */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg-hidden-mobile flex items-center justify-center w-10 h-10 -mr-2"
+        className="xl:hidden flex items-center justify-center w-10 h-10 -mr-2"
         aria-label="Open menu"
         type="button"
       >
@@ -96,135 +83,96 @@ export function MobileNav() {
 
             {/* Scrollable Nav */}
             <nav className="flex-1 overflow-y-auto py-2 bg-white">
-              {/* Services Accordion */}
-              <div className="border-b border-gray-100">
-                <button
-                  onClick={() => toggleSection("services")}
-                  className="w-full flex items-center justify-between px-5 py-3.5 text-[15px] font-semibold text-gray-900 active:bg-gray-50"
-                  type="button"
-                >
-                  <span>Services</span>
-                  <ChevronDown
-                    className="w-4 h-4 text-gray-500"
-                    style={{
-                      transform: expandedSection === "services" ? "rotate(180deg)" : "rotate(0deg)",
-                      transition: "transform 200ms",
-                    }}
-                  />
-                </button>
-                {expandedSection === "services" && (
-                  <div className="pb-2 bg-gray-50">
-                    {services.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        onClick={closeMenu}
-                        className="block px-8 py-2.5 text-[14px] text-gray-600 active:bg-gray-100"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {/* API-driven root categories with sub-category accordions */}
+              {rootCategories.map((rootCat) => {
+                const hasChildren = (rootCat.categories?.length ?? 0) > 0;
+                const isExpanded = expandedRoot === rootCat.id;
 
-              {/* Projects Accordion */}
-              <div className="border-b border-gray-100">
-                <button
-                  onClick={() => toggleSection("projects")}
-                  className="w-full flex items-center justify-between px-5 py-3.5 text-[15px] font-semibold text-gray-900 active:bg-gray-50"
-                  type="button"
-                >
-                  <span>Projects</span>
-                  <ChevronDown
-                    className="w-4 h-4 text-gray-500"
-                    style={{
-                      transform: expandedSection === "projects" ? "rotate(180deg)" : "rotate(0deg)",
-                      transition: "transform 200ms",
-                    }}
-                  />
-                </button>
-                {expandedSection === "projects" && (
-                  <div className="pb-2 bg-gray-50">
-                    {projectTypes.map((item) => (
+                return (
+                  <div key={rootCat.id || rootCat.name} className="border-b border-gray-100">
+                    {hasChildren ? (
+                      <>
+                        <button
+                          onClick={() => toggleRoot(rootCat.id || "")}
+                          className="w-full flex items-center justify-between px-5 py-3.5 text-[15px] font-semibold text-gray-900 active:bg-gray-50"
+                          type="button"
+                        >
+                          <span>{rootCat.name}</span>
+                          <ChevronDown
+                            className="w-4 h-4 text-gray-500"
+                            style={{
+                              transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                              transition: "transform 200ms",
+                            }}
+                          />
+                        </button>
+                        {isExpanded && (
+                          <div className="pb-2 bg-gray-50">
+                            <Link
+                              href={rootCat.link || "#"}
+                              onClick={closeMenu}
+                              className="block px-8 py-2.5 text-[14px] font-semibold text-gray-900 active:bg-gray-100"
+                            >
+                              View All {rootCat.name}
+                            </Link>
+                            {rootCat.categories!.map((sub: Category) => (
+                              <Link
+                                key={sub.id || sub.name}
+                                href={sub.link || "#"}
+                                onClick={closeMenu}
+                                className="block px-8 py-2.5 text-[14px] text-gray-600 active:bg-gray-100"
+                              >
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    ) : (
                       <Link
-                        key={item.name}
-                        href={item.href}
+                        href={rootCat.link || "#"}
                         onClick={closeMenu}
-                        className="block px-8 py-2.5 text-[14px] text-gray-600 active:bg-gray-100"
+                        className="block px-5 py-3.5 text-[15px] font-semibold text-gray-900 active:bg-gray-50"
                       >
-                        {item.name}
+                        {rootCat.name}
                       </Link>
-                    ))}
+                    )}
                   </div>
-                )}
-              </div>
-
-              {/* Simple Links */}
-              <Link
-                href="/about"
-                onClick={closeMenu}
-                className="block px-5 py-3.5 text-[15px] font-semibold text-gray-900 border-b border-gray-100 active:bg-gray-50"
-              >
-                About
-              </Link>
-              <Link
-                href="/process"
-                onClick={closeMenu}
-                className="block px-5 py-3.5 text-[15px] font-semibold text-gray-900 border-b border-gray-100 active:bg-gray-50"
-              >
-                Process
-              </Link>
-              <Link
-                href="/gallery"
-                onClick={closeMenu}
-                className="block px-5 py-3.5 text-[15px] font-semibold text-gray-900 border-b border-gray-100 active:bg-gray-50"
-              >
-                Gallery
-              </Link>
-              <Link
-                href="/locations"
-                onClick={closeMenu}
-                className="block px-5 py-3.5 text-[15px] font-semibold text-gray-900 border-b border-gray-100 active:bg-gray-50"
-              >
-                Service Areas
-              </Link>
+                );
+              })}
             </nav>
 
-            {/* Bottom CTA Section */}
-            <div className="p-5 border-t border-gray-100 bg-white flex-shrink-0">
+            {/* Bottom CTA Section - matching desktop header CTAs */}
+            <div className="p-5 border-t border-gray-100 bg-white flex-shrink-0 space-y-4">
               <Link
                 href="/consultation"
                 onClick={closeMenu}
-                className="block w-full py-3.5 text-white text-center text-[14px] font-bold rounded-lg"
-                style={{ backgroundColor: "#0a0a0a" }}
+                className="flex items-center justify-center gap-2 w-full py-3.5 text-white text-center text-[14px] font-extrabold rounded-full"
+                style={{ backgroundColor: "#1e3a5f" }}
               >
-                Get a Quote
+                <Calendar className="w-4 h-4" />
+                Schedule Now
               </Link>
 
-              <a
-                href="tel:+14437360577"
-                className="mt-4 flex items-center justify-center gap-2 text-[14px] text-gray-700"
-              >
-                <Phone className="w-4 h-4" />
-                <span className="font-semibold" style={{ color: "#0a0a0a" }}>(443) 736-0577</span>
-              </a>
+              <div className="flex items-center justify-center gap-4">
+                <a
+                  href="tel:+14437360577"
+                  className="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-gray-700"
+                >
+                  <Phone className="w-4 h-4" />
+                </a>
+                <Link
+                  href="/locations"
+                  onClick={closeMenu}
+                  className="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-gray-700"
+                >
+                  <MapPin className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
           </aside>
         </>
       )}
-
-      {/* Inline style for hiding on lg breakpoint */}
-      <style jsx>{`
-        .lg-hidden-mobile {
-          display: flex;
-        }
-        @media (min-width: 820px) {
-          .lg-hidden-mobile {
-            display: none !important;
-          }
-        }
-      `}</style>
     </>
   );
 }

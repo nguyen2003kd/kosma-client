@@ -13,8 +13,8 @@ export default function TestimonialSection() {
             image="/images/service-1.png"
             imageAlt="SMEQ Testimonial Video"
             quote="HT 175 2018."
-            channelName="Câu chuyện kinh doanh HTV9"
-            subscriberCount="7,09 N người đăng ký"
+            channelName="Business Stories HTV9"
+            subscriberCount="7.09M subscribers"
             rating={5}
             onPlayClick={handlePlayClick}
           />

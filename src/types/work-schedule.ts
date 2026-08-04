@@ -99,7 +99,7 @@ export function mapWorkScheduleToWorkEvent(ws: WorkSchedule): WorkEvent {
   const startTime = formatTimeFromISO(ws.schedule_time)
   const endTime = ws.end_time ? formatTimeFromISO(ws.end_time) : addHoursToTime(startTime, 2)
 
-  // Nếu host là UUID (data cũ) thì ẩn đi, không hiển thị cho user
+  // If host is a UUID (legacy data), hide it and don't display to the user
   const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
   const hostDisplay = ws.host && !uuidRegex.test(ws.host.trim()) ? ws.host.trim() : ''
 

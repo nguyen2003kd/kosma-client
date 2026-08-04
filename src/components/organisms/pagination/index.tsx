@@ -116,7 +116,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
         onClick={handleGoToPreviousPage}
       >
         <ChevronLeft />
-            <span className='hidden xl:inline-block'>Trang trước</span>
+        <span className='hidden xl:inline-block'>Previous page</span>
       </Button>
 
       {displayedPages.map((displayedPage) => {
@@ -133,7 +133,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
                 </TooltipTrigger>
 
                 <TooltipContent>
-                  {jumpedPageCount} trang trước
+                  {jumpedPageCount} pages back
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -153,7 +153,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
                 </TooltipTrigger>
 
                 <TooltipContent>
-                  {jumpedPageCount} trang tiếp theo
+                  {jumpedPageCount} pages forward
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -182,7 +182,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
         disabled={!(isHasNextPage || page < pageCount)}
         onClick={handleGoToNextPage}
       >
-        <span className='hidden xl:inline-block'>Trang tiếp theo</span>
+        <span className='hidden xl:inline-block'>Next page</span>
         <ChevronRight />
       </Button>
     </div>

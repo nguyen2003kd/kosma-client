@@ -1,7 +1,12 @@
+"use client";
+
 import { Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+
+const FALLBACK_IMAGE = "/images/living.jpg";
 
 interface SplitContentProps {
   image: string;
@@ -22,15 +27,19 @@ export function SplitContent({
   cta,
   reverse = false,
 }: SplitContentProps) {
+  const [imgSrc, setImgSrc] = useState(image);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
       {/* Image */}
       <div className={`relative w-full aspect-[4/3] rounded-xl overflow-hidden ${reverse ? "md:order-2" : ""}`}>
         <Image
-          src={image}
+          src={imgSrc}
           alt={title}
           fill
           className="object-cover"
+          onError={() => {
+            if (imgSrc !== FALLBACK_IMAGE) setImgSrc(FALLBACK_IMAGE);
+          }}
         />
       </div>
 

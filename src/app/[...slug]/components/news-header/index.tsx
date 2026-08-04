@@ -34,7 +34,7 @@ export default function NewsHeader({
           <div>
             <h2 className="text-xl font-bold text-gray-900">{categoryName}</h2>
             <p className="text-sm text-gray-500">
-              {categoryDescription || "Cập nhật mới nhất"}
+              {categoryDescription || "Latest updates"}
             </p>
           </div>
         </div>

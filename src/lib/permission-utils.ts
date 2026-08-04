@@ -151,7 +151,7 @@ export async function assignMultiplePermissionsToRole(
   const result = await postApiV10RolePermissionRoleIdAssign(roleId, {
     permission_ids: permissionIds,
   });
-  toast.success(`Đã gán ${permissionIds.length} quyền cho vai trò`);
+  toast.success(`Assigned ${permissionIds.length} permissions to the role`);
   return result;
 }
 
@@ -162,7 +162,7 @@ export async function replaceRolePermissions(
   const result = await putApiV10RolePermissionRoleIdAssign(roleId, {
     permission_ids: permissionIds,
   });
-  toast.success(`Đã cập nhật ${permissionIds.length} quyền cho vai trò`);
+  toast.success(`Updated ${permissionIds.length} permissions for the role`);
   return result;
 }
 

@@ -4,11 +4,11 @@ export const mockPosts: PostExtended[] = [
   {
     id: "mock-post-001",
     title:
-      "VIETPRODEV - Đơn vị hàng đầu trong phát triển phần mềm và đào tạo lập trình",
-    slug: "vietprodev-don-vi-hang-dau",
+      "VIETPRODEV - Leading Software Development and Programming Training Provider",
+    slug: "vietprodev-leading-provider",
     code: "MOCK-001",
     summary:
-      "VIETPRODEV tự hào là đơn vị hàng đầu trong lĩnh vực phát triển phần mềm và đào tạo lập trình, mang đến những giải pháp công nghệ hiện đại và chương trình đào tạo chuyên sâu theo dự án thực tế.",
+      "VIETPRODEV is proud to be a leading provider in software development and programming training, offering modern technology solutions and in-depth training programs based on real-world projects.",
     thumbnail_path: "/images/service-1.png",
     thumbnail_compress_info: {
       mobile: "/images/service-1.png",
@@ -30,7 +30,7 @@ export const mockPosts: PostExtended[] = [
       {
         id: "mock-content-001-1",
         content:
-          "<p>VIETPRODEV tự hào là đơn vị hàng đầu trong lĩnh vực phát triển phần mềm và đào tạo lập trình, mang đến những giải pháp công nghệ hiện đại và chương trình đào tạo chuyên sâu theo dự án thực tế nhằm đáp ứng nhu cầu ngày càng cao của thị trường. Với sứ mệnh thúc đẩy sự phát triển của doanh nghiệp thông qua các giải pháp phần mềm tối ưu, đồng thời đào tạo ra thế hệ lập trình viên tài năng, chúng tôi luôn cam kết chất lượng và sáng tạo trong từng sản phẩm và dịch vụ.</p>",
+          "<p>VIETPRODEV is proud to be a leading provider in software development and programming training, offering modern technology solutions and in-depth training programs based on real-world projects to meet the ever-increasing demands of the market. With the mission of driving business growth through optimized software solutions, while also training a talented generation of programmers, we are always committed to quality and creativity in every product and service.</p>",
         position: 1,
         image_columns: 1,
         image_rows: 1,
@@ -44,7 +44,7 @@ export const mockPosts: PostExtended[] = [
       {
         id: "mock-content-001-2",
         content:
-          "<h3>Giải pháp phát triển phần mềm chuyên nghiệp</h3><ul><li>Xây dựng phần mềm tùy chỉnh theo yêu cầu doanh nghiệp với công nghệ hiện đại.</li><li>Phát triển ứng dụng web, mobile và desktop đa nền tảng.</li><li>Tư vấn chuyển đổi số và tối ưu hóa quy trình vận hành.</li><li>Hỗ trợ bảo trì, nâng cấp và mở rộng hệ thống phần mềm hiện có.</li></ul>",
+          "<h3>Professional Software Development Solutions</h3><ul><li>Build custom software tailored to enterprise needs with modern technology.</li><li>Develop cross-platform web, mobile, and desktop applications.</li><li>Consult on digital transformation and optimize operational processes.</li><li>Support maintenance, upgrades, and scaling of existing software systems.</li></ul>",
         position: 2,
         image_columns: 1,
         image_rows: 1,
@@ -58,7 +58,7 @@ export const mockPosts: PostExtended[] = [
       {
         id: "mock-content-001-3",
         content:
-          "<h3>Cam kết của chúng tôi</h3><p>Đội ngũ chuyên gia giàu kinh nghiệm của VIETPRODEV không ngừng nghiên cứu, ứng dụng các công nghệ tiên tiến và xây dựng các giải pháp tùy chỉnh phù hợp với từng khách hàng, từ đó mang lại giá trị bền vững và thúc đẩy sự phát triển lâu dài cho doanh nghiệp cũng như cộng đồng học viên.</p>",
+          "<h3>Our Commitment</h3><p>VIETPRODEV's team of experienced experts continuously researches and applies advanced technologies, building customized solutions tailored to each client, thereby delivering sustainable value and driving long-term growth for businesses as well as the community of learners.</p>",
         position: 3,
         image_columns: 1,
         image_rows: 1,
@@ -74,11 +74,11 @@ export const mockPosts: PostExtended[] = [
   {
     id: "mock-post-002",
     title:
-      "VIETPRODEV - Chương trình đào tạo lập trình viên chuyên sâu theo dự án thực tế",
-    slug: "vietprodev-dao-tao-lap-trinh",
+      "VIETPRODEV - In-depth Programming Training Program Based on Real-world Projects",
+    slug: "vietprodev-programming-training",
     code: "MOCK-002",
     summary:
-      "VIETPRODEV cung cấp chương trình đào tạo lập trình viên chuyên sâu theo dự án thực tế, giúp học viên nắm vững kiến thức và kỹ năng thực tiễn để sẵn sàng làm việc trong môi trường doanh nghiệp.",
+      "VIETPRODEV offers an in-depth programming training program based on real-world projects, helping learners master knowledge and practical skills to be ready to work in an enterprise environment.",
     thumbnail_path: "/images/service-2.png",
     thumbnail_compress_info: {
       mobile: "/images/service-2.png",
@@ -100,7 +100,7 @@ export const mockPosts: PostExtended[] = [
       {
         id: "mock-content-002-1",
         content:
-          "<p>VIETPRODEV tự hào là đơn vị hàng đầu trong lĩnh vực phát triển phần mềm và đào tạo lập trình, mang đến những giải pháp công nghệ hiện đại và chương trình đào tạo chuyên sâu theo dự án thực tế nhằm đáp ứng nhu cầu ngày càng cao của thị trường. Chương trình đào tạo của chúng tôi được thiết kế bám sát nhu cầu tuyển dụng thực tế, giúp học viên tích lũy kinh nghiệm qua các dự án thực tế ngay trong quá trình học.</p>",
+          "<p>VIETPRODEV is proud to be a leading provider in software development and programming training, offering modern technology solutions and in-depth training programs based on real-world projects to meet the ever-increasing demands of the market. Our training programs are designed closely to real hiring needs, helping learners gain experience through real projects during the learning process.</p>",
         position: 1,
         image_columns: 1,
         image_rows: 1,
@@ -114,7 +114,7 @@ export const mockPosts: PostExtended[] = [
       {
         id: "mock-content-002-2",
         content:
-          "<h3>Lộ trình đào tạo chuyên sâu</h3><ul><li>Frontend Development: HTML, CSS, JavaScript, React, Next.js, Vue.js.</li><li>Backend Development: Node.js, Python, Java, Database Design.</li><li>Mobile Development: React Native, Flutter, iOS và Android native.</li><li>DevOps & Cloud: Docker, Kubernetes, AWS, CI/CD pipeline.</li></ul>",
+          "<h3>In-depth Training Curriculum</h3><ul><li>Frontend Development: HTML, CSS, JavaScript, React, Next.js, Vue.js.</li><li>Backend Development: Node.js, Python, Java, Database Design.</li><li>Mobile Development: React Native, Flutter, iOS and Android native.</li><li>DevOps & Cloud: Docker, Kubernetes, AWS, CI/CD pipeline.</li></ul>",
         position: 2,
         image_columns: 1,
         image_rows: 1,
@@ -128,7 +128,7 @@ export const mockPosts: PostExtended[] = [
       {
         id: "mock-content-002-3",
         content:
-          "<h3>Phương pháp đào tạo thực chiến</h3><p>Đội ngũ chuyên gia giàu kinh nghiệm của VIETPRODEV không ngừng nghiên cứu, ứng dụng các công nghệ tiên tiến và xây dựng các giải pháp tùy chỉnh phù hợp với từng khách hàng, từ đó mang lại giá trị bền vững và thúc đẩy sự phát triển lâu dài cho doanh nghiệp cũng như cộng đồng học viên. Mỗi học viên đều được mentor 1-1 và tham gia vào các dự án thực tế của công ty.</p>",
+          "<h3>Practical Training Method</h3><p>VIETPRODEV's team of experienced experts continuously researches and applies advanced technologies, building customized solutions tailored to each client, thereby delivering sustainable value and driving long-term growth for businesses as well as the community of learners. Each learner receives 1-on-1 mentoring and participates in real company projects.</p>",
         position: 3,
         image_columns: 1,
         image_rows: 1,
@@ -144,11 +144,11 @@ export const mockPosts: PostExtended[] = [
   {
     id: "mock-post-003",
     title:
-      "VIETPRODEV - Giải pháp công nghệ tùy chỉnh cho doanh nghiệp",
-    slug: "vietprodev-giai-phap-cong-nghe",
+      "VIETPRODEV - Custom Technology Solutions for Businesses",
+    slug: "vietprodev-technology-solutions",
     code: "MOCK-003",
     summary:
-      "VIETPRODEV mang đến giải pháp công nghệ tùy chỉnh phù hợp với từng doanh nghiệp, giúp tối ưu hóa quy trình và thúc đẩy tăng trưởng bền vững.",
+      "VIETPRODEV provides custom technology solutions tailored to each business, helping optimize processes and drive sustainable growth.",
     thumbnail_path: "/images/service-3.png",
     thumbnail_compress_info: {
       mobile: "/images/service-3.png",
@@ -170,7 +170,7 @@ export const mockPosts: PostExtended[] = [
       {
         id: "mock-content-003-1",
         content:
-          "<p>VIETPRODEV tự hào là đơn vị hàng đầu trong lĩnh vực phát triển phần mềm và đào tạo lập trình, mang đến những giải pháp công nghệ hiện đại và chương trình đào tạo chuyên sâu theo dự án thực tế nhằm đáp ứng nhu cầu ngày càng cao của thị trường. Với sứ mệnh thúc đẩy sự phát triển của doanh nghiệp thông qua các giải pháp phần mềm tối ưu, đồng thời đào tạo ra thế hệ lập trình viên tài năng, chúng tôi luôn cam kết chất lượng và sáng tạo trong từng sản phẩm và dịch vụ.</p>",
+          "<p>VIETPRODEV is proud to be a leading provider in software development and programming training, offering modern technology solutions and in-depth training programs based on real-world projects to meet the ever-increasing demands of the market. With the mission of driving business growth through optimized software solutions, while also training a talented generation of programmers, we are always committed to quality and creativity in every product and service.</p>",
         position: 1,
         image_columns: 1,
         image_rows: 1,
@@ -184,7 +184,7 @@ export const mockPosts: PostExtended[] = [
       {
         id: "mock-content-003-2",
         content:
-          "<h3>Dịch vụ phát triển phần mềm tùy chỉnh</h3><ul><li>Phân tích nhu cầu và tư vấn giải pháp công nghệ phù hợp.</li><li>Thiết kế và phát triển phần mềm theo quy trình chuyên nghiệp.</li><li>Tích hợp hệ thống và chuyển đổi số toàn diện.</li><li>Hỗ trợ vận hành, bảo trì và nâng cấp liên tục.</li></ul>",
+          "<h3>Custom Software Development Services</h3><ul><li>Analyze needs and consult on suitable technology solutions.</li><li>Design and develop software through a professional process.</li><li>System integration and comprehensive digital transformation.</li><li>Continuous operations support, maintenance, and upgrades.</li></ul>",
         position: 2,
         image_columns: 1,
         image_rows: 1,
@@ -198,7 +198,7 @@ export const mockPosts: PostExtended[] = [
       {
         id: "mock-content-003-3",
         content:
-          "<h3>Đội ngũ chuyên gia của VIETPRODEV</h3><p>Đội ngũ chuyên gia giàu kinh nghiệm của VIETPRODEV không ngừng nghiên cứu, ứng dụng các công nghệ tiên tiến và xây dựng các giải pháp tùy chỉnh phù hợp với từng khách hàng, từ đó mang lại giá trị bền vững và thúc đẩy sự phát triển lâu dài cho doanh nghiệp cũng như cộng đồng học viên.</p>",
+          "<h3>VIETPRODEV's Team of Experts</h3><p>VIETPRODEV's team of experienced experts continuously researches and applies advanced technologies, building customized solutions tailored to each client, thereby delivering sustainable value and driving long-term growth for businesses as well as the community of learners.</p>",
         position: 3,
         image_columns: 1,
         image_rows: 1,
@@ -213,11 +213,11 @@ export const mockPosts: PostExtended[] = [
   },
   // {
   //   id: "mock-post-002",
-  //   title: "Bài viết mẫu 2 - Các tính năng nổi bật",
-  //   slug: "bai-viet-mau-2-cac-tinh-nang-noi-bat",
+  //   title: "Sample Post 2 - Key Features",
+  //   slug: "sample-post-2-key-features",
   //   code: "MOCK-002",
   //   summary:
-  //     "Khám phá các tính năng nổi bật của hệ thống: quản lý nội dung đa phương tiện, SEO tự động, responsive design và nhiều hơn nữa.",
+  //     "Explore the key features of the system: multimedia content management, automatic SEO, responsive design and more.",
   //   thumbnail_path: "/images/service-2.png",
   //   thumbnail_compress_info: {
   //     mobile: "/images/service-2.png",
@@ -234,12 +234,12 @@ export const mockPosts: PostExtended[] = [
   //   created_by: "system",
   //   updated_by: null,
   //   expired_at: null,
-  //   author: "Hệ thống",
+  //   author: "System",
   //   post_content: [
   //     {
   //       id: "mock-content-002-1",
   //       content:
-  //         "Hệ thống được thiết kế với giao diện thân thiện, dễ sử dụng ngay cả với người mới bắt đầu. Tất cả các thao tác đều được tối ưu hóa để giảm thiểu thời gian làm việc.",
+  //         "The system is designed with a user-friendly interface, easy to use even for beginners. All operations are optimized to minimize working time.",
   //       position: 1,
   //       image_columns: 1,
   //       image_rows: 1,
@@ -253,7 +253,7 @@ export const mockPosts: PostExtended[] = [
   //     {
   //       id: "mock-content-002-2",
   //       content:
-  //         "Tính năng tìm kiếm thông minh giúp bạn nhanh chóng tìm thấy nội dung cần thiết. Hệ thống cũng hỗ trợ lọc và sắp xếp theo nhiều tiêu chí khác nhau.",
+  //         "The smart search feature helps you quickly find the content you need. The system also supports filtering and sorting by various criteria.",
   //       position: 2,
   //       image_columns: 1,
   //       image_rows: 1,
@@ -268,11 +268,11 @@ export const mockPosts: PostExtended[] = [
   // },
   // {
   //   id: "mock-post-003",
-  //   title: "Bài viết mẫu 3 - Hỏi đáp thường gặp",
-  //   slug: "bai-viet-mau-3-hoi-dap-thuong-gap",
+  //   title: "Sample Post 3 - Frequently Asked Questions",
+  //   slug: "sample-post-3-frequently-asked-questions",
   //   code: "MOCK-003",
   //   summary:
-  //     "Tổng hợp các câu hỏi thường gặp và hướng dẫn chi tiết giúp bạn giải quyết vấn đề nhanh chóng. Liên hệ với bộ phận hỗ trợ nếu cần thêm trợ giúp.",
+  //     "A collection of frequently asked questions and detailed guides to help you resolve issues quickly. Contact support if you need further assistance.",
   //   thumbnail_path: "/images/service-3.png",
   //   thumbnail_compress_info: {
   //     mobile: "/images/service-3.png",
@@ -289,12 +289,12 @@ export const mockPosts: PostExtended[] = [
   //   created_by: "system",
   //   updated_by: null,
   //   expired_at: null,
-  //   author: "Hệ thống",
+  //   author: "System",
   //   post_content: [
   //     {
   //       id: "mock-content-003-1",
   //       content:
-  //         "Làm thế nào để tạo bài viết mới? - Truy cập vào phần quản trị, chọn danh mục và nhấn nút 'Tạo bài viết mới'. Điền đầy đủ thông tin và lưu lại.",
+  //         "How to create a new post? - Go to the admin section, select a category and click the 'Create New Post' button. Fill in all the information and save.",
   //       position: 1,
   //       image_columns: 1,
   //       image_rows: 1,
@@ -308,7 +308,7 @@ export const mockPosts: PostExtended[] = [
   //     {
   //       id: "mock-content-003-2",
   //       content:
-  //         "Nếu gặp vấn đề kỹ thuật, vui lòng liên hệ với bộ phận hỗ trợ qua email hoặc hotline. Chúng tôi sẽ phản hồi trong vòng 24 giờ làm việc.",
+  //         "If you encounter technical issues, please contact support via email or hotline. We will respond within 24 business hours.",
   //       position: 2,
   //       image_columns: 1,
   //       image_rows: 1,

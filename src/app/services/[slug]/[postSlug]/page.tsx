@@ -1,19 +1,15 @@
 import { getApiV10Post, getApiV10PostSlugSlug } from "@/api/endpoints/post";
-import ServiceCard from "@/components/common/service-card";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { getApiV10PostCategoryByUrl } from "@/api/endpoints/post-category";
+import { PageHero } from "@/components/common";
 import { getThumbnailSrc } from "@/lib/responsive-image";
 import type { PostContent, PostExtended } from "@/types/post";
 import baseConfig from "@/configs/base";
 import parse from "html-react-parser";
 import {
   ArrowRight,
-  ChevronRight as BreadcrumbArrow,
   Calendar,
   Eye,
   Facebook,
-  Home,
   Linkedin,
   Link as LinkIcon,
   Mail,
@@ -36,6 +32,16 @@ async function getPost(postSlug: string): Promise<PostExtended | null> {
     return (data?.responseData as PostExtended) || null;
   } catch {
     return null;
+  }
+}
+
+async function getCategoryName(categoryUrl: string): Promise<string | undefined> {
+  try {
+    const data = await getApiV10PostCategoryByUrl({ categoryUrl, pageSize: 1 });
+    const rows = (data?.responseData?.rows as { category?: { name?: string } }[]) || [];
+    return rows[0]?.category?.name;
+  } catch {
+    return undefined;
   }
 }
 
@@ -81,8 +87,8 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: "Không tìm thấy dịch vụ",
-      description: "Dịch vụ không tồn tại hoặc đã bị xóa.",
+      title: "Service Not Found",
+      description: "This service does not exist or has been removed.",
     };
   }
 
@@ -96,25 +102,25 @@ export async function generateMetadata({
   const pageUrl = `${baseConfig.frontendDomain}/services/${slug}/${postSlug}`;
   const description =
     post.summary?.replace(/<[^>]*>/g, "").slice(0, 160) ||
-    "Dịch vụ kiểm định - thử nghiệm - hiệu chuẩn";
+    "Interior design, construction and branding services by Kosmo DNC.";
 
   return {
-    title: post.title || "Dịch vụ",
+    title: post.title || "Service",
     description,
     openGraph: {
-      title: post.title || "Dịch vụ",
+      title: post.title || "Service",
       description,
       url: pageUrl,
       type: "article",
       publishedTime: post.created_at || undefined,
-      siteName: "CASE-SMQ",
+      siteName: "Kosmo DNC",
       ...(thumbnailUrl && {
         images: [{ url: thumbnailUrl, width: 1200, height: 630, alt: post.title || "" }],
       }),
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title || "Dịch vụ",
+      title: post.title || "Service",
       description,
       ...(thumbnailUrl && { images: [thumbnailUrl] }),
     },
@@ -132,68 +138,49 @@ export default async function ServicePostDetailPage({
 
   if (!post) notFound();
 
-  const [relatedServices, latestServices] = await Promise.all([
+  const categoryLink = `/services/${slug}`;
+  const [relatedServices, latestServices, categoryName] = await Promise.all([
     getRelatedServices(post.id),
     getLatestServices(post.id),
+    getCategoryName(categoryLink),
   ]);
 
-  const categoryLink = `/services/${slug}`;
-  const shareUrl = `${baseConfig.frontendDomain}/services/${slug}/${postSlug}`;
+  const shareUrl = `${baseConfig.frontendDomain}${categoryLink}/${postSlug}`;
 
   return (
     <>
-      {/* Hero Navbar Section */}
-      <section
-        className="bg-[#0C2449] py-12 border-t border-gray-600"
-        style={{ backgroundImage: "url('/images/banner_service_2.png')" }}
-      >
-        <div className="max-w-screen-xl mx-auto px-6 lg:px-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-6">
-            Page / Service
-          </h1>
-          <nav>
-            <div className="flex items-center justify-center gap-2 text-sm text-gray-300">
-              <Link href="/" className="hover:text-white transition-colors flex items-center gap-1">
-                <Home className="w-4 h-4" />
-              </Link>
-              <BreadcrumbArrow className="w-4 h-4 text-gray-400" />
-              <Link href="/services" className="hover:text-white transition-colors">
-                Services
-              </Link>
-              <BreadcrumbArrow className="w-4 h-4 text-gray-400" />
-              <Link href={categoryLink} className="hover:text-white transition-colors">
-                {slug}
-              </Link>
-              <BreadcrumbArrow className="w-4 h-4 text-gray-400" />
-              <span className="text-white font-medium line-clamp-1">{post.title}</span>
-            </div>
-          </nav>
-        </div>
-      </section>
+      <PageHero
+        title={post.title || "Service"}
+        breadcrumbs={[
+          { label: "Home", href: "/home" },
+          { label: "Services", href: "/services" },
+          { label: categoryName || slug, href: categoryLink },
+          { label: post.title || "" },
+        ]}
+        backgroundImage={getThumbnailSrc(
+          post.thumbnail_compress_info,
+          post.thumbnail_path,
+          "/images/banner_service_2.png",
+        )}
+      />
 
-      {/* Main Content Section */}
-      <section className="bg-gray-50 py-16 min-h-screen">
-        <div className="max-w-screen-xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-4 gap-8">
-            {/* Main Content */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+        <div className="container-kosmo">
+          <div className="grid lg:grid-cols-4 gap-6 md:gap-8">
             <div className="lg:col-span-3">
-              <article className="bg-white rounded-lg shadow-sm p-8">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
-                  {post.title}
-                </h1>
-
-                <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-gray-600 mb-6">
+              <article className="rounded-[--radius-md] border border-line bg-white shadow-soft p-6 sm:p-8 md:p-10">
+                <div className="flex flex-wrap items-center gap-4 md:gap-6 text-[13px] text-gray-600 mb-6">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
                     <span>
                       {(() => {
                         const d = new Date(post.created_at || "");
-                        const date = d.toLocaleDateString("vi-VN", {
+                        const date = d.toLocaleDateString("en-US", {
                           day: "2-digit",
                           month: "2-digit",
                           year: "numeric",
                         });
-                        const time = d.toLocaleTimeString("vi-VN", {
+                        const time = d.toLocaleTimeString("en-US", {
                           hour: "2-digit",
                           minute: "2-digit",
                           hour12: false,
@@ -208,18 +195,17 @@ export default async function ServicePostDetailPage({
                   </div>
                   <div className="flex items-center gap-2">
                     <Eye className="w-4 h-4" />
-                    <span>{post.view?.toLocaleString("vi-VN") || 0} views</span>
+                    <span>{post.view?.toLocaleString("en-US") || 0} views</span>
                   </div>
                 </div>
 
-                {/* Share Buttons */}
-                <div className="flex items-center gap-3 mb-6 pb-6 border-b">
-                  <span className="text-gray-600 text-sm font-medium">Share:</span>
+                <div className="flex items-center gap-3 mb-6 pb-6 border-b border-line">
+                  <span className="text-gray-600 text-[13px] font-semibold">Share:</span>
                   <a
                     href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-md border border-gray-200 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300 transition-colors"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
                   >
                     <Facebook className="w-4 h-4" />
                   </a>
@@ -227,7 +213,7 @@ export default async function ServicePostDetailPage({
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-md border border-gray-200 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300 transition-colors"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
                   >
                     <Linkedin className="w-4 h-4" />
                   </a>
@@ -235,26 +221,25 @@ export default async function ServicePostDetailPage({
                     href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title || "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-md border border-gray-200 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300 transition-colors"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
                   >
                     <Twitter className="w-4 h-4" />
                   </a>
                   <a
                     href={shareUrl}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-md border border-gray-200 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300 transition-colors"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
                   >
                     <LinkIcon className="w-4 h-4" />
                   </a>
                   <a
                     href={`mailto:?subject=${encodeURIComponent(post.title || "")}&body=${encodeURIComponent(shareUrl)}`}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-md border border-gray-200 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300 transition-colors"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
                   >
                     <Mail className="w-4 h-4" />
                   </a>
                 </div>
 
-                {/* Featured Image */}
-                <div className="relative w-full aspect-video mb-8 rounded-lg overflow-hidden">
+                <div className="relative w-full aspect-video mb-8 rounded-[--radius-md] overflow-hidden bg-cream">
                   <Image
                     src={getThumbnailSrc(
                       post.thumbnail_compress_info,
@@ -267,16 +252,14 @@ export default async function ServicePostDetailPage({
                   />
                 </div>
 
-                {/* Summary */}
                 {post.summary && (
-                  <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8">
+                  <div className="bg-cream border-l-4 border-gold p-4 mb-8 rounded-r-[--radius-sm]">
                     <div className="tiptap prose max-w-none text-gray-700 italic leading-relaxed">
                       {parse(post.summary || "")}
                     </div>
                   </div>
                 )}
 
-                {/* Article Content */}
                 <div className="space-y-6 mb-8 prose prose-lg max-w-none">
                   {post.post_content?.map((content: PostContent) => {
                     const imageColumns = content.image_columns || 1;
@@ -302,7 +285,7 @@ export default async function ServicePostDetailPage({
                                 return (
                                   <div
                                     key={img.id}
-                                    className="relative w-full aspect-video rounded-lg overflow-hidden"
+                                    className="relative w-full aspect-video rounded-[--radius-md] overflow-hidden"
                                   >
                                     <Image
                                       src={imageSrc}
@@ -320,83 +303,88 @@ export default async function ServicePostDetailPage({
                   })}
                 </div>
 
-                {/* Tags */}
                 {post.tags && post.tags.length > 0 && (
-                  <div className="mb-6">
+                  <div className="pt-6 border-t border-line">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-gray-600 font-medium">Tags:</span>
+                      <span className="text-gray-600 text-[13px] font-semibold">Tags:</span>
                       {post.tags.map((tag) => (
-                        <Badge
+                        <span
                           key={tag.id || tag.name}
-                          variant="secondary"
-                          className="bg-gray-100 text-gray-700 hover:bg-gray-200"
+                          className="px-3 py-1 rounded-full bg-cream text-ink text-[12px] font-semibold"
                         >
                           {tag.name}
-                        </Badge>
+                        </span>
                       ))}
                     </div>
                   </div>
                 )}
-
-                <Separator className="my-6" />
               </article>
 
-              {/* Related Services */}
               {relatedServices.length > 0 && (
-                <div className="mt-12">
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                <div className="mt-10 md:mt-12">
+                  <h2 className="font-serif text-[24px] sm:text-[28px] text-ink mb-6">
                     Related Services
                   </h2>
-                  <div className="grid md:grid-cols-3 gap-6">
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
                     {relatedServices.map((service) => (
-                      <ServiceCard
+                      <Link
                         key={service.id}
-                        image={getThumbnailSrc(
-                          service.thumbnail_compress_info,
-                          service.thumbnail_path,
-                          "/images/service-1.png",
-                        )}
-                        title={service.title || ""}
-                        description={service.summary || ""}
-                        link={`${categoryLink}/${service.slug || ""}`}
-                        backgroundColor="white"
-                        textColor="#1e293b"
-                        descriptionColor="#64748b"
-                        linkColor="#3b82f6"
-                      />
+                        href={`${categoryLink}/${service.slug || ""}`}
+                        className="group flex flex-col h-full rounded-[--radius-md] overflow-hidden bg-white border border-line hover:shadow-soft transition-shadow"
+                      >
+                        <div className="relative h-36 sm:h-40 overflow-hidden bg-cream">
+                          <Image
+                            src={getThumbnailSrc(
+                              service.thumbnail_compress_info,
+                              service.thumbnail_path,
+                              "/images/service-1.png",
+                            )}
+                            alt={service.title || ""}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="p-4 sm:p-5 flex flex-col flex-grow">
+                          <h3 className="font-serif text-[16px] sm:text-[18px] text-ink mb-2 line-clamp-2 leading-tight group-hover:text-gold transition-colors">
+                            {service.title}
+                          </h3>
+                          <p className="text-[13px] text-gray-700 line-clamp-2 flex-grow">
+                            {service.summary?.replace(/<[^>]*>/g, "") || ""}
+                          </p>
+                        </div>
+                      </Link>
                     ))}
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Sidebar */}
             <div className="lg:col-span-1">
-              <div className="sticky top-6 space-y-4">
-                <Card className="overflow-hidden">
-                  <div className="bg-[#1e40af] px-4 py-3 flex items-center justify-between">
-                    <h3 className="text-base font-bold text-white">Latest Services</h3>
-                    <Newspaper className="w-5 h-5 text-white" />
+              <div className="sticky top-6">
+                <div className="rounded-[--radius-md] border border-line bg-white overflow-hidden shadow-soft">
+                  <div className="bg-black-900 px-4 py-3.5 flex items-center justify-between">
+                    <h3 className="font-serif text-[16px] text-white">Latest Services</h3>
+                    <Newspaper className="w-4.5 h-4.5 text-white/70" />
                   </div>
                   <div>
                     {latestServices.slice(0, 10).map((service, index) => (
                       <Link
                         key={service.id}
                         href={`${categoryLink}/${service.slug || ""}`}
-                        className={`flex gap-4 group hover:bg-blue-50 px-4 py-3 transition-colors ${index !== latestServices.slice(0, 10).length - 1
-                            ? "border-b border-gray-100"
-                            : ""
+                        className={`flex gap-4 group hover:bg-cream px-4 py-3 transition-colors ${index !== latestServices.slice(0, 10).length - 1
+                          ? "border-b border-line"
+                          : ""
                           }`}
                       >
-                        <div className="flex-shrink-0 text-3xl font-bold text-gray-200">
+                        <div className="flex-shrink-0 font-serif text-2xl text-black-700/20">
                           {String(index + 1).padStart(2, "0")}
                         </div>
                         <div className="flex-1 space-y-1.5">
-                          <h4 className="font-semibold text-gray-900 text-sm line-clamp-2 group-hover:text-blue-600 transition-colors leading-snug">
+                          <h4 className="font-semibold text-ink text-sm line-clamp-2 group-hover:text-gold transition-colors leading-snug">
                             {service.title}
                           </h4>
-                          <p className="text-xs text-gray-500">
-                            {new Date(service.created_at || "").toLocaleDateString("vi-VN", {
+                          <p className="text-xs text-gray-600">
+                            {new Date(service.created_at || "").toLocaleDateString("en-US", {
                               day: "2-digit",
                               month: "2-digit",
                               year: "numeric",
@@ -406,16 +394,16 @@ export default async function ServicePostDetailPage({
                       </Link>
                     ))}
                   </div>
-                  <div className="px-4 py-2.5 bg-gray-50 text-center border-t border-gray-100">
+                  <div className="px-4 py-2.5 bg-cream text-center border-t border-line">
                     <Link
                       href="/services"
-                      className="text-blue-600 font-semibold text-xs hover:text-blue-700 inline-flex items-center gap-1"
+                      className="text-ink font-semibold text-xs hover:text-gold inline-flex items-center gap-1 transition-colors"
                     >
                       View All
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
-                </Card>
+                </div>
               </div>
             </div>
           </div>

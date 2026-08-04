@@ -45,42 +45,42 @@ export default function ContactRegistrationSection() {
   const fallbackAddresses: AddressItem[] = [
     {
       id: 1,
-      name: "Trụ sở chính",
-      address: "Số 2 Nguyễn Văn Thủ, Phường Tân Định, Thành phố Hồ Chí Minh",
+      name: "Headquarters",
+      address: "No. 2 Nguyen Van Thu Street, Tan Dinh Ward, Ho Chi Minh City",
       phone: "028 38295087 – 38 291744",
       hotline: "1800 1105",
       email: "casehcm@case.vn",
     },
     {
       id: 2,
-      name: "Trụ sở 1",
-      address: "Số 263 Điện Biên Phủ, Phường Xuân Hòa, Thành phố Hồ Chí Minh",
+      name: "Office 1",
+      address: "No. 263 Dien Bien Phu Street, Xuan Hoa Ward, Ho Chi Minh City",
       phone: "028 3930 2733 – 3933 3533",
     },
     {
       id: 3,
-      name: "Trụ sở 3",
-      address: "Số 26 Huỳnh Văn Nghệ, Phường Phú Lợi, Thành phố Hồ Chí Minh",
+      name: "Office 3",
+      address: "No. 26 Huynh Van Nghe Street, Phu Loi Ward, Ho Chi Minh City",
       phone: "0274 3897 574 – 3883 186",
     },
     {
       id: 4,
-      name: "Trụ sở 4",
-      address: "Số 379 Hà Huy Tập, Phường Bà Rịa, Thành phố Hồ Chí Minh",
+      name: "Office 4",
+      address: "No. 379 Ha Huy Tap Street, Ba Ria Ward, Ho Chi Minh City",
       phone: "0254 3717 636",
     },
     {
       id: 5,
-      name: "Chi nhánh Cần Thơ",
+      name: "Can Tho Branch",
       address:
-        "Số F2.67-F2.68 Nguyễn Thị Sáu, Phường Hưng Phú, Thành phố Cần Thơ",
+        "No. F2.67-F2.68 Nguyen Thi Sau Street, Hung Phu Ward, Can Tho City",
       phone: "0292. 3918 217 – 3918 218",
     },
     {
       id: 6,
-      name: "Văn phòng đại diện Miền Trung",
+      name: "Central Region Representative Office",
       address:
-        "Số STH 27.18, Đường 8E, Khu đô Thị mới Lê Hồng Phong II, Phường Nam Nha Trang, Tỉnh Khánh Hòa",
+        "No. STH 27.18, Road 8E, Le Hong Phong II New Urban Area, Nam Nha Trang Ward, Khanh Hoa Province",
       phone: "0258. 2465 255 – 2465 355",
     },
   ];
@@ -297,7 +297,7 @@ export default function ContactRegistrationSection() {
                 </div>
 
                 <div className="space-y-3 max-h-[580px] overflow-y-auto pr-1">
-                  {/* Trụ sở chính - Full width */}
+                  {/* Headquarters - Full width */}
                   {addresses[0] && (
                     <div className="group bg-white/5 backdrop-blur-sm hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg p-4 transition-all duration-300">
                       <h4 className="font-semibold text-white text-sm mb-2 flex items-center gap-2">
@@ -347,7 +347,7 @@ export default function ContactRegistrationSection() {
                     </div>
                   )}
 
-                  {/* Trụ sở 1-4 - 2 columns nhe */}
+                  {/* Office 1-4 - 2 columns */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {addresses.slice(1, 5).map((addr) => (
                       <div
@@ -402,7 +402,7 @@ export default function ContactRegistrationSection() {
                     ))}
                   </div>
 
-                  {/* Địa chỉ thứ 6 nằm full nhe */}
+                  {/* Address 6 full width */}
                   {addresses[5] && (
                     <div className="group bg-white/5 backdrop-blur-sm hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg p-4 transition-all duration-300">
                       <h4 className="font-semibold text-white text-sm mb-2 flex items-center gap-2">

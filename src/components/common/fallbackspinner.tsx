@@ -105,7 +105,7 @@ export const FallbackSpinner: React.FC<FallbackSpinnerProps> = ({
   )
 }
 
-// export const InlineSpinner: React.FC<{ className?: string; label?: string }> = ({ className, label = 'Đang tải' }) => {
+// export const InlineSpinner: React.FC<{ className?: string; label?: string }> = ({ className, label = 'Loading' }) => {
 //   return (
 //     <span className={cn('inline-flex items-center', className)} role="status" aria-live="polite">
 //       <Loader2 className={cn('animate-spin w-4 h-4 mr-2 text-indigo-600')} aria-hidden="true" />
@@ -114,8 +114,8 @@ export const FallbackSpinner: React.FC<FallbackSpinnerProps> = ({
 //   )
 // }
 
-// Spinner cho button loading state
-// export const ButtonSpinner: React.FC<{ className?: string; label?: string }> = ({ className, label = 'Đang tải' }) => {
+// Spinner for button loading state
+// export const ButtonSpinner: React.FC<{ className?: string; label?: string }> = ({ className, label = 'Loading' }) => {
 //   return (
 //     <span className={cn('inline-flex items-center', className)} role="status" aria-live="polite">
 //       <Loader2 className={cn('animate-spin w-4 h-4 mr-2 text-white')} aria-hidden="true" />

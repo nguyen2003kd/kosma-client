@@ -129,7 +129,7 @@ export function LanguageSwitcher() {
                 ? "/images/lang-vn.png"
                 : "/images/lang-en.png"
             }
-            alt={currentLang === "vi" ? "Tiếng Việt" : "English"}
+            alt={currentLang === "vi" ? "Vietnamese" : "English"}
             width={24}
             height={24}
             className="object-cover"

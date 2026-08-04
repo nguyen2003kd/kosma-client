@@ -5,7 +5,7 @@ import { AbilityContext } from '@configs/AbilityContext';
 import type { AppAbility } from '@configs/acl';
 
 /**
- * Hook để truy cập CASL ability trong components
+ * Hook to access CASL ability in components
  * @example
  * const ability = useAbility();
  * if (ability.can('view_summary', 'dashboard')) {
@@ -17,7 +17,7 @@ export const useAbility = (): AppAbility => {
 };
 
 /**
- * Hook để kiểm tra quyền thực hiện một action
+ * Hook to check permission to perform an action
  * @param action - Action name (e.g., 'view_summary', 'update', 'delete')
  * @param subject - Resource name (e.g., 'dashboard', 'news', 'category')
  * @example
@@ -29,7 +29,7 @@ export const useCan = (action: string, subject: string): boolean => {
 };
 
 /**
- * Hook để kiểm tra user KHÔNG có quyền thực hiện action
+ * Hook to check if the user does NOT have permission to perform an action
  * @example
  * const cannotDelete = useCannot('delete', 'news');
  */
@@ -39,7 +39,7 @@ export const useCannot = (action: string, subject: string): boolean => {
 };
 
 /**
- * Hook kiểm tra user có ít nhất 1 permission trong danh sach
+ * Hook to check if the user has at least 1 permission in the list
  * @example
  * const canAccessNews = useCanAny(['news:view_detail', 'news:update']);
  */

@@ -34,7 +34,7 @@ export default function DatePicker({ date, onDateChange }: DatePickerProps) {
                   {format(date, "dd/MM/yyyy", { locale: vi })}
                 </span>
               ) : (
-                <span className="text-sm text-gray-500">Chọn ngày</span>
+                <span className="text-sm text-gray-500">Select date</span>
               )}
             </div>
             {date && (
