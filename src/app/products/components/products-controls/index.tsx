@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, ReactNode } from "react";
-import { ProductSidebar } from "./product-sidebar";
+import { ProductSidebar } from "../product-sidebar";
 
 interface ProductsControlsProps {
   basePath: string;
@@ -28,7 +28,7 @@ export function ProductsControls({ basePath, children }: ProductsControlsProps) 
           params.set(key, value);
         }
       }
-      // Reset to page 1 whenever filters change
+
       params.delete("page");
       const qs = params.toString();
       router.push(qs ? `${basePath}?${qs}` : basePath, { scroll: false });
@@ -46,7 +46,6 @@ export function ProductsControls({ basePath, children }: ProductsControlsProps) 
       />
 
       <div className="space-y-6">
-        {/* Toolbar: search + sort — inside the product list column */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
           <div className="flex-1">
             <input

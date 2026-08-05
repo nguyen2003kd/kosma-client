@@ -7,7 +7,7 @@ import { buildPostFilters } from "@/lib/filters";
 import { slugify } from "@/lib/slugify";
 import type { PostExtended as PostWithImage } from "@/types/post";
 import type { Metadata } from "next";
-import ServiceListSSR from "./components/service-list-ssr";
+import ServiceList from "./components/service-list";
 import { ServicesControls } from "./components/services-controls";
 
 const PAGE_SIZE = 12;
@@ -116,7 +116,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
             categories={serviceSubCategories}
             selectedCategory={selectedCategory}
           >
-            <ServiceListSSR
+            <ServiceList
               posts={posts}
               error={
                 postsError || categoriesError

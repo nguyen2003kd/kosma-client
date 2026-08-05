@@ -22,6 +22,7 @@ export { default as ContentSidebar } from './content-sidebar';
 export * from './fallbackspinner';
 export * from './loading';
 export { default as ErrorBoundary, NotFound, OfflineError } from './error-boundary';
+export { default as EmptyState } from './empty-state';
 
 // Misc
 export * from './dynamic-icon';

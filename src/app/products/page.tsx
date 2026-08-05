@@ -1,14 +1,17 @@
-import { getApiV10Product } from "@/api/endpoints/product";
+"use client";
+
+import { useGetApiV10Product } from "@/api/endpoints/product";
 import type { GetApiV10ProductParams } from "@/api/models";
 import {
   PageHero,
   SectionHeading,
   SplitContent,
 } from "@/components/common";
-import ProductListSSR from "./components/product-list-ssr";
+import ProductList from "./components/product-list";
 import { ProductsControls } from "./components/products-controls";
 import { getPrimaryProductImage, type ProductImageRow } from "@/lib/product-image";
-import type { Metadata } from "next";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useCallback, useMemo } from "react";
 
 const PAGE_SIZE = 12;
 
@@ -54,67 +57,84 @@ function transformToProductCard(item: ProductRow) {
   };
 }
 
-export const metadata: Metadata = {
-  title: "Products | Kosmo DNC",
-  description:
-    "Shop construction materials, fixtures, lighting, and hardware — with trade pricing for contractors and builders.",
-};
+function ProductsListContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-interface ProductsPageProps {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}
+  const currentPage = Math.max(1, parseInt(searchParams.get("page") ?? "1") || 1);
+  const sortBy = searchParams.get("sort") ?? "featured";
+  const search = searchParams.get("search") ?? "";
+  const activeCategory = searchParams.get("category") ?? "all";
+  const activeProductType = searchParams.get("type") ?? "all";
 
-export default async function ProductsPage({ searchParams }: ProductsPageProps) {
-  const params = await searchParams;
-  const currentPage = Math.max(1, parseInt((params.page as string) ?? "1") || 1);
-  const sortBy = (params.sort as string) ?? "featured";
-  const search = (params.search as string) ?? "";
-  const activeCategory = (params.category as string) ?? "all";
-  const activeProductType = (params.type as string) ?? "all";
+  const queryParams: GetApiV10ProductParams = useMemo(() => {
+    const filterParts: string[] = ["status==active"];
+    if (activeCategory !== "all") filterParts.push(`category==${activeCategory}`);
+    if (activeProductType !== "all") filterParts.push(`product_type==${activeProductType}`);
+    if (search.trim()) filterParts.push(`name==${search.trim()}`);
 
-  // Build filter string
-  const filterParts: string[] = ["status==active"];
-  if (activeCategory !== "all") filterParts.push(`category==${activeCategory}`);
-  if (activeProductType !== "all") filterParts.push(`product_type==${activeProductType}`);
-  if (search.trim()) filterParts.push(`name==${search.trim()}`);
+    const params: GetApiV10ProductParams = {
+      page: currentPage,
+      pageSize: PAGE_SIZE,
+      filters: filterParts.join(","),
+    };
 
-  const queryParams: GetApiV10ProductParams = {
-    page: currentPage,
-    pageSize: PAGE_SIZE,
-    filters: filterParts.join(","),
-  };
+    if (sortBy === "price-asc") {
+      params.sortField = "price";
+      params.sortOrder = "asc";
+    } else if (sortBy === "price-desc") {
+      params.sortField = "price";
+      params.sortOrder = "desc";
+    } else {
+      params.sortField = "created_at";
+      params.sortOrder = "desc";
+    }
 
-  if (sortBy === "price-asc") {
-    queryParams.sortField = "price";
-    queryParams.sortOrder = "asc";
-  } else if (sortBy === "price-desc") {
-    queryParams.sortField = "price";
-    queryParams.sortOrder = "desc";
-  } else {
-    queryParams.sortField = "created_at";
-    queryParams.sortOrder = "desc";
-  }
+    return params;
+  }, [currentPage, sortBy, search, activeCategory, activeProductType]);
 
-  let products: ReturnType<typeof transformToProductCard>[] = [];
-  let totalPages = 1;
-  let hasError = false;
+  const { data, isLoading, isError } = useGetApiV10Product(queryParams);
 
-  try {
-    const data = await getApiV10Product(queryParams);
+  const { products, totalPages } = useMemo(() => {
     const responseData = (data as unknown as {
       responseData?: { rows?: ProductRow[]; count?: number; pageSize?: number };
-    }).responseData;
+    })?.responseData;
     const rows = responseData?.rows ?? [];
     const count = responseData?.count ?? 0;
-    products = rows.map(transformToProductCard);
-    totalPages = count ? Math.ceil(count / PAGE_SIZE) : 1;
-  } catch {
-    hasError = true;
-  }
+    return {
+      products: rows.map(transformToProductCard),
+      totalPages: count ? Math.ceil(count / PAGE_SIZE) : 1,
+    };
+  }, [data]);
 
   const hasFilters =
     search.trim().length > 0 || activeCategory !== "all" || activeProductType !== "all";
 
+  const handleClearFilters = useCallback(() => {
+    router.push("/products", { scroll: false });
+  }, [router]);
+
+  return (
+    <ProductsControls basePath="/products">
+      {isLoading ? (
+        <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">
+          <p className="text-[14px] text-gray-700">Loading products…</p>
+        </div>
+      ) : (
+        <ProductList
+          products={products}
+          error={isError ? new Error("Failed to load") : undefined}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          hasFilters={hasFilters}
+          onClearFilters={handleClearFilters}
+        />
+      )}
+    </ProductsControls>
+  );
+}
+
+export default function ProductsPage() {
   return (
     <>
       <PageHero
@@ -165,15 +185,15 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             subtitle="Filter, sort, and find the right materials for your next build."
           />
 
-          <ProductsControls basePath="/products">
-            <ProductListSSR
-              products={products}
-              error={hasError ? new Error("Failed to load") : undefined}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              hasFilters={hasFilters}
-            />
-          </ProductsControls>
+          <Suspense
+            fallback={
+              <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">
+                <p className="text-[14px] text-gray-700">Loading products…</p>
+              </div>
+            }
+          >
+            <ProductsListContent />
+          </Suspense>
         </div>
       </section>
     </>

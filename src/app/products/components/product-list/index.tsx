@@ -1,22 +1,23 @@
-import { PaginationLinks } from "@/components/common";
-import EmptyState from "@/app/services/components/empty-state";
-import { ProductCard, type ProductCardItem } from "./product-card";
+import { EmptyState, PaginationLinks } from "@/components/common";
+import { ProductCard, type ProductCardItem } from "../product-card";
 
-interface ProductListSSRProps {
+interface ProductListProps {
   products: ProductCardItem[];
   error?: unknown;
   currentPage: number;
   totalPages: number;
   hasFilters: boolean;
+  onClearFilters?: () => void;
 }
 
-export default function ProductListSSR({
+export default function ProductList({
   products,
   error,
   currentPage,
   totalPages,
   hasFilters,
-}: ProductListSSRProps) {
+  onClearFilters,
+}: ProductListProps) {
   if (error) {
     return (
       <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">
@@ -32,9 +33,9 @@ export default function ProductListSSR({
       <EmptyState
         hasFilters={hasFilters}
         hasDateFilter={false}
-        hasCategoryFilter={hasFilters}
-        onClearDateFilter={() => { }}
-        onClearCategoryFilter={() => { }}
+        hasCategoryFilter={false}
+        onClearAllFilters={onClearFilters}
+        clearAllLabel="Clear Filters"
         title="No products found"
         messageWithFilter="No products match your filters. Try adjusting or clearing filters to see more results."
         messageWithoutFilter="No products are available yet."

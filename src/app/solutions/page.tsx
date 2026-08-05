@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, HardHat, Ruler } from "lucide-react";
 import type { Metadata } from "next";
-import SolutionListSSR from "./components/solution-list-ssr";
+import SolutionList from "./components/solution-list";
 import { SolutionsControls } from "./components/solutions-controls";
 import { SOLUTION_TYPES, type SolutionType } from "./components/solution-types";
 
@@ -154,7 +154,7 @@ export default async function SolutionsPage({ searchParams }: SolutionsPageProps
             activeType={activeType}
             currentCategoryName={currentCategoryName}
           >
-            <SolutionListSSR
+            <SolutionList
               posts={posts}
               error={hasError ? new Error("Failed to load") : undefined}
               currentCategoryName={currentCategoryName}
