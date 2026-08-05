@@ -1,8 +1,5 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Archive, X } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 interface EmptyStateProps {
   hasFilters: boolean;
@@ -10,6 +7,8 @@ interface EmptyStateProps {
   hasCategoryFilter?: boolean;
   onClearDateFilter?: () => void;
   onClearCategoryFilter?: () => void;
+  onClearAllFilters?: () => void;
+  clearAllLabel?: string;
   title?: string;
   messageWithFilter?: string;
   messageWithoutFilter?: string;
@@ -21,14 +20,15 @@ export default function EmptyState({
   hasCategoryFilter,
   onClearDateFilter,
   onClearCategoryFilter,
+  onClearAllFilters,
+  clearAllLabel,
   title,
   messageWithFilter,
   messageWithoutFilter,
 }: EmptyStateProps) {
-  const { t } = useTranslation("pages/solutions");
-  const displayTitle = title || t("noResultsDefault");
-  const displayMsgWithFilter = messageWithFilter || t("noResultsWithFilterDefault");
-  const displayMsgWithoutFilter = messageWithoutFilter || t("noResultsWithoutFilterDefault");
+  const displayTitle = title || "No Results Found";
+  const displayMsgWithFilter = messageWithFilter || "Try adjusting your filters to find what you're looking for.";
+  const displayMsgWithoutFilter = messageWithoutFilter || "Check back later for new items.";
   return (
     <div className="rounded-[--radius-md] border border-line bg-white py-16 px-6">
       <div className="flex flex-col items-center justify-center text-center max-w-md mx-auto space-y-4">
@@ -55,7 +55,7 @@ export default function EmptyState({
                 className="gap-2 border-black-800/20 text-ink hover:bg-cream hover:border-black-800/40 transition-all duration-200"
               >
                 <X className="w-4 h-4" />
-                {t("clearDateFilter")}
+                Clear Date Filter
               </Button>
             )}
             {hasCategoryFilter && onClearCategoryFilter && (
@@ -65,7 +65,17 @@ export default function EmptyState({
                 className="gap-2 border-black-800/20 text-ink hover:bg-cream hover:border-black-800/40 transition-all duration-200"
               >
                 <X className="w-4 h-4" />
-                {t("clearCategoryFilter")}
+                Clear Category Filter
+              </Button>
+            )}
+            {onClearAllFilters && (
+              <Button
+                onClick={onClearAllFilters}
+                variant="outline"
+                className="gap-2 border-black-800/20 text-ink hover:bg-cream hover:border-black-800/40 transition-all duration-200"
+              >
+                <X className="w-4 h-4" />
+                {clearAllLabel || "Clear All Filters"}
               </Button>
             )}
           </div>

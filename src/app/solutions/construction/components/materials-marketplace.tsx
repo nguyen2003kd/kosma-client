@@ -43,19 +43,15 @@ export function transformToMaterialProduct(item: ProductRow): MaterialProduct {
   };
 }
 
-interface MaterialsMarketplaceSSRProps {
+interface MaterialsMarketplaceProps {
   products: MaterialProduct[];
   error?: unknown;
 }
 
-/**
- * SSR-friendly materials grid. No loading state (SSR waits for data).
- * Filter controls live in the client wrapper MaterialsMarketplaceControls.
- */
-export function MaterialsMarketplaceSSR({
+export function MaterialsMarketplace({
   products,
   error,
-}: MaterialsMarketplaceSSRProps) {
+}: MaterialsMarketplaceProps) {
   if (error) {
     return (
       <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">

@@ -1,9 +1,9 @@
 import { PaginationLinks } from "@/components/common";
 import type { PostExtended as PostWithImage } from "@/types/post";
-import EmptyState from "@/app/services/components/empty-state";
-import ConstructionCard from "./construction-card";
+import EmptyState from "@/components/common/empty-state";
+import SolutionCard from "../solution-card";
 
-interface ConstructionListSSRProps {
+interface SolutionListProps {
   posts: PostWithImage[];
   error?: unknown;
   currentCategoryName: string;
@@ -14,11 +14,7 @@ interface ConstructionListSSRProps {
   categoryLink?: string;
 }
 
-/**
- * SSR-friendly construction list. No loading state (SSR waits for data).
- * Uses Link-based pagination (PaginationLinks) instead of onClick.
- */
-export default function ConstructionListSSR({
+export default function SolutionList({
   posts,
   error,
   currentCategoryName,
@@ -27,12 +23,12 @@ export default function ConstructionListSSR({
   hasFilters,
   locale,
   categoryLink,
-}: ConstructionListSSRProps) {
+}: SolutionListProps) {
   if (error) {
     return (
       <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">
         <p className="text-[14px] text-gray-700">
-          Unable to load construction posts. Please try again later.
+          Unable to load solutions. Please try again later.
         </p>
       </div>
     );
@@ -44,11 +40,11 @@ export default function ConstructionListSSR({
         hasFilters={hasFilters}
         hasDateFilter={false}
         hasCategoryFilter={false}
-        onClearDateFilter={() => {}}
-        onClearCategoryFilter={() => {}}
-        title="No construction posts found"
-        messageWithFilter="No construction posts match your filters. Try adjusting or clearing filters to see more results."
-        messageWithoutFilter="No construction posts have been posted yet."
+        onClearDateFilter={() => { }}
+        onClearCategoryFilter={() => { }}
+        title="No results"
+        messageWithFilter="No results match your filters."
+        messageWithoutFilter="No solutions have been published yet."
       />
     );
   }
@@ -57,7 +53,7 @@ export default function ConstructionListSSR({
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
         {posts.map((post) => (
-          <ConstructionCard
+          <SolutionCard
             key={post.id}
             post={post}
             categoryName={currentCategoryName}

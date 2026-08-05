@@ -10,7 +10,7 @@ import { PostExtended } from "@/types/post";
 import parse from "html-react-parser";
 import { ArrowRight, Calendar } from "lucide-react";
 import Image from "next/image";
-import EmptyState from "../../empty-state";
+import EmptyState from "@/components/common/empty-state";
 import NewsCard from "./news-card";
 import { useTranslation } from "react-i18next";
 interface NewsListProps {
@@ -94,11 +94,10 @@ export default function NewsList({
           {/* Featured Post */}
           {posts.length > 0 && (
             <a
-              href={`/${
-                categoryCode ||
+              href={`/${categoryCode ||
                 posts[0].category?.link?.replace(/^\//, "") ||
                 "post"
-              }/${posts[0].slug || ""}`}
+                }/${posts[0].slug || ""}`}
               className="relative block rounded-2xl overflow-hidden shadow-2xl hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 h-[300px] md:h-[380px] group"
             >
               {/* Background Image */}

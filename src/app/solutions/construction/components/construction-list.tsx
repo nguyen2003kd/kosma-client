@@ -1,38 +1,33 @@
-import { PaginationLinks } from "@/components/common";
+import { EmptyState, PaginationLinks } from "@/components/common";
 import type { PostExtended as PostWithImage } from "@/types/post";
-import EmptyState from "../empty-state";
-import ServiceCard from "../service-card";
+import ConstructionCard from "./construction-card";
 
-interface ServiceListSSRProps {
+interface ConstructionListProps {
   posts: PostWithImage[];
   error?: unknown;
   currentCategoryName: string;
   currentPage: number;
   totalPages: number;
   hasFilters: boolean;
-  hasDateFilter: boolean;
-  hasCategoryFilter: boolean;
   locale?: string;
   categoryLink?: string;
 }
 
-export default function ServiceListSSR({
+export default function ConstructionList({
   posts,
   error,
   currentCategoryName,
   currentPage,
   totalPages,
   hasFilters,
-  hasDateFilter,
-  hasCategoryFilter,
   locale,
   categoryLink,
-}: ServiceListSSRProps) {
+}: ConstructionListProps) {
   if (error) {
     return (
       <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">
         <p className="text-[14px] text-gray-700">
-          Unable to load services. Please try again later.
+          Unable to load construction posts. Please try again later.
         </p>
       </div>
     );
@@ -42,13 +37,9 @@ export default function ServiceListSSR({
     return (
       <EmptyState
         hasFilters={hasFilters}
-        hasDateFilter={hasDateFilter}
-        hasCategoryFilter={hasCategoryFilter}
-        onClearDateFilter={() => { }}
-        onClearCategoryFilter={() => { }}
-        title="No results"
-        messageWithFilter="No results match your filters."
-        messageWithoutFilter="No services have been published yet."
+        title="No construction posts found"
+        messageWithFilter="No construction posts match your filters. Try adjusting or clearing filters to see more results."
+        messageWithoutFilter="No construction posts have been posted yet."
       />
     );
   }
@@ -57,7 +48,7 @@ export default function ServiceListSSR({
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
         {posts.map((post) => (
-          <ServiceCard
+          <ConstructionCard
             key={post.id}
             post={post}
             categoryName={currentCategoryName}

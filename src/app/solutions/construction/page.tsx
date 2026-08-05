@@ -10,12 +10,12 @@ import {
 } from "@/components/common";
 import type { PostExtended as PostWithImage } from "@/types/post";
 import type { Metadata } from "next";
-import ConstructionListSSR from "./components/construction-list-ssr";
+import ConstructionList from "./components/construction-list";
 import {
-  MaterialsMarketplaceSSR,
+  MaterialsMarketplace,
   transformToMaterialProduct,
   type ProductRow,
-} from "./components/materials-marketplace-ssr";
+} from "./components/materials-marketplace";
 import { MaterialsMarketplaceControls } from "./components/materials-marketplace-controls";
 
 const CATEGORY_URL = "/solutions/construction";
@@ -48,12 +48,10 @@ export default async function ConstructionPage({
   const params = await searchParams;
   const currentPage = Math.max(1, parseInt((params.page as string) ?? "1") || 1);
 
-  // Materials marketplace params (prefixed with "m" to avoid collisions)
   const mcat = (params.mcat as string) ?? "all";
   const msort = (params.msort as string) ?? "featured";
   const msearch = (params.msearch as string) ?? "";
 
-  // --- Fetch construction posts ---
   let posts: PostWithImage[] = [];
   let category: PostCategoryWithPost["category"];
   let totalPages = 1;
@@ -85,7 +83,6 @@ export default async function ConstructionPage({
     category?.description?.replace(/<[^>]*>/g, "") || undefined;
   const categoryLink = category?.link || CATEGORY_URL;
 
-  // --- Fetch materials products ---
   let materialProducts: ReturnType<typeof transformToMaterialProduct>[] = [];
   let materialsError = false;
 
@@ -186,7 +183,7 @@ export default async function ConstructionPage({
             subtitle="See how our crews apply craftsmanship and technology across residential, commercial, and fit-out projects."
           />
 
-          <ConstructionListSSR
+          <ConstructionList
             posts={posts}
             error={postsError ? new Error("Failed to load") : undefined}
             currentCategoryName={categoryName}
@@ -207,7 +204,7 @@ export default async function ConstructionPage({
             subtitle="Buy toilets, sinks, lighting, hardware, and building materials directly — with trade pricing for contractors."
           />
           <MaterialsMarketplaceControls basePath="/solutions/construction">
-            <MaterialsMarketplaceSSR
+            <MaterialsMarketplace
               products={materialProducts}
               error={materialsError ? new Error("Failed to load") : undefined}
             />
