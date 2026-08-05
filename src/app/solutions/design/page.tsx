@@ -1,6 +1,4 @@
-"use client";
-
-import { useGetApiV10PostCategoryByUrl } from "@/api/endpoints/post-category";
+import { getApiV10PostCategoryByUrl } from "@/api/endpoints/post-category";
 import type { PostCategory } from "@/api/models/postCategory";
 import {
   PageHero,
@@ -8,11 +6,10 @@ import {
   SplitContent,
   QuoteSection,
 } from "@/components/common";
-import { Loading } from "@/components/common/loading";
-import { Search } from "lucide-react";
-import { Suspense, useMemo, useState } from "react";
 import type { PostExtended as PostWithImage } from "@/types/post";
-import { DesignCard } from "./components/design-card";
+import type { Metadata } from "next";
+import { DesignControls } from "./components/design-controls";
+import { DesignGallerySSR } from "./components/design-gallery-ssr";
 import { DesignInquiryForm } from "./components/design-inquiry-form";
 
 const CATEGORY_URL = "/solutions/design";
@@ -51,53 +48,55 @@ const values = [
   },
 ];
 
-export default function DesignPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center bg-white">
-          <Loading text="Design" size="lg" className="text-ink" />
-        </div>
-      }
-    >
-      <DesignContent />
-    </Suspense>
-  );
+export const metadata: Metadata = {
+  title: "Design Drawings Gallery | Kosmo DNC",
+  description:
+    "Browse our collection of design drawings — reference designs to help you visualize and choose the right look for your space.",
+};
+
+interface DesignPageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-function DesignContent() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState("");
+export default async function DesignPage({ searchParams }: DesignPageProps) {
+  const params = await searchParams;
+  const currentPage = Math.max(1, parseInt((params.page as string) ?? "1") || 1);
+  const search = (params.search as string) ?? "";
 
-  const { data, isLoading, error } = useGetApiV10PostCategoryByUrl({
-    categoryUrl: CATEGORY_URL,
-    page: currentPage,
-    pageSize: PAGE_SIZE,
-    sortField: "position",
-    sortOrder: "asc",
-  });
+  let posts: PostWithImage[] = [];
+  let category: PostCategoryWithPost["category"];
+  let totalPages = 1;
+  let hasError = false;
 
-  const { posts, category, totalPages } = useMemo(() => {
+  try {
+    const data = await getApiV10PostCategoryByUrl({
+      categoryUrl: CATEGORY_URL,
+      page: currentPage,
+      pageSize: PAGE_SIZE,
+      sortField: "position",
+      sortOrder: "asc",
+    });
     const rows = (data?.responseData?.rows as PostCategoryWithPost[]) || [];
     const extractedPosts = rows
       .map((row) => row.post)
       .filter((post): post is PostWithImage => !!post);
     const cat = rows[0]?.category;
     const count = data?.responseData?.count || 0;
-    return {
-      posts: extractedPosts,
-      category: cat,
-      totalPages: count
-        ? Math.ceil(count / (data?.responseData?.pageSize || PAGE_SIZE))
-        : 1,
-    };
-  }, [data]);
+    posts = extractedPosts;
+    category = cat;
+    totalPages = count
+      ? Math.ceil(count / (data?.responseData?.pageSize || PAGE_SIZE))
+      : 1;
+  } catch {
+    hasError = true;
+  }
 
-  const filteredPosts = useMemo(() => {
-    if (!search.trim()) return posts;
-    const q = search.trim().toLowerCase();
-    return posts.filter((p) => (p.title || "").toLowerCase().includes(q));
-  }, [posts, search]);
+  // Apply search filter server-side (search input is reflected in URL)
+  const filteredPosts = search.trim()
+    ? posts.filter((p) =>
+      (p.title || "").toLowerCase().includes(search.trim().toLowerCase()),
+    )
+    : posts;
 
   const categoryName = category?.name || "Design Drawings";
   const categoryDescription =
@@ -117,7 +116,7 @@ function DesignContent() {
           { label: "Solutions", href: "/solutions" },
           { label: "Design" },
         ]}
-        backgroundImage="/images/living.jpg"
+        backgroundImage="/images/showroom.jpg"
       />
 
       {/* Intro Section */}
@@ -158,78 +157,16 @@ function DesignContent() {
             subtitle="Browse our latest design drawings. Click any design to view details."
           />
 
-          {/* Search bar */}
-          <div className="max-w-md mx-auto mb-8">
-            <div className="relative">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search designs by title..."
-                className="w-full rounded-full border border-mutedLine bg-white pl-10 pr-4 py-2.5 text-[13px] sm:text-[14px] text-ink placeholder:text-gray-400 focus:outline-none focus:border-ink/60 transition-colors"
-              />
-            </div>
-          </div>
-
-          {isLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-              {Array.from({ length: 12 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="rounded-[--radius-md] overflow-hidden bg-white border border-mutedLine animate-pulse"
-                >
-                  <div className="aspect-[4/3] bg-cream" />
-                  <div className="p-4 sm:p-5">
-                    <div className="h-4 bg-gray-200 rounded w-3/4" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : error ? (
-            <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">
-              <p className="text-[14px] text-gray-700">
-                Unable to load design drawings. Please try again later.
-              </p>
-            </div>
-          ) : filteredPosts.length === 0 ? (
-            <div className="rounded-[--radius-md] border border-line bg-white py-16 px-6 text-center">
-              <p className="text-gray-600">
-                {search.trim()
-                  ? `No designs match "${search}". Try a different keyword.`
-                  : "No design drawings have been published yet."}
-              </p>
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-                {filteredPosts.map((post) => (
-                  <DesignCard
-                    key={post.id}
-                    post={post}
-                    categoryLink={categoryLink}
-                  />
-                ))}
-              </div>
-
-              {!search.trim() && totalPages > 1 && (
-                <div className="mt-8 flex items-center justify-center gap-2">
-                  {Array.from({ length: totalPages }).map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setCurrentPage(i + 1)}
-                      className={`w-9 h-9 rounded-lg text-[13px] font-bold transition-all ${currentPage === i + 1
-                        ? "bg-ink text-white"
-                        : "bg-white text-gray-700 border border-mutedLine hover:border-ink/40"
-                        }`}
-                    >
-                      {i + 1}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </>
-          )}
+          <DesignControls basePath="/solutions/design">
+            <DesignGallerySSR
+              posts={filteredPosts}
+              error={hasError ? new Error("Failed to load") : undefined}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              search={search}
+              categoryLink={categoryLink}
+            />
+          </DesignControls>
         </div>
       </section>
 
@@ -265,19 +202,7 @@ function DesignContent() {
         title="Rockville, MD"
       />
 
-      {/* Inquiry Form Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
-        <div className="container-kosmo">
-          <SectionHeading
-            eyebrow="Get Started"
-            title="Request a Custom Design"
-            subtitle="Want a design tailored to your space? Share your requirements and our design team will prepare a custom drawing for you."
-          />
-          <div className="max-w-5xl mx-auto">
-            <DesignInquiryForm />
-          </div>
-        </div>
-      </section>
+      <DesignInquiryForm />
     </>
   );
 }

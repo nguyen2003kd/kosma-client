@@ -1,7 +1,6 @@
 "use client";
 
 import { useGetApiV10Post } from "@/api/endpoints/post";
-import { PAGE_IDS } from "@/constants/page-ids";
 import { buildPostFilters } from "@/lib/filters";
 import { PostExtended } from "@/types/post";
 import { mockPosts } from "@/utils/mock-data";
@@ -47,7 +46,6 @@ export default function NewsGrid({
     sortOrderPosition: "ASC",
     filterBy: "CLIENT",
     category_id: activeCategoryId,
-    page_id: PAGE_IDS.LATEST_POSTS,
   });
 
   const apiPosts = (data?.responseData?.rows as PostExtended[]) || [];

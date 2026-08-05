@@ -1,120 +1,102 @@
-"use client";
-
-import { useGetApiV10Category } from "@/api/endpoints/category";
-import { useGetApiV10Post } from "@/api/endpoints/post";
+import { getApiV10Category } from "@/api/endpoints/category";
+import { getApiV10Post } from "@/api/endpoints/post";
+import type { GetApiV10PostParams } from "@/api/models";
 import { CategoryWithChildren } from "@/api/models/categoryWithChildren";
 import { PageHero, SectionHeading, ConsultationForm } from "@/components/common";
-import QuotationPopupDialog from "@/components/common/quotation-popup/quotation-popup-dialog";
-import { Loading } from "@/components/common/loading";
 import { buildPostFilters } from "@/lib/filters";
 import { slugify } from "@/lib/slugify";
 import type { PostExtended as PostWithImage } from "@/types/post";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import ServiceFilters from "./components/service-filters";
-import ServiceList from "./components/service-list";
-import ServiceSidebar from "./components/service-sidebar";
+import type { Metadata } from "next";
+import ServiceListSSR from "./components/service-list-ssr";
+import { ServicesControls } from "./components/services-controls";
 
-export default function ServicesPage() {
-  const { t } = useTranslation("pages/services");
+const PAGE_SIZE = 12;
+const PATHNAME = "/services";
 
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center bg-white">
-          <Loading text={t("title")} size="lg" className="text-ink" />
-        </div>
-      }
-    >
-      <ServicesContent />
-    </Suspense>
-  );
+export const metadata: Metadata = {
+  title: "Services | Kosmo DNC",
+  description:
+    "Explore our full range of design, construction, and branding services.",
+};
+
+interface ServicesPageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-function ServicesContent() {
-  const { t, i18n } = useTranslation("pages/services");
+export default async function ServicesPage({ searchParams }: ServicesPageProps) {
+  const params = await searchParams;
+  const currentPage = Math.max(1, parseInt((params.page as string) ?? "1") || 1);
+  const categoryParam = (params.category as string) ?? "";
 
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const categoryParam = searchParams.get("category");
-  const locale = i18n.language?.startsWith("en") ? "en-US" : "vi-VN";
+  // --- Fetch categories ---
+  let serviceCategory: CategoryWithChildren | undefined;
+  let serviceSubCategories: CategoryWithChildren["categories"] = [];
+  let categoriesError = false;
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [date, setDate] = useState<Date>();
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  try {
+    const categoriesData = await getApiV10Category({ language: "en" });
+    const allCategories =
+      (categoriesData as unknown as { responseData?: CategoryWithChildren[] })
+        ?.responseData ?? [];
+    serviceCategory = allCategories.find((cat) => cat.link === PATHNAME);
+    serviceSubCategories = serviceCategory?.categories || [];
+  } catch {
+    categoriesError = true;
+  }
 
-  const { data: categoriesData } = useGetApiV10Category({ language: "en" });
-
-  useEffect(() => {
-    if (!categoriesData?.responseData || !categoryParam) {
-      setSelectedCategory("");
-      return;
-    }
-
-    const categories = categoriesData.responseData.find(
-      (cat: CategoryWithChildren) => cat.link === pathname,
-    )?.categories || [];
-
-    const matched = categories.find(
+  let selectedCategory = "";
+  if (categoryParam && serviceSubCategories.length > 0) {
+    const matched = serviceSubCategories.find(
       (cat) => slugify(cat.name || "") === categoryParam || cat.id === categoryParam,
     );
+    selectedCategory = matched?.id || "";
+  }
 
-    setSelectedCategory(matched?.id || "");
-  }, [categoryParam, categoriesData, pathname]);
+  const rootCategoryName = serviceCategory?.name || "Services";
+  const currentCategoryName = selectedCategory
+    ? serviceSubCategories.find((cat) => cat.id === selectedCategory)?.name || "N/a"
+    : "All Services";
+  const activeCategoryLink = selectedCategory
+    ? serviceSubCategories.find((cat) => cat.id === selectedCategory)?.link
+    : serviceSubCategories[0]?.link;
 
-  const { serviceSubCategories, currentCategoryName, rootCategoryName } =
-    useMemo(() => {
-      const serviceCategory = (
-        categoriesData?.responseData as CategoryWithChildren[]
-      )?.find((cat) => cat.link === pathname);
-      const categories = serviceCategory?.categories || [];
-      const categoryName = selectedCategory
-        ? categories.find((cat) => cat.id === selectedCategory)?.name || "N/a"
-        : t("allServices");
-      return {
-        serviceSubCategories: categories,
-        currentCategoryName: categoryName,
-        rootCategoryName: serviceCategory?.name || t("title"),
-      };
-    }, [categoriesData, selectedCategory, pathname, t]);
+  // --- Fetch posts ---
+  const filters = buildPostFilters(undefined);
+  const postQueryParams: GetApiV10PostParams = {
+    filters,
+    page: currentPage,
+    pageSize: PAGE_SIZE,
+    position: "true" as const,
+    sortOrderPosition: "ASC" as const,
+    filterBy: "CLIENT" as const,
+    ...(selectedCategory ? { category_id: selectedCategory } : {}),
+  };
 
-  const activeCategoryLink = useMemo(() => {
-    if (selectedCategory) {
-      return serviceSubCategories.find((cat) => cat.id === selectedCategory)?.link || undefined;
-    }
-    return serviceSubCategories[0]?.link || undefined;
-  }, [selectedCategory, serviceSubCategories]);
+  let posts: PostWithImage[] = [];
+  let totalPages = 1;
+  let postsError = false;
 
-  const filters = useMemo(() => buildPostFilters(date), [date]);
+  try {
+    const data = await getApiV10Post(postQueryParams);
+    const responseData = (data as unknown as {
+      responseData?: { rows?: PostWithImage[]; count?: number; pageSize?: number };
+    }).responseData;
+    posts = (responseData?.rows as PostWithImage[]) || [];
+    const count = responseData?.count ?? 0;
+    totalPages = count
+      ? Math.ceil(count / (responseData?.pageSize || PAGE_SIZE))
+      : 1;
+  } catch {
+    postsError = true;
+  }
 
-  const postQueryParams = useMemo(
-    () => ({
-      filters,
-      page: currentPage,
-      pageSize: 12,
-      position: "true" as const,
-      sortOrderPosition: "ASC" as const,
-      filterBy: "CLIENT" as const,
-      ...(selectedCategory ? { category_id: selectedCategory } : {}),
-    }),
-    [filters, currentPage, selectedCategory],
-  );
-
-  const { data, isLoading, error } = useGetApiV10Post(postQueryParams);
-
-  const posts = (data?.responseData?.rows as PostWithImage[]) || [];
-  const totalPages = data?.responseData?.count
-    ? Math.ceil(data.responseData.count / (data.responseData.pageSize || 12))
-    : 1;
+  const hasFilters = !!selectedCategory;
 
   return (
     <>
       <PageHero
         title={rootCategoryName}
-        subtitle={t("allServices")}
+        subtitle="All Services"
         breadcrumbs={[
           { label: "Home", href: "/home" },
           { label: "Services" },
@@ -125,73 +107,46 @@ function ServicesContent() {
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading
-            eyebrow={t("categoryTitle")}
+            eyebrow="Categories"
             title={currentCategoryName}
-            subtitle={t("allServices")}
+            subtitle="All Services"
           />
 
-          <ServiceFilters
-            selectedCategory={selectedCategory}
-            onCategoryChange={(categoryId) => {
-              setSelectedCategory(categoryId);
-              setCurrentPage(1);
-            }}
+          <ServicesControls
             categories={serviceSubCategories}
-            isLoading={!categoriesData?.responseData}
-            onNavigate={(path) => router.push(path, { scroll: false })}
-          />
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8">
-            <div className="lg:col-span-3">
-              <ServiceList
-                posts={posts}
-                isLoading={isLoading}
-                error={error}
-                currentCategoryName={currentCategoryName}
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-                hasFilters={!!(date || selectedCategory)}
-                hasDateFilter={!!date}
-                hasCategoryFilter={!!selectedCategory}
-                onClearDateFilter={() => {
-                  setDate(undefined);
-                  setCurrentPage(1);
-                }}
-                onClearCategoryFilter={() => {
-                  setSelectedCategory("");
-                  setCurrentPage(1);
-                  router.push("/services", { scroll: false });
-                }}
-                locale={locale}
-                categoryLink={activeCategoryLink}
-              />
-            </div>
-
-            <div className="lg:col-span-1">
-              <ServiceSidebar onQuoteClick={() => setIsQuoteModalOpen(true)} />
-            </div>
-          </div>
+            selectedCategory={selectedCategory}
+          >
+            <ServiceListSSR
+              posts={posts}
+              error={
+                postsError || categoriesError
+                  ? new Error("Failed to load")
+                  : undefined
+              }
+              currentCategoryName={currentCategoryName}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              hasFilters={hasFilters}
+              hasDateFilter={false}
+              hasCategoryFilter={hasFilters}
+              categoryLink={activeCategoryLink ?? undefined}
+            />
+          </ServicesControls>
         </div>
       </section>
 
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading
-            eyebrow={t("needSupport")}
-            title={t("requestQuote")}
-            subtitle={t("contactForQuote")}
+            eyebrow="Need Support?"
+            title="Request a Quote"
+            subtitle="Contact us for a personalized quote."
           />
           <div className="max-w-4xl mx-auto">
             <ConsultationForm />
           </div>
         </div>
       </section>
-
-      <QuotationPopupDialog
-        open={isQuoteModalOpen}
-        onOpenChange={setIsQuoteModalOpen}
-      />
     </>
   );
 }
