@@ -6,14 +6,9 @@ import { Search } from "lucide-react";
 
 interface DesignControlsProps {
   basePath: string;
-  /** SSR-rendered design grid + pagination, passed as children */
   children: ReactNode;
 }
 
-/**
- * Client-side controls (search) for the design gallery page.
- * Reads/writes URL search params: ?search=&page=
- */
 export function DesignControls({ basePath, children }: DesignControlsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();

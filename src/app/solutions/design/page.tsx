@@ -9,7 +9,7 @@ import {
 import type { PostExtended as PostWithImage } from "@/types/post";
 import type { Metadata } from "next";
 import { DesignControls } from "./components/design-controls";
-import { DesignGallerySSR } from "./components/design-gallery-ssr";
+import { DesignGallery } from "./components/design-gallery";
 import { DesignInquiryForm } from "./components/design-inquiry-form";
 
 const CATEGORY_URL = "/solutions/design";
@@ -158,7 +158,7 @@ export default async function DesignPage({ searchParams }: DesignPageProps) {
           />
 
           <DesignControls basePath="/solutions/design">
-            <DesignGallerySSR
+            <DesignGallery
               posts={filteredPosts}
               error={hasError ? new Error("Failed to load") : undefined}
               currentPage={currentPage}

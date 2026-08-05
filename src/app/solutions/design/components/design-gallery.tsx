@@ -2,7 +2,7 @@ import { PaginationLinks } from "@/components/common";
 import type { PostExtended as PostWithImage } from "@/types/post";
 import { DesignCard } from "./design-card";
 
-interface DesignGallerySSRProps {
+interface DesignGalleryProps {
   posts: PostWithImage[];
   error?: unknown;
   currentPage: number;
@@ -11,18 +11,14 @@ interface DesignGallerySSRProps {
   categoryLink?: string;
 }
 
-/**
- * SSR-friendly design gallery. No loading state (SSR waits for data).
- * Uses Link-based pagination (PaginationLinks) instead of onClick.
- */
-export function DesignGallerySSR({
+export function DesignGallery({
   posts,
   error,
   currentPage,
   totalPages,
   search,
   categoryLink,
-}: DesignGallerySSRProps) {
+}: DesignGalleryProps) {
   if (error) {
     return (
       <div className="rounded-[--radius-md] border border-line bg-white p-8 text-center">

@@ -20,15 +20,10 @@ const SORT_OPTIONS = [
 
 interface MaterialsMarketplaceControlsProps {
   basePath: string;
-  /** SSR-rendered product grid, passed as children */
   children: ReactNode;
 }
 
-/**
- * Client-side controls (category tabs, search, sort) for the materials marketplace.
- * Reads/writes URL search params: ?mcat=&msort=&msearch=
- * The "m" prefix avoids collisions with the parent page's own params.
- */
+
 export function MaterialsMarketplaceControls({
   basePath,
   children,
