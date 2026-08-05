@@ -1,61 +1,16 @@
-"use client";
-
-import { useGetApiV10PostCategoryByUrl } from "@/api/endpoints/post-category";
+import { getApiV10PostCategoryByUrl } from "@/api/endpoints/post-category";
 import type { PostCategory } from "@/api/models/postCategory";
 import { PageHero, SectionHeading, ConsultationForm } from "@/components/common";
-import QuotationPopupDialog from "@/components/common/quotation-popup/quotation-popup-dialog";
-import { Loading } from "@/components/common/loading";
 import type { PostExtended as PostWithImage } from "@/types/post";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, HardHat, Ruler } from "lucide-react";
-import { Suspense, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import SolutionList from "./components/solution-list";
-import SolutionSidebar from "./components/solution-sidebar";
+import type { Metadata } from "next";
+import SolutionListSSR from "./components/solution-list-ssr";
+import { SolutionsControls } from "./components/solutions-controls";
+import { SOLUTION_TYPES, type SolutionType } from "./components/solution-types";
 
 const PAGE_SIZE = 12;
-
-type SolutionType = "design" | "construction";
-
-interface SolutionTypeDef {
-  id: SolutionType;
-  label: string;
-  categoryUrl: string;
-  href: string;
-  eyebrow: string;
-  title: string;
-  description: string;
-  image: string;
-  icon: typeof Ruler;
-}
-
-const SOLUTION_TYPES: SolutionTypeDef[] = [
-  {
-    id: "design",
-    label: "Design",
-    categoryUrl: "/solutions/design",
-    href: "/solutions/design",
-    eyebrow: "Design Gallery",
-    title: "Browse Design Drawings",
-    description:
-      "A curated gallery of design drawings for you to browse and reference — find inspiration and the right look for your space.",
-    image: "/images/living.jpg",
-    icon: Ruler,
-  },
-  {
-    id: "construction",
-    label: "Construction",
-    categoryUrl: "/solutions/construction",
-    href: "/solutions/construction",
-    eyebrow: "Craftsmanship & Technology",
-    title: "Built by Skilled Hands",
-    description:
-      "Design-build construction combining licensed trades crews with modern technology — BIM, laser layout, and precision quality control on every project.",
-    image: "/images/living.jpg",
-    icon: HardHat,
-  },
-];
 
 interface PostCategoryWithPost extends PostCategory {
   post?: PostWithImage;
@@ -67,68 +22,56 @@ interface PostCategoryWithPost extends PostCategory {
   };
 }
 
-export default function SolutionsPage() {
-  const { t } = useTranslation("pages/solutions");
+export const metadata: Metadata = {
+  title: "Solutions | Kosmo DNC",
+  description:
+    "Two ways we bring your space to life — interior design and construction. Explore our work.",
+};
 
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center bg-white">
-          <Loading text={t("title")} size="lg" className="text-ink" />
-        </div>
-      }
-    >
-      <SolutionsContent />
-    </Suspense>
-  );
+interface SolutionsPageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-function SolutionsContent() {
-  const { t, i18n } = useTranslation("pages/solutions");
-  const locale = i18n.language?.startsWith("en") ? "en-US" : "vi-VN";
+export default async function SolutionsPage({ searchParams }: SolutionsPageProps) {
+  const params = await searchParams;
+  const activeType = ((params.type as string) ?? "design") as SolutionType;
+  const currentPage = Math.max(1, parseInt((params.page as string) ?? "1") || 1);
 
-  const [activeType, setActiveType] = useState<SolutionType>("design");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const activeTypeDef = SOLUTION_TYPES.find((s) => s.id === activeType) ?? SOLUTION_TYPES[0];
 
-  const activeTypeDef = SOLUTION_TYPES.find((s) => s.id === activeType)!;
+  let posts: PostWithImage[] = [];
+  let category: PostCategoryWithPost["category"];
+  let totalPages = 1;
+  let hasError = false;
 
-  const { data, isLoading, error } = useGetApiV10PostCategoryByUrl({
-    categoryUrl: activeTypeDef.categoryUrl,
-    page: currentPage,
-    pageSize: PAGE_SIZE,
-    sortField: "position",
-    sortOrder: "asc",
-  });
-
-  const { posts, category, totalPages } = useMemo(() => {
+  try {
+    const data = await getApiV10PostCategoryByUrl({
+      categoryUrl: activeTypeDef.categoryUrl,
+      page: currentPage,
+      pageSize: PAGE_SIZE,
+      sortField: "position",
+      sortOrder: "asc",
+    });
     const rows = (data?.responseData?.rows as PostCategoryWithPost[]) || [];
-    const extractedPosts = rows
+    posts = rows
       .map((row) => row.post)
       .filter((post): post is PostWithImage => !!post);
-    const cat = rows[0]?.category;
+    category = rows[0]?.category;
     const count = data?.responseData?.count || 0;
-    return {
-      posts: extractedPosts,
-      category: cat,
-      totalPages: count
-        ? Math.ceil(count / (data?.responseData?.pageSize || PAGE_SIZE))
-        : 1,
-    };
-  }, [data]);
+    totalPages = count
+      ? Math.ceil(count / (data?.responseData?.pageSize || PAGE_SIZE))
+      : 1;
+  } catch {
+    hasError = true;
+  }
 
   const currentCategoryName = category?.name || activeTypeDef.label;
   const categoryLink = category?.link || activeTypeDef.categoryUrl;
 
-  const handleTabChange = (type: SolutionType) => {
-    setActiveType(type);
-    setCurrentPage(1);
-  };
-
   return (
     <>
       <PageHero
-        title={t("title")}
+        title="Solutions"
         subtitle="Two ways we bring your space to life — interior design and construction. Choose a path below to explore our work."
         breadcrumbs={[
           { label: "Home", href: "/home" },
@@ -156,7 +99,9 @@ function SolutionsContent() {
                   href={type.href}
                   className="group relative flex flex-col rounded-[--radius-md] overflow-hidden bg-white border-2 transition-all hover:shadow-strong"
                   style={{
-                    borderColor: isActive ? "var(--color-ink, #0b2f27)" : "var(--color-mutedLine, #e5e1d8)",
+                    borderColor: isActive
+                      ? "var(--color-ink, #0b2f27)"
+                      : "var(--color-mutedLine, #e5e1d8)",
                   }}
                 >
                   <div className="relative h-48 sm:h-56 overflow-hidden bg-cream">
@@ -199,74 +144,41 @@ function SolutionsContent() {
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading
-            eyebrow={t("categoryTitle")}
+            eyebrow="Projects"
             title={`${currentCategoryName} Projects`}
             subtitle={`Browse our latest ${currentCategoryName.toLowerCase()} work.`}
           />
 
-          {/* Tab switcher — only 2 types */}
-          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-8">
-            {SOLUTION_TYPES.map((type) => {
-              const isActive = activeType === type.id;
-              return (
-                <button
-                  key={type.id}
-                  onClick={() => handleTabChange(type.id)}
-                  className={`inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-full text-[13px] sm:text-[14px] font-bold transition-all ${isActive
-                    ? "bg-ink text-white shadow-soft"
-                    : "bg-white text-gray-700 border border-mutedLine hover:border-ink/40 hover:text-ink"
-                    }`}
-                >
-                  {type.label}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <div className="lg:col-span-3">
-              <SolutionList
-                posts={posts}
-                isLoading={isLoading}
-                error={error}
-                currentCategoryName={currentCategoryName}
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-                hasFilters={false}
-                hasDateFilter={false}
-                hasCategoryFilter={false}
-                onClearDateFilter={() => setCurrentPage(1)}
-                onClearCategoryFilter={() => setCurrentPage(1)}
-                locale={locale}
-                categoryLink={categoryLink}
-              />
-            </div>
-
-            <div className="lg:col-span-1">
-              <SolutionSidebar onQuoteClick={() => setIsQuoteModalOpen(true)} />
-            </div>
-          </div>
+          <SolutionsControls
+            basePath="/solutions"
+            activeType={activeType}
+            currentCategoryName={currentCategoryName}
+          >
+            <SolutionListSSR
+              posts={posts}
+              error={hasError ? new Error("Failed to load") : undefined}
+              currentCategoryName={currentCategoryName}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              hasFilters={false}
+              categoryLink={categoryLink}
+            />
+          </SolutionsControls>
         </div>
       </section>
 
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
           <SectionHeading
-            eyebrow={t("needSupport")}
-            title={t("requestQuote")}
-            subtitle={t("contactForQuote")}
+            eyebrow="Need Support?"
+            title="Request a Quote"
+            subtitle="Contact us for a personalized quote."
           />
           <div className="max-w-4xl mx-auto">
             <ConsultationForm />
           </div>
         </div>
       </section>
-
-      <QuotationPopupDialog
-        open={isQuoteModalOpen}
-        onOpenChange={setIsQuoteModalOpen}
-      />
     </>
   );
 }

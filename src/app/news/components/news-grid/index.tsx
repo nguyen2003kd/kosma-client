@@ -4,7 +4,6 @@ import { useGetApiV10Category } from "@/api/endpoints/category";
 import { useGetApiV10Post } from "@/api/endpoints/post";
 import { CategoryWithChildren } from "@/api/models/categoryWithChildren";
 import { Post } from "@/api/models/post";
-import { PAGE_IDS } from "@/constants/page-ids";
 import { slugify } from "@/lib/slugify";
 import type { PostExtended as PostWithImage } from "@/types/post";
 import { mockPosts } from "@/utils/mock-data";
@@ -82,7 +81,6 @@ export default function NewsGrid() {
     position: "true",
     sortOrderPosition: "ASC",
     filterBy: "CLIENT",
-    page_id: PAGE_IDS.LATEST_POSTS,
     category_id: selectedCategory || newsCategoryId,
   });
 
@@ -94,7 +92,6 @@ export default function NewsGrid() {
         position: "true",
         sortOrderPosition: "ASC",
         filterBy: "CLIENT",
-        page_id: PAGE_IDS.FEATURED_NEWS,
         category_id: selectedCategory || newsCategoryId,
       },
       {

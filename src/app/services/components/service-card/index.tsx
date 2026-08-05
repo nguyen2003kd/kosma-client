@@ -1,3 +1,5 @@
+"use client";
+
 import { getThumbnailSrc } from "@/lib/responsive-image";
 import type { PostExtended as PostWithImage } from "@/types/post";
 import parse from "html-react-parser";

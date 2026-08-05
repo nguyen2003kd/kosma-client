@@ -6,7 +6,6 @@ import type { PostContent, PostExtended } from "@/types/post";
 import baseConfig from "@/configs/base";
 import parse from "html-react-parser";
 import {
-  ArrowLeft,
   ArrowRight,
   Calendar,
   Eye,
@@ -14,6 +13,7 @@ import {
   Link as LinkIcon,
   Linkedin,
   Mail,
+  PencilRuler,
   Twitter,
   User,
 } from "lucide-react";
@@ -21,8 +21,9 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { DesignContactForm } from "../components/design-contact-form";
 import { DesignImage } from "../components/design-image";
+import { DesignInquiryForm } from "../components/design-inquiry-form";
+import { MaterialsSuggestions } from "../../construction/components/materials-suggestions";
 
 const CATEGORY_URL = "/solutions/design";
 const FALLBACK_IMAGE = "/images/living.jpg";
@@ -127,201 +128,150 @@ export default async function DesignPostDetailPage({
   );
 
   return (
-    <>
+    <div>
       <PageHero
-        title={post.title || "Design"}
         breadcrumbs={[
           { label: "Home", href: "/home" },
           { label: "Solutions", href: "/solutions" },
           { label: "Design", href: "/solutions/design" },
           { label: post.title || "" },
         ]}
-        backgroundImage={thumbnailSrc}
+        image={thumbnailSrc}
+        imageAlt={post.title || ""}
       />
 
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
-          {/* Back link */}
-          <Link
-            href="/solutions/design"
-            className="inline-flex items-center gap-2 text-ink font-semibold text-sm hover:text-gold transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Design Gallery
-          </Link>
-
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-            {/* Left: Main image + gallery */}
-            <div className="space-y-4 lg:sticky lg:top-6">
-              <div className="relative w-full aspect-[4/3] rounded-[--radius-md] overflow-hidden bg-cream shadow-soft">
-                <DesignImage
-                  src={thumbnailSrc}
-                  alt={post.title || ""}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
-                />
+          <div>
+            <article className="relative z-10 -mt-[113px] sm:-mt-[140px] md:-mt-[173px] rounded-[--radius-md] border border-line bg-white shadow-soft p-6 sm:p-8 md:p-10">
+              <span className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-gold mb-2">
+                <PencilRuler className="w-3.5 h-3.5" />
+                Design Drawing
+              </span>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                {post.title}
+              </h1>
+              <div className="flex flex-wrap items-center gap-4 md:gap-6 text-[13px] text-gray-600 mb-6">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  <span>
+                    {(() => {
+                      const d = new Date(post.created_at || "");
+                      const date = d.toLocaleDateString("en-US", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      });
+                      const time = d.toLocaleTimeString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      });
+                      return `${date} - ${time}`;
+                    })()}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  <span>{post.author || "Kosmo Design Team"}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Eye className="w-4 h-4" />
+                  <span>{post.view?.toLocaleString("en-US") || 0} views</span>
+                </div>
               </div>
 
-              {/* Content images gallery */}
-              {post.post_content?.flatMap((c: PostContent) => c.post_content_images || [])
-                .filter(Boolean)
-                .slice(0, 4)
-                .map((img, i) => {
-                  const imageSrc = getThumbnailSrc(
-                    img.file?.compress_info,
-                    img.file?.path,
-                    FALLBACK_IMAGE,
-                  );
-                  return (
-                    <div
-                      key={img.id || i}
-                      className="relative w-full aspect-[4/3] rounded-[--radius-md] overflow-hidden bg-cream"
-                    >
-                      <DesignImage
-                        src={imageSrc}
-                        alt={`${post.title || ""} - image ${i + 2}`}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                      />
-                    </div>
-                  );
-                })}
-            </div>
-
-            {/* Right: Product info + content + contact */}
-            <div className="space-y-8">
-              {/* Product info header */}
-              <div>
-                <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-gold mb-2 block">
-                  Design Drawing
-                </span>
-                <h1 className="font-serif text-[28px] sm:text-[36px] md:text-[40px] text-ink leading-tight mb-4">
-                  {post.title}
-                </h1>
-
-                {/* Meta */}
-                <div className="flex flex-wrap items-center gap-4 text-[13px] text-gray-600 mb-6">
-                  {post.created_at && (
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      <span>
-                        {new Date(post.created_at).toLocaleDateString("en-US", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })}
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    <span>{post.author || "Kosmo Design Team"}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Eye className="w-4 h-4" />
-                    <span>{post.view?.toLocaleString("en-US") || 0} views</span>
-                  </div>
-                </div>
-
-                {/* Share */}
-                <div className="flex items-center gap-3 mb-6 pb-6 border-b border-line">
-                  <span className="text-gray-600 text-[13px] font-semibold">Share:</span>
-                  <a
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
-                  >
-                    <Facebook className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title || "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
-                  >
-                    <Twitter className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={shareUrl}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
-                  >
-                    <LinkIcon className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={`mailto:?subject=${encodeURIComponent(post.title || "")}&body=${encodeURIComponent(shareUrl)}`}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
-                  >
-                    <Mail className="w-4 h-4" />
-                  </a>
-                </div>
-
-                {/* Summary */}
-                {post.summary && (
-                  <div className="bg-cream border-l-4 border-gold p-4 mb-6 rounded-r-[--radius-sm]">
-                    <div className="tiptap prose max-w-none text-gray-700 italic leading-relaxed">
-                      {parse(post.summary || "")}
-                    </div>
-                  </div>
-                )}
+              <div className="flex items-center gap-3 mb-6 pb-6 border-b border-line">
+                <span className="text-gray-600 text-[13px] font-semibold">Share:</span>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
+                >
+                  <Facebook className="w-4 h-4" />
+                </a>
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title || "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
+                >
+                  <Twitter className="w-4 h-4" />
+                </a>
+                <a
+                  href={shareUrl}
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
+                >
+                  <LinkIcon className="w-4 h-4" />
+                </a>
+                <a
+                  href={`mailto:?subject=${encodeURIComponent(post.title || "")}&body=${encodeURIComponent(shareUrl)}`}
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
+                >
+                  <Mail className="w-4 h-4" />
+                </a>
               </div>
 
-              {/* Content sections */}
-              {post.post_content && post.post_content.length > 0 && (
-                <div className="space-y-6">
-                  {post.post_content.map((content: PostContent) => {
-                    const imageColumns = content.image_columns || 1;
-                    return (
-                      <div key={content.id} className="space-y-4">
-                        <div className="tiptap prose max-w-none text-gray-700 leading-relaxed">
-                          {content.content ? parse(content.content || "") : null}
-                        </div>
-                        {content.post_content_images &&
-                          content.post_content_images.length > 0 && (
-                            <div
-                              className="grid gap-4"
-                              style={{
-                                gridTemplateColumns: `repeat(${imageColumns}, minmax(0, 1fr))`,
-                              }}
-                            >
-                              {content.post_content_images.map((img, i) => {
-                                const imageSrc = getThumbnailSrc(
-                                  img.file?.compress_info,
-                                  img.file?.path,
-                                  FALLBACK_IMAGE,
-                                );
-                                return (
-                                  <div
-                                    key={img.id || i}
-                                    className="relative w-full aspect-video rounded-[--radius-md] overflow-hidden"
-                                  >
-                                    <DesignImage
-                                      src={imageSrc}
-                                      alt="Content image"
-                                      fill
-                                      sizes="(max-width: 1024px) 100vw, 50vw"
-                                    />
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                      </div>
-                    );
-                  })}
+              {post.summary && (
+                <div className="bg-cream border-l-4 border-gold p-4 mb-8 rounded-r-[--radius-sm]">
+                  <div className="tiptap prose max-w-none text-gray-700 italic leading-relaxed">
+                    {parse(post.summary || "")}
+                  </div>
                 </div>
               )}
 
-              {/* Tags */}
+              <div className="space-y-6 mb-8 prose prose-lg max-w-none">
+                {post.post_content?.map((content: PostContent) => {
+                  const imageColumns = content.image_columns || 1;
+                  return (
+                    <div key={content.id} className="space-y-4">
+                      <div className="tiptap prose max-w-none text-gray-700 leading-relaxed">
+                        {content.content ? parse(content.content || "") : null}
+                      </div>
+                      {content.post_content_images &&
+                        content.post_content_images.length > 0 && (
+                          <div
+                            className="grid gap-4"
+                            style={{
+                              gridTemplateColumns: `repeat(${imageColumns}, minmax(0, 1fr))`,
+                            }}
+                          >
+                            {content.post_content_images.map((img, i) => {
+                              const imageSrc = getThumbnailSrc(
+                                img.file?.compress_info,
+                                img.file?.path,
+                                FALLBACK_IMAGE,
+                              );
+                              return (
+                                <div
+                                  key={img.id || i}
+                                  className="relative w-full aspect-video rounded-[--radius-md] overflow-hidden"
+                                >
+                                  <DesignImage
+                                    src={imageSrc}
+                                    alt="Content image"
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 50vw"
+                                  />
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                    </div>
+                  );
+                })}
+              </div>
+
               {post.tags && post.tags.length > 0 && (
                 <div className="pt-6 border-t border-line">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -337,21 +287,21 @@ export default async function DesignPostDetailPage({
                   </div>
                 </div>
               )}
-            </div>
+            </article>
           </div>
         </div>
       </section>
 
-      {/* Contact / Consultation Section */}
+      {/* Inquiry Form Section */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
         <div className="container-kosmo">
           <SectionHeading
-            eyebrow="Interested?"
-            title="Get Advice on This Design"
-            subtitle="Like what you see? Reach out to our design team for a free consultation — we'll help you adapt this design to your space."
+            eyebrow="Get Started"
+            title="Request a Custom Design"
+            subtitle="Want a design tailored to your space? Share your requirements and our design team will prepare a custom drawing for you."
           />
           <div className="max-w-5xl mx-auto">
-            <DesignContactForm designTitle={post.title} />
+            <DesignInquiryForm />
           </div>
         </div>
       </section>
@@ -397,6 +347,18 @@ export default async function DesignPostDetailPage({
           </div>
         </section>
       )}
-    </>
+
+      {/* Materials Suggestions */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
+        <div className="container-kosmo">
+          <SectionHeading
+            eyebrow="Shop Materials"
+            title="Materials You May Need"
+            subtitle="A few suggested products for your project — browse the full marketplace for more."
+          />
+          <MaterialsSuggestions />
+        </div>
+      </section>
+    </div>
   );
 }

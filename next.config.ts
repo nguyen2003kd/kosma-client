@@ -1,3 +1,7 @@
+const backendDomain = process.env.NEXT_PUBLIC_BACKEND_DOMAIN ?? '';
+const isLocalBackend =
+  backendDomain.startsWith('http://localhost') || backendDomain.startsWith('http://127.0.0.1');
+
 const nextConfig = {
   async redirects() {
     return [
@@ -9,34 +13,18 @@ const nextConfig = {
     ];
   },
   images: {
+    dangerouslyAllowLocalIP: isLocalBackend,
     remotePatterns: [
       {
+        protocol: "https",
+        hostname: "kosmo.vietprodev.com",
+        pathname: "/api/storage/uploads/**",
+      },
+      {
         protocol: "http",
         hostname: "localhost",
-        port: "3003",
         pathname: "/api/storage/uploads/**",
       },
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "3001",
-        pathname: "/api/storage/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: "smeq-dev.meucorp.com",
-        pathname: "/api/storage/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: "case-smq.vn",
-        pathname: "/api/storage/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: "case-smq.vn",
-        pathname: "/_next/image/**",
-      }
     ],
   },
 };

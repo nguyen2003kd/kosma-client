@@ -147,7 +147,7 @@ export function MobileNav({ categoriesData }: { categoriesData?: GetApiV10Catego
               <Link
                 href="/consultation"
                 onClick={closeMenu}
-                className="flex items-center justify-center gap-2 w-full py-3.5 text-white text-center text-[14px] font-extrabold rounded-full"
+                className="flex items-center justify-center gap-2 w-full py-3.5 text-white text-center text-[14px] font-semibold rounded-full"
                 style={{ backgroundColor: "#1e3a5f" }}
               >
                 <Calendar className="w-4 h-4" />

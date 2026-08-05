@@ -29,3 +29,4 @@ export * from './language-switcher';
 export * from './menu-item';
 export * from './user-nav';
 export { default as CommonPagination } from './pagination';
+export { default as PaginationLinks } from './pagination-links';
