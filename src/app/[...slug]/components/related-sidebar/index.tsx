@@ -3,7 +3,6 @@
 import { useGetApiV10Post } from "@/api/endpoints/post";
 import { SidebarSkeleton } from "@/components/common/loading";
 import { Card } from "@/components/ui/card";
-import { PAGE_IDS } from "@/constants/page-ids";
 import { PostExtended } from "@/types/post";
 import { mockPosts } from "@/utils/mock-data";
 import { Newspaper } from "lucide-react";
@@ -34,7 +33,6 @@ export default function RelatedSidebar({
       position: "true",
       sortOrderPosition: "ASC",
       filterBy: "CLIENT",
-      page_id: PAGE_IDS.FEATURED_NEWS,
       category_id: activeCategoryId,
     },
     {
@@ -58,7 +56,7 @@ export default function RelatedSidebar({
     <Card className="overflow-hidden shadow-lg">
       {/* Header */}
       <div className="bg-[#1e40af] px-4 py-3 flex items-center justify-between">
-        <h3 className="text-base font-bold text-white text-center">{categoryName? `${t("latestCapabilityInfo")}` : siderbarName}</h3>
+        <h3 className="text-base font-bold text-white text-center">{categoryName ? `${t("latestCapabilityInfo")}` : siderbarName}</h3>
         <Newspaper className="w-5 h-5 text-white" />
       </div>
 
@@ -70,19 +68,17 @@ export default function RelatedSidebar({
       ) : (
         <div>
           {relatedNews.map((news, index) => {
-            const postUrl = `/${
-              news.category?.link?.replace(/^\//, "") || categoryCode || "post"
-            }/${news.slug || ""}`;
+            const postUrl = `/${news.category?.link?.replace(/^\//, "") || categoryCode || "post"
+              }/${news.slug || ""}`;
 
             return (
               <a
                 key={news.id}
                 href={postUrl}
-                className={`flex gap-4 group hover:bg-blue-50 px-4 py-3 transition-colors ${
-                  index !== relatedNews.length - 1
+                className={`flex gap-4 group hover:bg-blue-50 px-4 py-3 transition-colors ${index !== relatedNews.length - 1
                     ? "border-b border-gray-100"
                     : ""
-                }`}
+                  }`}
               >
                 {/* Number */}
                 <div className="flex-shrink-0 text-3xl font-bold text-gray-200">

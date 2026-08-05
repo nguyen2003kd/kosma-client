@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface SectionHeadingProps {
   eyebrow?: string;
@@ -37,10 +38,12 @@ export function SectionHeading({
 }
 
 interface PageHeroProps {
-  title: string;
+  title?: string;
   subtitle?: string;
   breadcrumbs?: { label: string; href?: string }[];
   backgroundImage?: string;
+  image?: string;
+  imageAlt?: string;
   className?: string;
 }
 
@@ -49,6 +52,8 @@ export function PageHero({
   subtitle,
   breadcrumbs,
   backgroundImage,
+  image,
+  imageAlt,
   className,
 }: PageHeroProps) {
   return (
@@ -58,15 +63,28 @@ export function PageHero({
         className
       )}
       style={{
-        backgroundImage: backgroundImage
+        backgroundImage: !image && backgroundImage
           ? `linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,.35) 65%, rgba(0,0,0,.12)), url(${backgroundImage})`
           : undefined,
-        backgroundColor: backgroundImage ? undefined : "#0b2f27",
+        backgroundColor: !image && !backgroundImage ? "#0b2f27" : undefined,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="container-kosmo w-full">
+      {image && (
+        <>
+          <Image
+            src={image}
+            alt={imageAlt || ""}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
+        </>
+      )}
+      <div className="container-kosmo w-full relative z-10">
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav className="flex items-center gap-2 text-[11px] sm:text-[12px] font-semibold text-white/90 mb-3 sm:mb-4 flex-wrap">

@@ -21,6 +21,7 @@ export default function CartPage() {
             { label: "Home", href: "/home" },
             { label: "Cart" },
           ]}
+          backgroundImage="/images/living.jpg"
         />
         <div className="py-16 sm:py-20 md:py-24 bg-gray-50">
           <div className="container-kosmo">
@@ -87,9 +88,8 @@ export default function CartPage() {
                 {items.map((item, index) => (
                   <div
                     key={item.id}
-                    className={`flex gap-4 p-4 sm:p-5 ${
-                      index !== items.length - 1 ? "border-b border-mutedLine" : ""
-                    }`}
+                    className={`flex gap-4 p-4 sm:p-5 ${index !== items.length - 1 ? "border-b border-mutedLine" : ""
+                      }`}
                   >
                     {/* Image */}
                     <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-cream flex-shrink-0">

@@ -155,74 +155,6 @@ export default async function ServiceCategoryPage({ params }: ServiceCategoryPag
         </div>
       </section>
 
-      {/* Featured Post (only if there are posts) */}
-      {featuredPost && (
-        <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
-          <div className="container-kosmo">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              {/* Image */}
-              <div className="relative w-full aspect-[4/3] rounded-[--radius-md] overflow-hidden bg-cream shadow-soft">
-                <DesignImage
-                  src={featuredImage}
-                  alt={featuredPost.title || ""}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
-                />
-                <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#d8c29c] text-black-950 text-[10px] font-extrabold uppercase tracking-[0.1em]">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  Featured
-                </div>
-              </div>
-
-              {/* Content */}
-              <div>
-                <span className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-gold mb-2 block">
-                  {categoryName}
-                </span>
-                <h2 className="font-serif text-[26px] sm:text-[32px] md:text-[36px] text-ink leading-tight mb-4">
-                  {featuredPost.title}
-                </h2>
-                {featuredPost.summary && (
-                  <p className="text-[14px] sm:text-base md:text-[17px] text-gray-700 leading-relaxed mb-6">
-                    {featuredPost.summary.replace(/<[^>]*>/g, "").slice(0, 200)}
-                    {featuredPost.summary.length > 200 ? "..." : ""}
-                  </p>
-                )}
-
-                {/* Meta row */}
-                <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-[13px] text-gray-600 mb-6">
-                  {featuredPost.created_at && (
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      <span>
-                        {new Date(featuredPost.created_at).toLocaleDateString("en-US", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })}
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2">
-                    <Eye className="w-4 h-4" />
-                    <span>{featuredPost.view?.toLocaleString("en-US") || 0} views</span>
-                  </div>
-                </div>
-
-                <Link
-                  href={`${categoryLink}/${featuredPost.slug || ""}`}
-                  className="inline-flex items-center gap-2 bg-ink text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-black-800 transition-colors"
-                >
-                  Read More
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Posts Grid */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
         <div className="container-kosmo">
@@ -260,8 +192,8 @@ export default async function ServiceCategoryPage({ params }: ServiceCategoryPag
                     key={post.id}
                     href={href}
                     className={`group flex flex-col h-full rounded-[--radius-md] overflow-hidden bg-white transition-all hover:shadow-strong ${isFeatured
-                        ? "border-2 border-[#d8c29c]"
-                        : "border border-line hover:border-ink/20"
+                      ? "border-2 border-[#d8c29c]"
+                      : "border border-line hover:border-ink/20"
                       }`}
                   >
                     <div className="relative h-44 sm:h-48 overflow-hidden bg-cream">

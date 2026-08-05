@@ -6,7 +6,6 @@ import type { PostContent, PostExtended } from "@/types/post";
 import baseConfig from "@/configs/base";
 import parse from "html-react-parser";
 import {
-  ArrowLeft,
   ArrowRight,
   Calendar,
   Eye,
@@ -17,14 +16,12 @@ import {
   Mail,
   Twitter,
   User,
-  Wrench,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { DesignImage } from "../../design/components/design-image";
-import { ConstructionContactForm } from "../components/construction-contact-form";
+import { MaterialsSuggestions } from "../components/materials-suggestions";
 
 const CATEGORY_URL = "/solutions/construction";
 const FALLBACK_IMAGE = "/images/living.jpg";
@@ -129,215 +126,150 @@ export default async function ConstructionPostDetailPage({
   );
 
   return (
-    <>
+    <div>
       <PageHero
-        title={post.title || "Construction Project"}
         breadcrumbs={[
           { label: "Home", href: "/home" },
           { label: "Solutions", href: "/solutions" },
           { label: "Construction", href: "/solutions/construction" },
           { label: post.title || "" },
         ]}
-        backgroundImage={thumbnailSrc}
+        image={thumbnailSrc}
+        imageAlt={post.title || ""}
       />
 
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="container-kosmo">
-          {/* Back link */}
-          <Link
-            href="/solutions/construction"
-            className="inline-flex items-center gap-2 text-ink font-semibold text-sm hover:text-gold transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Construction Projects
-          </Link>
-
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-            {/* Left: Main image + gallery */}
-            <div className="space-y-4 lg:sticky lg:top-6">
-              {/* Main image with craftsman-style frame */}
-              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-cream shadow-strong border-4 border-black-950">
-                <DesignImage
-                  src={thumbnailSrc}
-                  alt={post.title || ""}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
-                />
-                {/* Badge */}
-                <div className="absolute top-0 left-0 bg-[#d8c29c] text-black-950 px-4 py-2 font-extrabold text-[11px] uppercase tracking-[0.12em] flex items-center gap-2">
-                  <HardHat className="w-4 h-4" />
-                  On Site
+          <div>
+            <article className="relative z-10 -mt-[113px] sm:-mt-[140px] md:-mt-[173px] rounded-[--radius-md] border border-line bg-white shadow-soft p-6 sm:p-8 md:p-10">
+              <span className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#b8a06a] mb-2">
+                <HardHat className="w-3.5 h-3.5" />
+                Construction Project
+              </span>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                {post.title}
+              </h1>
+              <div className="flex flex-wrap items-center gap-4 md:gap-6 text-[13px] text-gray-600 mb-6">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  <span>
+                    {(() => {
+                      const d = new Date(post.created_at || "");
+                      const date = d.toLocaleDateString("en-US", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      });
+                      const time = d.toLocaleTimeString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      });
+                      return `${date} - ${time}`;
+                    })()}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  <span>{post.author || "Kosmo Crew"}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Eye className="w-4 h-4" />
+                  <span>{post.view?.toLocaleString("en-US") || 0} views</span>
                 </div>
               </div>
 
-              {/* Content images gallery */}
-              {post.post_content
-                ?.flatMap((c: PostContent) => c.post_content_images || [])
-                .filter(Boolean)
-                .slice(0, 4)
-                .map((img, i) => {
-                  const imageSrc = getThumbnailSrc(
-                    img.file?.compress_info,
-                    img.file?.path,
-                    FALLBACK_IMAGE,
-                  );
-                  return (
-                    <div
-                      key={img.id || i}
-                      className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-cream border-2 border-line"
-                    >
-                      <DesignImage
-                        src={imageSrc}
-                        alt={`${post.title || ""} - image ${i + 2}`}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                      />
-                    </div>
-                  );
-                })}
-            </div>
-
-            {/* Right: Project info + content + contact */}
-            <div className="space-y-8">
-              {/* Project info header */}
-              <div>
-                <span className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#b8a06a] mb-2">
-                  <Wrench className="w-3.5 h-3.5" />
-                  Construction Project
-                </span>
-                <h1 className="font-serif text-[28px] sm:text-[36px] md:text-[40px] text-ink leading-tight mb-4">
-                  {post.title}
-                </h1>
-
-                {/* Meta — craftsman style block */}
-                <div className="bg-black-950 rounded-lg p-4 mb-6">
-                  <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[13px] text-white/90">
-                    {post.created_at && (
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-[#d8c29c]" />
-                        <span>
-                          {new Date(post.created_at).toLocaleDateString("en-US", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                          })}
-                        </span>
-                      </div>
-                    )}
-                    <div className="flex items-center gap-2">
-                      <User className="w-4 h-4 text-[#d8c29c]" />
-                      <span>{post.author || "Kosmo Crew"}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Eye className="w-4 h-4 text-[#d8c29c]" />
-                      <span>{post.view?.toLocaleString("en-US") || 0} views</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <HardHat className="w-4 h-4 text-[#d8c29c]" />
-                      <span>Licensed MD #113826</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Share */}
-                <div className="flex items-center gap-3 mb-6 pb-6 border-b border-line">
-                  <span className="text-gray-600 text-[13px] font-semibold">Share:</span>
-                  <a
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
-                  >
-                    <Facebook className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title || "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
-                  >
-                    <Twitter className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={shareUrl}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
-                  >
-                    <LinkIcon className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={`mailto:?subject=${encodeURIComponent(post.title || "")}&body=${encodeURIComponent(shareUrl)}`}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
-                  >
-                    <Mail className="w-4 h-4" />
-                  </a>
-                </div>
-
-                {/* Summary — craftsman style block */}
-                {post.summary && (
-                  <div className="bg-cream border-l-4 border-[#b8a06a] p-4 mb-6 rounded-r-lg">
-                    <div className="tiptap prose max-w-none text-gray-700 leading-relaxed">
-                      {parse(post.summary || "")}
-                    </div>
-                  </div>
-                )}
+              <div className="flex items-center gap-3 mb-6 pb-6 border-b border-line">
+                <span className="text-gray-600 text-[13px] font-semibold">Share:</span>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
+                >
+                  <Facebook className="w-4 h-4" />
+                </a>
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title || "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
+                >
+                  <Twitter className="w-4 h-4" />
+                </a>
+                <a
+                  href={shareUrl}
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
+                >
+                  <LinkIcon className="w-4 h-4" />
+                </a>
+                <a
+                  href={`mailto:?subject=${encodeURIComponent(post.title || "")}&body=${encodeURIComponent(shareUrl)}`}
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-black-800/15 text-ink hover:bg-cream hover:border-black-800/40 transition-colors"
+                >
+                  <Mail className="w-4 h-4" />
+                </a>
               </div>
 
-              {/* Content sections */}
-              {post.post_content && post.post_content.length > 0 && (
-                <div className="space-y-6">
-                  {post.post_content.map((content: PostContent) => {
-                    const imageColumns = content.image_columns || 1;
-                    return (
-                      <div key={content.id} className="space-y-4">
-                        <div className="tiptap prose max-w-none text-gray-700 leading-relaxed">
-                          {content.content ? parse(content.content || "") : null}
-                        </div>
-                        {content.post_content_images &&
-                          content.post_content_images.length > 0 && (
-                            <div
-                              className="grid gap-4"
-                              style={{
-                                gridTemplateColumns: `repeat(${imageColumns}, minmax(0, 1fr))`,
-                              }}
-                            >
-                              {content.post_content_images.map((img, i) => {
-                                const imageSrc = getThumbnailSrc(
-                                  img.file?.compress_info,
-                                  img.file?.path,
-                                  FALLBACK_IMAGE,
-                                );
-                                return (
-                                  <div
-                                    key={img.id || i}
-                                    className="relative w-full aspect-video rounded-lg overflow-hidden border-2 border-line"
-                                  >
-                                    <DesignImage
-                                      src={imageSrc}
-                                      alt="Content image"
-                                      fill
-                                      sizes="(max-width: 1024px) 100vw, 50vw"
-                                    />
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                      </div>
-                    );
-                  })}
+              {post.summary && (
+                <div className="bg-cream border-l-4 border-[#b8a06a] p-4 mb-8 rounded-r-[--radius-sm]">
+                  <div className="tiptap prose max-w-none text-gray-700 italic leading-relaxed">
+                    {parse(post.summary || "")}
+                  </div>
                 </div>
               )}
 
-              {/* Tags */}
+              <div className="space-y-6 mb-8 prose prose-lg max-w-none">
+                {post.post_content?.map((content: PostContent) => {
+                  const imageColumns = content.image_columns || 1;
+                  return (
+                    <div key={content.id} className="space-y-4">
+                      <div className="tiptap prose max-w-none text-gray-700 leading-relaxed">
+                        {content.content ? parse(content.content || "") : null}
+                      </div>
+                      {content.post_content_images &&
+                        content.post_content_images.length > 0 && (
+                          <div
+                            className="grid gap-4"
+                            style={{
+                              gridTemplateColumns: `repeat(${imageColumns}, minmax(0, 1fr))`,
+                            }}
+                          >
+                            {content.post_content_images.map((img, i) => {
+                              const imageSrc = getThumbnailSrc(
+                                img.file?.compress_info,
+                                img.file?.path,
+                                FALLBACK_IMAGE,
+                              );
+                              return (
+                                <div
+                                  key={img.id || i}
+                                  className="relative w-full aspect-video rounded-[--radius-md] overflow-hidden"
+                                >
+                                  <Image
+                                    src={imageSrc}
+                                    alt="Content image"
+                                    fill
+                                    className="object-cover"
+                                  />
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                    </div>
+                  );
+                })}
+              </div>
+
               {post.tags && post.tags.length > 0 && (
                 <div className="pt-6 border-t border-line">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -345,7 +277,7 @@ export default async function ConstructionPostDetailPage({
                     {post.tags.map((tag) => (
                       <span
                         key={tag.id || tag.name}
-                        className="px-3 py-1 rounded-md bg-cream text-ink text-[12px] font-semibold border border-line"
+                        className="px-3 py-1 rounded-full bg-cream text-ink text-[12px] font-semibold"
                       >
                         {tag.name}
                       </span>
@@ -353,28 +285,14 @@ export default async function ConstructionPostDetailPage({
                   </div>
                 </div>
               )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact / Quote Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
-        <div className="container-kosmo">
-          <SectionHeading
-            eyebrow="Hire Our Crew"
-            title="Want This Level of Craftsmanship?"
-            subtitle="Tell us about your project — our crew will assess your site and provide a transparent fixed-price quote."
-          />
-          <div className="max-w-5xl mx-auto">
-            <ConstructionContactForm postTitle={post.title} />
+            </article>
           </div>
         </div>
       </section>
 
       {/* Related Projects */}
       {relatedProjects.length > 0 && (
-        <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+        <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
           <div className="container-kosmo">
             <SectionHeading
               eyebrow="More Projects"
@@ -425,6 +343,18 @@ export default async function ConstructionPostDetailPage({
           </div>
         </section>
       )}
-    </>
+
+      {/* Materials Suggestions */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+        <div className="container-kosmo">
+          <SectionHeading
+            eyebrow="Shop Materials"
+            title="Materials You May Need"
+            subtitle="A few suggested products for your project — browse the full marketplace for more."
+          />
+          <MaterialsSuggestions />
+        </div>
+      </section>
+    </div>
   );
 }

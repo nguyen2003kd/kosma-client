@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Archive, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
