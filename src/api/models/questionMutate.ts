@@ -5,7 +5,12 @@ export interface QuestionMutate {
    * @minLength 1
    * @maxLength 255
    */
-  name: string;
+  first_name: string;
+  /**
+   * @minLength 1
+   * @maxLength 255
+   */
+  last_name: string;
   /** @maxLength 20 */
   phone_number: string;
   /** @maxLength 255 */
@@ -15,11 +20,6 @@ export interface QuestionMutate {
    * @maxLength 255
    */
   address: string;
-  /**
-   * @maxLength 255
-   * @nullable
-   */
-  major?: string | null;
   /** @minLength 1 */
-  question: string;
+  content: string;
 }

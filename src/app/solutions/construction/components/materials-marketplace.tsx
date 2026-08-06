@@ -1,4 +1,4 @@
-import { MaterialCard, type MaterialProduct } from "./material-card";
+import { ProductCard, type ProductCardItem } from "@/components/common";
 import { getPrimaryProductImage, type ProductImageRow } from "@/lib/product-image";
 
 export type ProductRow = {
@@ -26,7 +26,7 @@ export function toNumber(value: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-export function transformToMaterialProduct(item: ProductRow): MaterialProduct {
+export function transformToMaterialProduct(item: ProductRow): ProductCardItem {
   return {
     id: item.id,
     sku: item.sku,
@@ -44,7 +44,7 @@ export function transformToMaterialProduct(item: ProductRow): MaterialProduct {
 }
 
 interface MaterialsMarketplaceProps {
-  products: MaterialProduct[];
+  products: ProductCardItem[];
   error?: unknown;
 }
 
@@ -78,7 +78,7 @@ export function MaterialsMarketplace({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
         {products.map((product) => (
-          <MaterialCard key={product.id} product={product} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </>

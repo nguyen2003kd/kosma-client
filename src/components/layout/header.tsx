@@ -43,7 +43,7 @@ export function KosmoHeader({ categoriesData }: { categoriesData?: GetApiV10Cate
             {/* Schedule Now CTA */}
             <Link
               href="/consultation"
-              className="hidden xl:inline-flex items-center justify-center gap-2 min-h-[46px] px-5 bg-[#C9A876] text-[#1a1a1a] font-semibold text-[14px] rounded-full hover:brightness-105 transition-all"
+              className="hidden xl:inline-flex items-center justify-center gap-2 min-h-[46px] px-5 bg-[#12355B] text-white font-semibold text-[14px] rounded-full hover:brightness-110 transition-all"
             >
               <Calendar className="w-4 h-4" />
               Schedule Now

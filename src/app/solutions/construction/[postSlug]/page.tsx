@@ -1,10 +1,18 @@
 import { getApiV10PostSlugSlug } from "@/api/endpoints/post";
 import { getApiV10PostCategoryByUrl } from "@/api/endpoints/post-category";
-import { PageHero, SectionHeading } from "@/components/common";
+import { getApiV10Product } from "@/api/endpoints/product";
+import type { GetApiV10ProductParams } from "@/api/models";
+import { ConsultationForm, PageHero, SectionHeading } from "@/components/common";
 import { getThumbnailSrc } from "@/lib/responsive-image";
 import type { PostContent, PostExtended } from "@/types/post";
 import baseConfig from "@/configs/base";
 import parse from "html-react-parser";
+import {
+  MaterialsMarketplace,
+  transformToMaterialProduct,
+  type ProductRow,
+} from "../components/materials-marketplace";
+import { MaterialsMarketplaceControls } from "../components/materials-marketplace-controls";
 import {
   ArrowRight,
   Calendar,
@@ -21,13 +29,14 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { MaterialsSuggestions } from "../components/materials-suggestions";
 
 const CATEGORY_URL = "/solutions/construction";
 const FALLBACK_IMAGE = "/images/living.jpg";
+const MATERIALS_PAGE_SIZE = 50;
 
 interface ConstructionPostDetailPageProps {
   params: Promise<{ postSlug: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 async function getPost(postSlug: string): Promise<PostExtended | null> {
@@ -59,7 +68,7 @@ async function getRelatedConstruction(excludeId?: string): Promise<PostExtended[
 
 export async function generateMetadata({
   params,
-}: ConstructionPostDetailPageProps): Promise<Metadata> {
+}: Omit<ConstructionPostDetailPageProps, "searchParams">): Promise<Metadata> {
   const { postSlug } = await params;
   const post = await getPost(postSlug);
 
@@ -110,11 +119,61 @@ export async function generateMetadata({
 
 export default async function ConstructionPostDetailPage({
   params,
+  searchParams,
 }: ConstructionPostDetailPageProps) {
   const { postSlug } = await params;
   const post = await getPost(postSlug);
 
   if (!post) notFound();
+
+  const sp = await searchParams;
+  const mcat = (sp.mcat as string) ?? "all";
+  const msort = (sp.msort as string) ?? "featured";
+  const msearch = (sp.msearch as string) ?? "";
+
+  let materialProducts: ReturnType<typeof transformToMaterialProduct>[] = [];
+  let materialsError = false;
+
+  try {
+    const filters = [
+      "status==active",
+      mcat !== "all" ? `category==${mcat}` : "",
+    ]
+      .filter(Boolean)
+      .join(",");
+
+    const queryParams: GetApiV10ProductParams = {
+      page: 1,
+      pageSize: MATERIALS_PAGE_SIZE,
+      filters,
+    };
+
+    if (msort === "price-asc") {
+      queryParams.sortField = "price";
+      queryParams.sortOrder = "asc";
+    } else if (msort === "price-desc") {
+      queryParams.sortField = "price";
+      queryParams.sortOrder = "desc";
+    }
+
+    const data = await getApiV10Product(queryParams);
+    const rows =
+      ((data as unknown as { responseData?: { rows?: ProductRow[] } })
+        ?.responseData?.rows) ?? [];
+    materialProducts = rows.map(transformToMaterialProduct);
+
+    if (msearch.trim()) {
+      const q = msearch.trim().toLowerCase();
+      materialProducts = materialProducts.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          (p.brand?.toLowerCase().includes(q)) ||
+          p.category.toLowerCase().includes(q),
+      );
+    }
+  } catch {
+    materialsError = true;
+  }
 
   const [relatedProjects] = await Promise.all([getRelatedConstruction(post.id)]);
 
@@ -344,15 +403,33 @@ export default async function ConstructionPostDetailPage({
         </section>
       )}
 
-      {/* Materials Suggestions */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+      {/* Construction Materials Marketplace */}
+      <section id="materials" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white scroll-mt-20">
         <div className="container-kosmo">
           <SectionHeading
             eyebrow="Shop Materials"
-            title="Materials You May Need"
-            subtitle="A few suggested products for your project — browse the full marketplace for more."
+            title="Construction Materials Marketplace"
+            subtitle="Buy toilets, sinks, lighting, hardware, and building materials directly — with trade pricing for contractors."
           />
-          <MaterialsSuggestions />
+          <MaterialsMarketplaceControls basePath={`/solutions/construction/${postSlug}`}>
+            <MaterialsMarketplace
+              products={materialProducts}
+              error={materialsError ? new Error("Failed to load") : undefined}
+            />
+          </MaterialsMarketplaceControls>
+        </div>
+      </section>
+
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
+        <div className="container-kosmo">
+          <SectionHeading
+            eyebrow="Get Started"
+            title="Ready to Start Your Project?"
+            subtitle="Request a free project quote today and let our crew help you build your space."
+          />
+          <div className="max-w-5xl mx-auto">
+            <ConsultationForm />
+          </div>
         </div>
       </section>
     </div>

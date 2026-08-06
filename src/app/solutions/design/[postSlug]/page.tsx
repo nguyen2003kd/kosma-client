@@ -22,8 +22,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DesignImage } from "../components/design-image";
-import { DesignInquiryForm } from "../components/design-inquiry-form";
-import { MaterialsSuggestions } from "../../construction/components/materials-suggestions";
+import { CustomDesignForm, MaterialsSuggestions } from "@/components/common";
 
 const CATEGORY_URL = "/solutions/design";
 const FALLBACK_IMAGE = "/images/living.jpg";
@@ -301,7 +300,7 @@ export default async function DesignPostDetailPage({
             subtitle="Want a design tailored to your space? Share your requirements and our design team will prepare a custom drawing for you."
           />
           <div className="max-w-5xl mx-auto">
-            <DesignInquiryForm />
+            <CustomDesignForm />
           </div>
         </div>
       </section>

@@ -9,6 +9,8 @@
   "deadline": "Deadline",
   "submit": "Submit Application",
   "fullName": "Full Name",
+  "firstName": "First Name",
+  "lastName": "Last Name",
   "email": "Email",
   "phone": "Phone Number",
   "position": "Position",

@@ -9,6 +9,8 @@
   "deadline": "Hạn nộp",
   "submit": "Nộp hồ sơ",
   "fullName": "Họ và tên",
+  "firstName": "Tên",
+  "lastName": "Họ",
   "email": "Email",
   "phone": "Số điện thoại",
   "position": "Vị trí ứng tuyển",
