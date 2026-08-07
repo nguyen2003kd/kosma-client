@@ -3,6 +3,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, ReactNode } from "react";
 import { ProductSidebar } from "../product-sidebar";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface ProductsControlsProps {
   basePath: string;
@@ -57,18 +59,22 @@ export function ProductsControls({ basePath, children }: ProductsControlsProps) 
             />
           </div>
           <div className="flex items-center gap-2">
-            <label className="text-[12px] sm:text-[13px] font-bold text-gray-600 whitespace-nowrap">
+            <Label className="text-[12px] sm:text-[13px] font-bold text-gray-600 whitespace-nowrap">
               Sort by
-            </label>
-            <select
+            </Label>
+            <Select
               value={currentSort}
-              onChange={(e) => pushParams({ sort: e.target.value })}
-              className="rounded-lg border border-mutedLine bg-white px-3 py-2.5 text-[13px] sm:text-[14px] text-ink focus:outline-none focus:border-ink/60 transition-colors"
+              onValueChange={(value) => pushParams({ sort: value })}
             >
-              <option value="featured">Featured</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-            </select>
+              <SelectTrigger className="rounded-lg border border-mutedLine bg-white w-[150px] sm:w-[165px] px-3 py-5 text-[13px] sm:text-[14px] text-ink transition-colors">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="featured">Featured</SelectItem>
+                <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                <SelectItem value="price-desc">Price: High to Low</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 

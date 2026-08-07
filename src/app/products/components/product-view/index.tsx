@@ -109,7 +109,7 @@ export default function ProductDetailView({
                 if (imgSrc !== FALLBACK_IMAGE) setImgSrc(FALLBACK_IMAGE);
               }}
             />
-            <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+            <div className="absolute top-3 left-3 flex gap-1.5">
               {product.category && (
                 <span className="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-extrabold uppercase tracking-[0.1em] text-ink">
                   {product.category}
