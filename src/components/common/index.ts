@@ -1,5 +1,6 @@
 // Forms & inputs
 export * from './consultation-form';
+export * from './custom-design-form';
 export * from './custom-select';
 export * from './input';
 export * from './date-picker';
@@ -15,6 +16,8 @@ export * from './space-card';
 export * from './service-card';
 export * from './feature-row';
 export * from './video-testimonial-card';
+export * from './product-card';
+export * from './materials-suggestions';
 export { default as ContentFilters } from './content-filters';
 export { default as ContentSidebar } from './content-sidebar';
 

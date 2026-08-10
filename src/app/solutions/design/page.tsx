@@ -10,7 +10,7 @@ import type { PostExtended as PostWithImage } from "@/types/post";
 import type { Metadata } from "next";
 import { DesignControls } from "./components/design-controls";
 import { DesignGallery } from "./components/design-gallery";
-import { DesignInquiryForm } from "./components/design-inquiry-form";
+import { CustomDesignForm, MaterialsSuggestions } from "@/components/common";
 
 const CATEGORY_URL = "/solutions/design";
 const PAGE_SIZE = 24;
@@ -196,13 +196,34 @@ export default async function DesignPage({ searchParams }: DesignPageProps) {
         </div>
       </section>
 
+      {/* Materials Marketplace Suggestions */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
+        <div className="container-kosmo">
+          <SectionHeading
+            eyebrow="Shop Materials"
+            title="Materials You May Need"
+            subtitle="A few suggested products for your project — browse the full marketplace for more."
+          />
+          <MaterialsSuggestions />
+        </div>
+      </section>
       <QuoteSection
         quote="Browsing the design gallery helped us figure out exactly what we wanted before talking to the team. The drawings made it easy to compare and decide."
         author="Homeowner"
         title="Rockville, MD"
       />
-
-      <DesignInquiryForm />
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+        <div className="container-kosmo">
+          <SectionHeading
+            eyebrow="Get Started"
+            title="Request a Custom Design"
+            subtitle="Want a design tailored to your space? Share your requirements and our design team will prepare a custom drawing for you."
+          />
+          <div className="max-w-5xl mx-auto">
+            <CustomDesignForm />
+          </div>
+        </div>
+      </section>
     </>
   );
 }

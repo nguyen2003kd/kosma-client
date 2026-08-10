@@ -298,12 +298,12 @@ export default function CareersPage() {
     usePostApiV10Question();
 
   const [questionForm, setQuestionForm] = useState({
-    name: "",
+    first_name: "",
+    last_name: "",
     phone_number: "",
     email: "",
     address: "",
-    major: "",
-    question: "",
+    content: "",
   });
 
   const closeQuestionModal = () => {
@@ -312,12 +312,12 @@ export default function CareersPage() {
 
   const resetQuestionForm = () => {
     setQuestionForm({
-      name: "",
+      first_name: "",
+      last_name: "",
       phone_number: "",
       email: "",
       address: "",
-      major: "",
-      question: "",
+      content: "",
     });
   };
 
@@ -325,14 +325,12 @@ export default function CareersPage() {
     e.preventDefault();
 
     const payload: QuestionMutate = {
-      name: questionForm.name.trim(),
+      first_name: questionForm.first_name.trim(),
+      last_name: questionForm.last_name.trim(),
       phone_number: questionForm.phone_number.trim(),
       email: questionForm.email.trim(),
       address: questionForm.address.trim(),
-      question: questionForm.question.trim(),
-      ...(questionForm.major.trim()
-        ? { major: questionForm.major.trim() }
-        : {}),
+      content: questionForm.content.trim(),
     };
 
     try {
@@ -585,14 +583,29 @@ export default function CareersPage() {
                 <div className="space-y-2">
                   <label className="text-[14px] font-semibold flex items-center gap-2 text-foreground/80">
                     <svg className="h-4 w-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    {t("fullName")} <span className="text-red-500">*</span>
+                    {t("lastName")} <span className="text-red-500">*</span>
                   </label>
                   <Input
-                    value={questionForm.name}
+                    value={questionForm.last_name}
                     onChange={(e) =>
-                      setQuestionForm((prev) => ({ ...prev, name: e.target.value }))
+                      setQuestionForm((prev) => ({ ...prev, last_name: e.target.value }))
                     }
-                    placeholder="John Doe"
+                    placeholder="Doe"
+                    required
+                    className="h-12 bg-muted/40 border-muted-foreground/20 focus-visible:ring-[#4a55e6] focus-visible:border-[#4a55e6]"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[14px] font-semibold flex items-center gap-2 text-foreground/80">
+                    <svg className="h-4 w-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    {t("firstName")} <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    value={questionForm.first_name}
+                    onChange={(e) =>
+                      setQuestionForm((prev) => ({ ...prev, first_name: e.target.value }))
+                    }
+                    placeholder="John"
                     required
                     className="h-12 bg-muted/40 border-muted-foreground/20 focus-visible:ring-[#4a55e6] focus-visible:border-[#4a55e6]"
                   />
@@ -631,7 +644,7 @@ export default function CareersPage() {
                     className="h-12 bg-muted/40 border-muted-foreground/20 focus-visible:ring-[#4a55e6] focus-visible:border-[#4a55e6]"
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 md:col-span-2">
                   <label className="text-[14px] font-semibold flex items-center gap-2 text-foreground/80">
                     <svg className="h-4 w-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                     {t("address")} <span className="text-red-500">*</span>
@@ -646,30 +659,15 @@ export default function CareersPage() {
                     className="h-12 bg-muted/40 border-muted-foreground/20 focus-visible:ring-[#4a55e6] focus-visible:border-[#4a55e6]"
                   />
                 </div>
-
-                <div className="space-y-2 md:col-span-2">
-                  <label className="text-[14px] font-semibold flex items-center gap-2 text-foreground/80">
-                    <svg className="h-4 w-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10"></path><path d="M17 4v7a5 5 0 0 1-10 0V4"></path></svg>
-                    {t("positionApplied")}
-                  </label>
-                  <Input
-                    value={questionForm.major}
-                    onChange={(e) =>
-                      setQuestionForm((prev) => ({ ...prev, major: e.target.value }))
-                    }
-                    placeholder={t("positionPlaceholder")}
-                    className="h-12 w-full bg-muted/40 border-muted-foreground/20 focus-visible:ring-[#4a55e6] focus-visible:border-[#4a55e6]"
-                  />
-                </div>
               </div>
               <div className="space-y-2">
                 <label className="text-[14px] font-semibold flex items-center gap-2 text-foreground/80">
                   {t("questionContent")} <span className="text-red-500">*</span>
                 </label>
                 <textarea
-                  value={questionForm.question}
+                  value={questionForm.content}
                   onChange={(e) =>
-                    setQuestionForm((prev) => ({ ...prev, question: e.target.value }))
+                    setQuestionForm((prev) => ({ ...prev, content: e.target.value }))
                   }
                   className="flex min-h-[140px] w-full rounded-xl border border-muted-foreground/20 bg-muted/40 px-4 py-3 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4a55e6] focus-visible:border-[#4a55e6] focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 resize-none shadow-sm transition-all"
                   placeholder={t("questionPlaceholder")}

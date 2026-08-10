@@ -1,7 +1,7 @@
 "use client";
 
 import { usePostApiV10Contact } from "@/api/endpoints/contact";
-import { Contact } from "@/api/models/contact";
+import { ContactMutate } from "@/api/models/contactMutate";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/common/input";
@@ -112,7 +112,8 @@ export default function ContactRegistrationSection() {
           content: t("successMessage"),
         });
         setFormData({
-          name: "",
+          first_name: "",
+          last_name: "",
           email: "",
           phone_number: "",
           content: "",
@@ -128,8 +129,9 @@ export default function ContactRegistrationSection() {
     },
   });
 
-  const [formData, setFormData] = useState<Omit<Contact, "id" | "created_at">>({
-    name: "",
+  const [formData, setFormData] = useState<ContactMutate>({
+    first_name: "",
+    last_name: "",
     email: "",
     phone_number: "",
     content: "",
@@ -139,7 +141,12 @@ export default function ContactRegistrationSection() {
     e.preventDefault();
 
     submitContact({
-      data: formData,
+      data: {
+        ...formData,
+        email: formData.email || null,
+        phone_number: formData.phone_number || null,
+        content: formData.content || null,
+      },
     });
   };
 
@@ -181,24 +188,45 @@ export default function ContactRegistrationSection() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="name"
-                    className="text-sm text-gray-700 font-medium flex items-center gap-2"
-                  >
-                    <User className="w-4 h-4 text-gray-600" />
-                    {t("name")} <span className="text-red-500">*</span>
-                  </Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    placeholder={t("namePlaceholder")}
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="h-12 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="last_name"
+                      className="text-sm text-gray-700 font-medium flex items-center gap-2"
+                    >
+                      <User className="w-4 h-4 text-gray-600" />
+                      {t("lastName")} <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="last_name"
+                      name="last_name"
+                      type="text"
+                      required
+                      placeholder={t("lastNamePlaceholder")}
+                      value={formData.last_name}
+                      onChange={handleChange}
+                      className="h-12 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="first_name"
+                      className="text-sm text-gray-700 font-medium flex items-center gap-2"
+                    >
+                      <User className="w-4 h-4 text-gray-600" />
+                      {t("firstName")} <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="first_name"
+                      name="first_name"
+                      type="text"
+                      required
+                      placeholder={t("firstNamePlaceholder")}
+                      value={formData.first_name}
+                      onChange={handleChange}
+                      className="h-12 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -215,7 +243,7 @@ export default function ContactRegistrationSection() {
                     type="email"
                     required
                     placeholder={t("emailPlaceholder")}
-                    value={formData.email}
+                    value={formData.email ?? ""}
                     onChange={handleChange}
                     className="h-12 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
                   />
@@ -235,7 +263,7 @@ export default function ContactRegistrationSection() {
                     type="tel"
                     required
                     placeholder={t("phonePlaceholder")}
-                    value={formData.phone_number}
+                    value={formData.phone_number ?? ""}
                     onChange={handleChange}
                     className="h-12 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
                   />
@@ -254,7 +282,7 @@ export default function ContactRegistrationSection() {
                     name="content"
                     required
                     placeholder={t("contentPlaceholder")}
-                    value={formData.content}
+                    value={formData.content ?? ""}
                     onChange={handleChange}
                     rows={4}
                     className="resize-none border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-gray-400"
