@@ -194,7 +194,6 @@ export default function CareersPage() {
           file: filesResult.data[0],
           type: "file",
           title: filesResult.data[0].name,
-          is_in_library: false,
         },
       });
 

@@ -16,6 +16,4 @@ export interface FileMutate {
    * @nullable
    */
   note?: string | null;
-  /** Whether the file is available in the media library */
-  is_in_library?: boolean;
 }

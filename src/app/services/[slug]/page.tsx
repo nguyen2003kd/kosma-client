@@ -3,7 +3,7 @@ import type { PostCategory } from "@/api/models/postCategory";
 import { PageHero, SectionHeading, QuoteSection, ConsultationForm } from "@/components/common";
 import baseConfig from "@/configs/base";
 import { getThumbnailSrc } from "@/lib/responsive-image";
-import type { ImageCompressInfo, PostExtended } from "@/types/post";
+import type { PostExtended } from "@/types/post";
 import { ArrowRight, Calendar, Eye, FileText, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -96,7 +96,7 @@ export default async function ServiceCategoryPage({ params }: ServiceCategoryPag
   const restPosts = posts.slice(1);
   const featuredImage = featuredPost
     ? getThumbnailSrc(
-      featuredPost.thumbnail_compress_info as ImageCompressInfo | undefined,
+      undefined,
       featuredPost.thumbnail_path,
       FALLBACK_IMAGE,
     )
@@ -174,7 +174,7 @@ export default async function ServiceCategoryPage({ params }: ServiceCategoryPag
               {posts.map((post, index) => {
                 const href = `${categoryLink}/${post.slug || ""}`;
                 const image = getThumbnailSrc(
-                  post.thumbnail_compress_info as ImageCompressInfo | undefined,
+                  undefined,
                   post.thumbnail_path,
                   FALLBACK_IMAGE,
                 );

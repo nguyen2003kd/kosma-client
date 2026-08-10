@@ -315,7 +315,7 @@ export default function NewsDetailView({ slug, initialPost }: NewsDetailViewProp
                 {/* Featured Image */}
                 <div className="relative w-full aspect-video mb-8 rounded-lg overflow-hidden">
                   <Image
-                    src={getThumbnailSrc(currentPost.thumbnail_compress_info, currentPost.thumbnail_path, "/images/service-1.png")}
+                    src={getThumbnailSrc(undefined, currentPost.thumbnail_path, "/images/service-1.png")}
                     alt={currentPost.title || ""}
                     fill
                     className="object-cover"
@@ -347,7 +347,7 @@ export default function NewsDetailView({ slug, initialPost }: NewsDetailViewProp
                           >
                             {content.post_content_images.map((img) => {
                               const imageSrc = getThumbnailSrc(
-                                img.file?.compress_info,
+                                undefined,
                                 img.file?.path,
                                 "/images/service-1.png",
                               );
@@ -397,7 +397,7 @@ export default function NewsDetailView({ slug, initialPost }: NewsDetailViewProp
                   {relatedPosts.map((post) => (
                     <ServiceCard
                       key={post.id}
-                      image={getThumbnailSrc(post.thumbnail_compress_info, post.thumbnail_path, "/images/service-1.png")}
+                      image={getThumbnailSrc(undefined, post.thumbnail_path, "/images/service-1.png")}
                       title={post.title || ""}
                       description={post.summary || ""}
                       link={`/news/${post.slug}`}

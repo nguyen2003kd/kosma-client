@@ -1,11 +1,9 @@
 import links from "@/lib/links";
-import type { ImageCompressInfo } from "@/types/post";
 
 export interface ProductImageFile {
   id: string;
   path?: string;
-  name?: string | null;
-  compress_info?: ImageCompressInfo | null;
+  file_name?: string | null;
 }
 
 export interface ProductImageRow {
@@ -19,12 +17,7 @@ export interface ProductImageRow {
 export function getProductImageSrc(img: ProductImageRow): string {
   const file = img.file;
   if (!file) return "";
-  const compress = file.compress_info;
-  const path =
-    compress?.desktop || compress?.tablet || compress?.mobile || file.path || "";
-  if (!path) return "";
-  if (path.startsWith("/images/")) return path;
-  return `${links.storageEndpoint}${path}`;
+  return file.path || "";
 }
 
 export function getProductImageList(
@@ -45,9 +38,6 @@ export function getPrimaryProductImage(
 ): string {
   const list = getProductImageList(images);
   if (list.length > 0) return list[0];
-  if (thumbnailPath) {
-    if (thumbnailPath.startsWith("/images/")) return thumbnailPath;
-    return `${links.storageEndpoint}${thumbnailPath}`;
-  }
+  if (thumbnailPath) return thumbnailPath;
   return fallback;
 }

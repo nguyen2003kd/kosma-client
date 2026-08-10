@@ -94,12 +94,7 @@ export async function generateMetadata({
     };
   }
 
-  const thumbnailUrl =
-    post.thumbnail_compress_info?.desktop
-      ? `${baseConfig.backendDomain}${post.thumbnail_compress_info.desktop}`
-      : post.thumbnail_path
-        ? `${baseConfig.backendDomain}${post.thumbnail_path}`
-        : undefined;
+  const thumbnailUrl = post.thumbnail_path || "";
 
   const pageUrl = `${baseConfig.frontendDomain}/services/${slug}/${postSlug}`;
   const description =
@@ -144,7 +139,7 @@ export default async function ServicePostDetailPage({ params }: ServicePostDetai
   const shareUrl = `${baseConfig.frontendDomain}${categoryLink}/${postSlug}`;
 
   const thumbnailSrc = getThumbnailSrc(
-    post.thumbnail_compress_info,
+    undefined,
     post.thumbnail_path,
     FALLBACK_IMAGE,
   );
@@ -265,7 +260,7 @@ export default async function ServicePostDetailPage({ params }: ServicePostDetai
                           >
                             {content.post_content_images.map((img) => {
                               const imageSrc = getThumbnailSrc(
-                                img.file?.compress_info,
+                                undefined,
                                 img.file?.path,
                                 "/images/service-1.png",
                               );

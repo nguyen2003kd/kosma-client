@@ -26,7 +26,7 @@ export default function NewsCard({
         {/* Image */}
         <div className="relative w-64 h-52 flex-shrink-0 overflow-hidden bg-gray-100">
           <Image
-            src={getThumbnailSrc(post.thumbnail_compress_info, post.thumbnail_path)}
+            src={getThumbnailSrc(undefined, post.thumbnail_path)}
             alt={post.title || ""}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -67,11 +67,10 @@ export default function NewsCard({
 
               {/* Link */}
               <a
-                href={`${
-                  typeof post.id === "string" && post.id.startsWith("mock-")
+                href={`${typeof post.id === "string" && post.id.startsWith("mock-")
                     ? "/"
                     : "/news/"
-                }${post.slug || ""}`}
+                  }${post.slug || ""}`}
                 className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group/link"
               >
                 {t("viewDetails")}
@@ -89,7 +88,7 @@ export default function NewsCard({
       {/* Image */}
       <div className="relative h-36 sm:h-40 overflow-hidden bg-gray-100">
         <Image
-            src={getThumbnailSrc(post.thumbnail_compress_info, post.thumbnail_path)}
+          src={getThumbnailSrc(undefined, post.thumbnail_path)}
           alt={post.title || ""}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -121,11 +120,10 @@ export default function NewsCard({
 
           {/* Link */}
           <a
-            href={`${
-              typeof post.id === "string" && post.id.startsWith("mock-")
+            href={`${typeof post.id === "string" && post.id.startsWith("mock-")
                 ? "/"
                 : "/news/"
-            }${post.slug || ""}`}
+              }${post.slug || ""}`}
             className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group/link"
           >
             {t("viewDetails")}

@@ -30,7 +30,7 @@ export default function SearchResultItem({ result, t }: SearchResultItemProps) {
         <div className="relative w-full max-w-[365px] aspect-[16/9] flex-shrink-0 overflow-hidden bg-gray-200">
           <Image
             src={getThumbnailSrc(
-              result.thumbnail_compress_info,
+              undefined,
               result.thumbnail_path,
               "/images/service-1.png",
             )}

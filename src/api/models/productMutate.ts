@@ -1,5 +1,4 @@
 /* eslint-disable */
-import type { ProductMutateThumbnailCompressInfo } from './productMutateThumbnailCompressInfo';
 import type { ProductMutateSpecifications } from './productMutateSpecifications';
 
 export interface ProductMutate {
@@ -15,7 +14,6 @@ export interface ProductMutate {
   product_type?: string;
   brand?: string;
   thumbnail_path?: string;
-  thumbnail_compress_info?: ProductMutateThumbnailCompressInfo;
   specifications?: ProductMutateSpecifications;
   weight?: string;
   dimensions?: string;

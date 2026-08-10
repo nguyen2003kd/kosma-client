@@ -25,6 +25,11 @@ const nextConfig = {
         hostname: "localhost",
         pathname: "/api/storage/uploads/**",
       },
+      {
+        protocol: 'https',
+        hostname: 's3-hcm5-r1.longvan.net',
+        pathname: '/**',
+      },
     ],
   },
 };

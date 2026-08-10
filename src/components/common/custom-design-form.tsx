@@ -8,7 +8,31 @@ import { CustomSelect } from "@/components/common/custom-select";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toaster";
 import { mainInstance } from "@/api/mutator/custom-instance";
-import { Check, Loader2, Upload, X } from "lucide-react";
+import { Check, FileVideo, Image as ImageIcon, Loader2, Upload, X } from "lucide-react";
+
+const IMAGE_MAX_MB = 5;
+const VIDEO_MAX_MB = 100;
+const IMAGE_MAX_BYTES = IMAGE_MAX_MB * 1024 * 1024;
+const VIDEO_MAX_BYTES = VIDEO_MAX_MB * 1024 * 1024;
+
+const IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".gif", ".webp"];
+const VIDEO_EXTENSIONS = [".mp4", ".webm", ".mov", ".avi", ".mkv"];
+const ACCEPTED_EXTENSIONS = [...IMAGE_EXTENSIONS, ...VIDEO_EXTENSIONS];
+
+function getFileKind(file: File): "image" | "video" | "other" {
+  if (file.type.startsWith("image/")) return "image";
+  if (file.type.startsWith("video/")) return "video";
+  const ext = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
+  if (IMAGE_EXTENSIONS.includes(ext)) return "image";
+  if (VIDEO_EXTENSIONS.includes(ext)) return "video";
+  return "other";
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
 
 const PRODUCT_OPTIONS = [
   { value: "living-room", label: "Living Room Design" },
@@ -24,17 +48,17 @@ const PRODUCT_OPTIONS = [
 
 const BUDGET_OPTIONS = [
   { value: "under-10k", label: "Under $10,000" },
-  { value: "10k-25k", label: "$10,000 – $25,000" },
-  { value: "25k-50k", label: "$25,000 – $50,000" },
-  { value: "50k-100k", label: "$50,000 – $100,000" },
+  { value: "10k-25k", label: "$10,000 - $25,000" },
+  { value: "25k-50k", label: "$25,000 - $50,000" },
+  { value: "50k-100k", label: "$50,000 - $100,000" },
   { value: "100k-plus", label: "$100,000+" },
   { value: "not-sure", label: "Not sure yet" },
 ];
 
 const TIMELINE_OPTIONS = [
   { value: "asap", label: "ASAP (within 1 month)" },
-  { value: "1-3-months", label: "1 – 3 months" },
-  { value: "3-6-months", label: "3 – 6 months" },
+  { value: "1-3-months", label: "1 - 3 months" },
+  { value: "3-6-months", label: "3 - 6 months" },
   { value: "6-plus-months", label: "6+ months" },
   { value: "flexible", label: "Flexible" },
 ];
@@ -74,6 +98,7 @@ export function CustomDesignForm() {
   const [formData, setFormData] = useState<CustomDesignFormData>(initialFormData);
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { mutateAsync: submitQuestion, isPending: isSubmitting } = usePostApiV10Question({
@@ -98,7 +123,35 @@ export function CustomDesignForm() {
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = Array.from(e.target.files || []);
-    setFiles((prev) => [...prev, ...selected]);
+    const accepted: File[] = [];
+    for (const file of selected) {
+      const kind = getFileKind(file);
+      if (kind === "image" && file.size > IMAGE_MAX_BYTES) {
+        toast.error({
+          title: "File too large",
+          content: `"${file.name}" exceeds the ${IMAGE_MAX_MB}MB image limit.`,
+        });
+        continue;
+      }
+      if (kind === "video" && file.size > VIDEO_MAX_BYTES) {
+        toast.error({
+          title: "File too large",
+          content: `"${file.name}" exceeds the ${VIDEO_MAX_MB}MB video limit.`,
+        });
+        continue;
+      }
+      if (kind === "other") {
+        toast.error({
+          title: "Unsupported file",
+          content: `"${file.name}" is not a supported image or video format.`,
+        });
+        continue;
+      }
+      accepted.push(file);
+    }
+    if (accepted.length > 0) {
+      setFiles((prev) => [...prev, ...accepted]);
+    }
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -122,6 +175,7 @@ export function CustomDesignForm() {
       contentParts.push(`Timeline: ${label}`);
     }
     try {
+      setIsUploading(true);
       const questionRes = (await submitQuestion({
         data: {
           first_name: formData.firstName,
@@ -144,7 +198,6 @@ export function CustomDesignForm() {
               file,
               type: "file",
               title: file.name,
-              is_in_library: false,
             },
           })) as { responseData?: { id?: string } } | undefined;
           const fileId = uploaded?.responseData?.id;
@@ -166,6 +219,8 @@ export function CustomDesignForm() {
       setIsSubmitted(true);
     } catch {
       // error handled in mutation.onError
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -317,13 +372,13 @@ export function CustomDesignForm() {
             onChange={(e) => handleChange("message", e.target.value)}
           />
 
-          {/* File Upload (inspiration images / floor plans) */}
+          {/* File Upload (inspiration images / videos / floor plans) */}
           <div className="space-y-2">
             <label className="text-[12px] font-extrabold tracking-[0.04em] text-ink block">
-              Inspiration Images / Floor Plans (optional)
+              Inspiration Images / Videos / Floor Plans (optional)
             </label>
             <p className="text-xs text-gray-500">
-              Upload reference photos, mood boards, or floor plans (PDF, JPG, PNG — max 5MB each)
+              Upload reference photos, mood boards, videos, or floor plans (JPG, PNG, GIF, WebP — max 5MB; MP4, WebM, MOV — max 100MB)
             </p>
             <div
               className="border-2 border-dashed border-mutedLine rounded-[10px] p-4 text-center cursor-pointer hover:border-black-700 transition-colors"
@@ -332,43 +387,53 @@ export function CustomDesignForm() {
               <Upload className="w-6 h-6 text-gray-400 mx-auto mb-2" />
               <p className="text-sm text-gray-600">Click to upload files</p>
               <p className="text-xs text-gray-400 mt-1">
-                You can attach multiple files
+                You can attach multiple images and videos
               </p>
               <input
                 ref={fileInputRef}
                 type="file"
                 multiple
                 className="hidden"
-                accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.gif,.webp"
+                accept={ACCEPTED_EXTENSIONS.join(",")}
                 onChange={handleFileSelect}
               />
             </div>
 
             {files.length > 0 && (
               <div className="space-y-2">
-                {files.map((file, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-2"
-                  >
-                    <span className="text-sm text-gray-700 truncate flex-1">
-                      {file.name}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => removeFile(index)}
-                      className="text-gray-400 hover:text-red-500 transition-colors ml-2"
+                {files.map((file, index) => {
+                  const kind = getFileKind(file);
+                  const Icon = kind === "video" ? FileVideo : ImageIcon;
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-2"
                     >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <Icon className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                        <span className="text-sm text-gray-700 truncate flex-1">
+                          {file.name}
+                        </span>
+                        <span className="text-xs text-gray-400 flex-shrink-0">
+                          {formatBytes(file.size)}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeFile(index)}
+                        className="text-gray-400 hover:text-red-500 transition-colors ml-2"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
 
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? (
+          <Button type="submit" className="w-full" disabled={isSubmitting || isUploading}>
+            {isSubmitting || isUploading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                 Submitting...

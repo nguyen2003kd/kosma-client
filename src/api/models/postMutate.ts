@@ -86,10 +86,11 @@ export interface PostMutate {
    */
   tag_ids?: string[] | null;
   /**
-   * Thumbnail file ID - the file's path and compress_info will be used for thumbnail_path and thumbnail_compress_info
+   * Path/URL to thumbnail image (from MinIO upload response)
+   * @maxLength 255
    * @nullable
    */
-  thumbnail_file_id?: string | null;
+  thumbnail_path?: string | null;
   /** Array of post content items */
   post_content?: PostContentInput[];
 }

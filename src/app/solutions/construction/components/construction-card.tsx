@@ -30,7 +30,7 @@ export default function ConstructionCard({
     : "";
 
   const [imgSrc, setImgSrc] = useState(
-    getThumbnailSrc(post.thumbnail_compress_info, post.thumbnail_path, FALLBACK_IMAGE),
+    getThumbnailSrc(undefined, post.thumbnail_path, FALLBACK_IMAGE),
   );
 
   return (

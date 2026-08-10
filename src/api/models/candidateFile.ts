@@ -5,7 +5,7 @@ export interface CandidateFile {
   id?: string;
   /** Candidate ID */
   candidate_id?: string;
-  /** File ID */
+  /** File ID (MinIO object ID) */
   file_id?: string;
   /**
    * Creation timestamp

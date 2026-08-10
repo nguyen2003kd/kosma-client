@@ -16,7 +16,7 @@ const CLOSE_DELAY = 120;
 
 function ServiceImage({ post }: { post: PostExtended }) {
   const src = getThumbnailSrc(
-    post.thumbnail_compress_info,
+    undefined,
     post.thumbnail_path,
     FALLBACK_IMAGE,
   );
