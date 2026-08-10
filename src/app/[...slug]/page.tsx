@@ -94,12 +94,7 @@ export async function generateMetadata({
     };
   }
 
-  const thumbnailUrl =
-    post.thumbnail_compress_info?.desktop
-      ? `${baseConfig.backendDomain}${post.thumbnail_compress_info.desktop}`
-      : post.thumbnail_path
-        ? `${baseConfig.backendDomain}${post.thumbnail_path}`
-        : undefined;
+  const thumbnailUrl = post.thumbnail_path || "";
 
   const pageUrl = `${baseConfig.frontendDomain}/${slug.join('/')}`;
   const description = post.summary?.replace(/<[^>]*>/g, "").slice(0, 160) || "Latest news";

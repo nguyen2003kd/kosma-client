@@ -1,4 +1,4 @@
-import { getApiV10ProductId, getApiV10Product } from "@/api/endpoints/product";
+import { getApiV10ProductId, getApiV10Product, getApiV10ProductSlugSlug } from "@/api/endpoints/product";
 import { PageHero } from "@/components/common";
 import { getProductImageList, type ProductImageRow, } from "@/lib/product-image";
 import baseConfig from "@/configs/base";
@@ -30,9 +30,9 @@ type ProductDetail = {
 
 type ProductRow = ProductDetail;
 
-async function getProduct(id: string): Promise<ProductDetail | null> {
+async function getProduct(slug: string): Promise<ProductDetail | null> {
   try {
-    const data = (await getApiV10ProductId(id)) as unknown as {
+    const data = (await getApiV10ProductSlugSlug(slug)) as unknown as {
       responseData?: ProductDetail;
     } | void;
     return (data?.responseData as ProductDetail) || null;
@@ -60,10 +60,10 @@ async function getRelatedProducts(excludeId?: string): Promise<ProductRow[]> {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { id } = await params;
-  const product = await getProduct(id);
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) {
     return {
@@ -74,9 +74,8 @@ export async function generateMetadata({
 
   const thumbnailUrl =
     getProductImageList(product.product_images)[0] ||
-    (product.thumbnail_path
-      ? `${baseConfig.backendDomain}${product.thumbnail_path}`
-      : undefined);
+    product.thumbnail_path ||
+    undefined;
   const pageUrl = `${baseConfig.frontendDomain}/products/${product.slug || product.id}`;
   const description =
     product.description?.replace(/<[^>]*>/g, "").slice(0, 160) ||
@@ -110,10 +109,10 @@ export async function generateMetadata({
 export default async function ProductDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
-  const product = await getProduct(id);
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) notFound();
 
@@ -124,11 +123,7 @@ export default async function ProductDetailPage({
   const thumbnailSrc =
     imageList.length > 0
       ? imageList[0]
-      : product.thumbnail_path
-        ? product.thumbnail_path.startsWith("/images/")
-          ? product.thumbnail_path
-          : `${baseConfig.backendDomain}${product.thumbnail_path}`
-        : FALLBACK_IMAGE;
+      : product.thumbnail_path || FALLBACK_IMAGE;
 
   return (
     <div>

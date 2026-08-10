@@ -5,7 +5,7 @@ export interface PostContentImage {
   id?: string;
   /** Image position */
   position?: number;
-  /** File ID reference */
+  /** File ID reference (MinIO object ID) */
   file_id?: string;
   /** Post content ID reference */
   post_content_id?: string;

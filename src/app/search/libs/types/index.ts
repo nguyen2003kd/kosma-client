@@ -6,11 +6,6 @@ export interface SearchResult {
     id: string;
     name: string;
   };
-  thumbnail_compress_info?: {
-    desktop?: string;
-    tablet?: string;
-    mobile?: string;
-  };
   thumbnail_path?: string | null;
   publish_date?: string;
   created_at?: string;

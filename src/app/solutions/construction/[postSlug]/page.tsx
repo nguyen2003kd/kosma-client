@@ -79,12 +79,7 @@ export async function generateMetadata({
     };
   }
 
-  const thumbnailUrl =
-    post.thumbnail_compress_info?.desktop
-      ? `${baseConfig.backendDomain}${post.thumbnail_compress_info.desktop}`
-      : post.thumbnail_path
-        ? `${baseConfig.backendDomain}${post.thumbnail_path}`
-        : undefined;
+  const thumbnailUrl = post.thumbnail_path || "";
 
   const pageUrl = `${baseConfig.frontendDomain}/solutions/construction/${postSlug}`;
   const description =
@@ -179,7 +174,7 @@ export default async function ConstructionPostDetailPage({
 
   const shareUrl = `${baseConfig.frontendDomain}/solutions/construction/${postSlug}`;
   const thumbnailSrc = getThumbnailSrc(
-    post.thumbnail_compress_info,
+    undefined,
     post.thumbnail_path,
     FALLBACK_IMAGE,
   );
@@ -304,7 +299,7 @@ export default async function ConstructionPostDetailPage({
                           >
                             {content.post_content_images.map((img, i) => {
                               const imageSrc = getThumbnailSrc(
-                                img.file?.compress_info,
+                                undefined,
                                 img.file?.path,
                                 FALLBACK_IMAGE,
                               );
@@ -368,7 +363,7 @@ export default async function ConstructionPostDetailPage({
                   <div className="relative h-44 sm:h-48 overflow-hidden bg-cream">
                     <Image
                       src={getThumbnailSrc(
-                        project.thumbnail_compress_info,
+                        undefined,
                         project.thumbnail_path,
                         FALLBACK_IMAGE,
                       )}

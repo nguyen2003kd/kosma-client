@@ -3,7 +3,7 @@ import type { PostCategory } from "@/api/models/postCategory";
 import { PageHero } from "@/components/common";
 import baseConfig from "@/configs/base";
 import { getThumbnailSrc } from "@/lib/responsive-image";
-import type { ImageCompressInfo, PostExtended } from "@/types/post";
+import type { PostExtended } from "@/types/post";
 import { Calendar } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -117,7 +117,7 @@ export default async function SolutionCategoryPage({ params }: SolutionCategoryP
               {posts.map((post) => {
                 const href = `${categoryLink}/${post.slug || ""}`;
                 const image = getThumbnailSrc(
-                  post.thumbnail_compress_info as ImageCompressInfo | undefined,
+                  undefined,
                   post.thumbnail_path,
                 );
                 const date = post.created_at

@@ -1,13 +1,12 @@
 /* eslint-disable */
-import type { FileCompressInfo } from './fileCompressInfo';
 
 export interface File {
-  /** Unique identifier of the file */
+  /** Unique identifier of the file (MinIO object ID) */
   id?: string;
-  /** Relative path to the file in storage */
+  /** Full URL to the file in MinIO storage */
   path?: string;
   /** Original filename */
-  name?: string;
+  file_name?: string;
   /** MIME type of the file */
   mime?: string;
   /** File category derived from mime type */
@@ -17,11 +16,6 @@ export interface File {
    * @nullable
    */
   size?: number | null;
-  /**
-   * Information about compressed variants (for images)
-   * @nullable
-   */
-  compress_info?: FileCompressInfo;
   /**
    * Display title of the file
    * @nullable
@@ -37,8 +31,6 @@ export interface File {
    * @nullable
    */
   note?: string | null;
-  /** Whether the file is available in the media library */
-  is_in_library?: boolean;
   /** Creation timestamp */
   created_at?: string;
   /**

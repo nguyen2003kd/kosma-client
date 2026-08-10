@@ -14,7 +14,7 @@ export interface BannerMutate {
    */
   description?: string | null;
   /**
-   * ID of the associated file
+   * ID of the associated file (MinIO object ID)
    * @nullable
    */
   file_id?: string | null;

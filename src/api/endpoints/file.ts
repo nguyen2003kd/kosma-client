@@ -257,9 +257,6 @@ if(fileUpdate.description !== undefined && fileUpdate.description !== null) {
 if(fileUpdate.note !== undefined && fileUpdate.note !== null) {
  formData.append(`note`, fileUpdate.note)
  }
-if(fileUpdate.is_in_library !== undefined) {
- formData.append(`is_in_library`, fileUpdate.is_in_library.toString())
- }
 
       return mainInstance<PutApiV10FileId200>(
       {url: `/api/v1.0/file/${id}`, method: 'PUT',
@@ -317,7 +314,7 @@ export const usePutApiV10FileId = <TError = void,
       return useMutation(mutationOptions, queryClient);
     }
     /**
- * Delete a single file record and its physical files from storage
+ * Delete a single file record and its file from storage
  * @summary Delete file by ID
  */
 export const deleteApiV10FileId = (
@@ -390,9 +387,6 @@ export const postApiV10FileBulk = (
       const formData = new FormData();
 if(postApiV10FileBulkBody.files !== undefined) {
  postApiV10FileBulkBody.files.forEach(value => formData.append(`files`, value));
- }
-if(postApiV10FileBulkBody.is_in_library_all !== undefined) {
- formData.append(`is_in_library_all`, postApiV10FileBulkBody.is_in_library_all.toString())
  }
 
       return mainInstance<void>(
@@ -667,9 +661,6 @@ if(fileUpload.description !== undefined && fileUpload.description !== null) {
  }
 if(fileUpload.note !== undefined && fileUpload.note !== null) {
  formData.append(`note`, fileUpload.note)
- }
-if(fileUpload.is_in_library !== undefined) {
- formData.append(`is_in_library`, fileUpload.is_in_library.toString())
  }
 
       return mainInstance<PostApiV10File200>(

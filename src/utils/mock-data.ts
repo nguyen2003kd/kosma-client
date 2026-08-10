@@ -10,12 +10,6 @@ export const mockPosts: PostExtended[] = [
     summary:
       "VIETPRODEV is proud to be a leading provider in software development and programming training, offering modern technology solutions and in-depth training programs based on real-world projects.",
     thumbnail_path: "/images/service-1.png",
-    thumbnail_compress_info: {
-      mobile: "/images/service-1.png",
-      tablet: "/images/service-1.png",
-      desktop: "/images/service-1.png",
-      preload: "/images/service-1.png",
-    },
     position: 1,
     is_hidden: false,
     is_service: false,
@@ -80,12 +74,6 @@ export const mockPosts: PostExtended[] = [
     summary:
       "VIETPRODEV offers an in-depth programming training program based on real-world projects, helping learners master knowledge and practical skills to be ready to work in an enterprise environment.",
     thumbnail_path: "/images/service-2.png",
-    thumbnail_compress_info: {
-      mobile: "/images/service-2.png",
-      tablet: "/images/service-2.png",
-      desktop: "/images/service-2.png",
-      preload: "/images/service-2.png",
-    },
     position: 2,
     is_hidden: false,
     is_service: false,
@@ -150,12 +138,6 @@ export const mockPosts: PostExtended[] = [
     summary:
       "VIETPRODEV provides custom technology solutions tailored to each business, helping optimize processes and drive sustainable growth.",
     thumbnail_path: "/images/service-3.png",
-    thumbnail_compress_info: {
-      mobile: "/images/service-3.png",
-      tablet: "/images/service-3.png",
-      desktop: "/images/service-3.png",
-      preload: "/images/service-3.png",
-    },
     position: 3,
     is_hidden: false,
     is_service: false,
@@ -219,12 +201,6 @@ export const mockPosts: PostExtended[] = [
   //   summary:
   //     "Explore the key features of the system: multimedia content management, automatic SEO, responsive design and more.",
   //   thumbnail_path: "/images/service-2.png",
-  //   thumbnail_compress_info: {
-  //     mobile: "/images/service-2.png",
-  //     tablet: "/images/service-2.png",
-  //     desktop: "/images/service-2.png",
-  //     preload: "/images/service-2.png",
-  //   },
   //   position: 2,
   //   is_hidden: false,
   //   is_service: false,
@@ -274,12 +250,6 @@ export const mockPosts: PostExtended[] = [
   //   summary:
   //     "A collection of frequently asked questions and detailed guides to help you resolve issues quickly. Contact support if you need further assistance.",
   //   thumbnail_path: "/images/service-3.png",
-  //   thumbnail_compress_info: {
-  //     mobile: "/images/service-3.png",
-  //     tablet: "/images/service-3.png",
-  //     desktop: "/images/service-3.png",
-  //     preload: "/images/service-3.png",
-  //   },
   //   position: 3,
   //   is_hidden: false,
   //   is_service: false,

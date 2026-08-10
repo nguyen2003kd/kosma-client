@@ -3,12 +3,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { getResponsiveImage } from "@/lib/responsive-image";
 import { PostExtended } from "@/types/post";
 import parse from "html-react-parser";
 import { ArrowRight, Calendar } from "lucide-react";
 import Image from "next/image";
-import baseConfig from "@/configs/base";
 interface NewsCardProps {
   post: PostExtended;
   viewMode: "grid" | "list";
@@ -31,11 +29,7 @@ export default function NewsCard({
         {/* Image */}
         <div className="relative w-64 h-52 flex-shrink-0 overflow-hidden bg-gray-100">
           <Image
-            src={
-              getResponsiveImage(post.thumbnail_compress_info) ||
-              baseConfig.imgEndpointDomain + post.thumbnail_path ||
-              "/images/service-1.png"
-            }
+            src={post.thumbnail_path || "/images/service-1.png"}
             alt={post.title || ""}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -95,11 +89,7 @@ export default function NewsCard({
       {/* Image */}
       <div className="relative h-36 sm:h-40 overflow-hidden bg-gray-100">
         <Image
-          src={
-            getResponsiveImage(post.thumbnail_compress_info) ||
-            baseConfig.imgEndpointDomain + post.thumbnail_path ||
-            "/images/service-1.png"
-          }
+          src={post.thumbnail_path || "/images/service-1.png"}
           alt={post.title || ""}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-300"

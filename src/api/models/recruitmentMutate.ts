@@ -27,7 +27,10 @@ export interface RecruitmentMutate {
   experience?: string | null;
   /** @nullable */
   employment_type?: string | null;
-  /** @nullable */
+  /**
+   * MinIO object ID
+   * @nullable
+   */
   file_id?: string | null;
   /** @nullable */
   deadline?: string | null;

@@ -2,16 +2,8 @@ import type { Post } from "@/api/models/post";
 import type { PostContent as APIPostContent } from "@/api/models/postContent";
 import type { PostContentImage as APIPostContentImage } from "@/api/models/postContentImage";
 
-export interface ImageCompressInfo {
-  mobile?: string;
-  tablet?: string;
-  desktop?: string;
-  preload?: string;
-}
-
 export interface PostContentImage extends APIPostContentImage {
   file?: {
-    compress_info?: ImageCompressInfo;
     path?: string
   };
 }
@@ -21,7 +13,6 @@ export interface PostContent extends APIPostContent {
 }
 
 export interface PostExtended extends Post {
-  thumbnail_compress_info?: ImageCompressInfo;
   post_content?: PostContent[];
   author?: string;
   tags?: { id?: string; name?: string }[];
@@ -38,7 +29,6 @@ export interface RelatedPostItem {
   title?: string;
   slug?: string;
   summary?: string;
-  thumbnail_compress_info?: ImageCompressInfo;
   thumbnail_path?: string | null;
   link?: string;
 }
