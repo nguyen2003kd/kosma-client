@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { usePostApiV10Question } from "@/api/endpoints/question";
+import { usePostApiV10File } from "@/api/endpoints/file";
 import { Input, Textarea } from "@/components/common/input";
 import { CustomSelect } from "@/components/common/custom-select";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/toaster";
+import { mainInstance } from "@/api/mutator/custom-instance";
 import { Check, Loader2, Upload, X } from "lucide-react";
-import { useRef } from "react";
 
 const PRODUCT_OPTIONS = [
   { value: "living-room", label: "Living Room Design" },
@@ -36,13 +39,6 @@ const TIMELINE_OPTIONS = [
   { value: "flexible", label: "Flexible" },
 ];
 
-const CONTACT_METHOD_OPTIONS = [
-  { value: "phone", label: "Phone Call" },
-  { value: "email", label: "Email" },
-  { value: "text", label: "Text Message" },
-  { value: "video", label: "Video Consultation" },
-];
-
 const checklistItems = [
   "Free design consultation & quote",
   "3D renderings & material samples",
@@ -50,38 +46,53 @@ const checklistItems = [
   "Licensed MD #113826 & insured",
 ];
 
-interface InquiryFormData {
-  fullName: string;
+interface CustomDesignFormData {
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
-  zipCode: string;
+  address: string;
   productInterest: string;
   budgetRange: string;
   timeline: string;
-  preferredContact: string;
   message: string;
 }
 
-const initialFormData: InquiryFormData = {
-  fullName: "",
+const initialFormData: CustomDesignFormData = {
+  firstName: "",
+  lastName: "",
   email: "",
   phone: "",
-  zipCode: "",
+  address: "",
   productInterest: "",
   budgetRange: "",
   timeline: "",
-  preferredContact: "",
   message: "",
 };
 
-export function DesignInquiryForm() {
-  const [formData, setFormData] = useState<InquiryFormData>(initialFormData);
+export function CustomDesignForm() {
+  const [formData, setFormData] = useState<CustomDesignFormData>(initialFormData);
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (field: keyof InquiryFormData, value: string) => {
+  const { mutateAsync: submitQuestion, isPending: isSubmitting } = usePostApiV10Question({
+    mutation: {
+      onError: (error) => {
+        toast.error({
+          title: "Submission failed",
+          content:
+            error instanceof Error
+              ? error.message
+              : "Could not submit your inquiry. Please try again.",
+        });
+      },
+    },
+  });
+
+  const { mutateAsync: uploadFile } = usePostApiV10File();
+
+  const handleChange = (field: keyof CustomDesignFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -97,13 +108,65 @@ export function DesignInquiryForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    // TODO: call API when available
-    // eslint-disable-next-line no-console
-    console.log("Inquiry submitted:", { ...formData, files });
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    const contentParts = [formData.message];
+    if (formData.productInterest) {
+      const label = PRODUCT_OPTIONS.find((o) => o.value === formData.productInterest)?.label ?? formData.productInterest;
+      contentParts.push(`Product/Service: ${label}`);
+    }
+    if (formData.budgetRange) {
+      const label = BUDGET_OPTIONS.find((o) => o.value === formData.budgetRange)?.label ?? formData.budgetRange;
+      contentParts.push(`Budget: ${label}`);
+    }
+    if (formData.timeline) {
+      const label = TIMELINE_OPTIONS.find((o) => o.value === formData.timeline)?.label ?? formData.timeline;
+      contentParts.push(`Timeline: ${label}`);
+    }
+    try {
+      const questionRes = (await submitQuestion({
+        data: {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          phone_number: formData.phone,
+          address: formData.address,
+          content: contentParts.filter(Boolean).join("\n"),
+        },
+      })) as { responseData?: { id?: string } } | undefined;
+
+      const questionId = questionRes?.responseData?.id;
+
+      // Upload files and link to question
+      if (files.length > 0 && questionId) {
+        const fileIds: string[] = [];
+        for (const file of files) {
+          const uploaded = (await uploadFile({
+            data: {
+              file,
+              type: "file",
+              title: file.name,
+              is_in_library: false,
+            },
+          })) as { responseData?: { id?: string } } | undefined;
+          const fileId = uploaded?.responseData?.id;
+          if (fileId) fileIds.push(fileId);
+        }
+
+        if (fileIds.length > 0) {
+          await mainInstance({
+            url: "/api/v1.0/questionFile/bulk",
+            method: "POST",
+            data: {
+              question_id: questionId,
+              file_ids: fileIds,
+            },
+          });
+        }
+      }
+
+      setIsSubmitted(true);
+    } catch {
+      // error handled in mutation.onError
+    }
   };
 
   if (isSubmitted) {
@@ -166,13 +229,24 @@ export function DesignInquiryForm() {
           {/* Personal Info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
-              label="Full Name"
-              id="fullName"
+              label="First Name"
+              id="firstName"
               required
-              placeholder="John Doe"
-              value={formData.fullName}
-              onChange={(e) => handleChange("fullName", e.target.value)}
+              placeholder="John"
+              value={formData.firstName}
+              onChange={(e) => handleChange("firstName", e.target.value)}
             />
+            <Input
+              label="Last Name"
+              id="lastName"
+              required
+              placeholder="Doe"
+              value={formData.lastName}
+              onChange={(e) => handleChange("lastName", e.target.value)}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
               label="Email"
               id="email"
@@ -182,9 +256,6 @@ export function DesignInquiryForm() {
               value={formData.email}
               onChange={(e) => handleChange("email", e.target.value)}
             />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
               label="Phone"
               id="phone"
@@ -194,15 +265,16 @@ export function DesignInquiryForm() {
               value={formData.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
             />
-            <Input
-              label="ZIP Code"
-              id="zipCode"
-              required
-              placeholder="20850"
-              value={formData.zipCode}
-              onChange={(e) => handleChange("zipCode", e.target.value)}
-            />
           </div>
+
+          <Input
+            label="Address"
+            id="address"
+            required
+            placeholder="123 Main St, Rockville, MD 20850"
+            value={formData.address}
+            onChange={(e) => handleChange("address", e.target.value)}
+          />
 
           {/* Product Interest */}
           <CustomSelect
@@ -236,19 +308,9 @@ export function DesignInquiryForm() {
             />
           </div>
 
-          {/* Preferred Contact */}
-          <CustomSelect
-            label="Preferred Contact Method"
-            id="preferredContact"
-            value={formData.preferredContact}
-            onChange={(value) => handleChange("preferredContact", value)}
-            options={CONTACT_METHOD_OPTIONS}
-            placeholder="How should we reach you?"
-          />
-
           {/* Message */}
           <Textarea
-            label="Project Details"
+            label="Content"
             id="message"
             placeholder="Describe your space, style preferences, products you're interested in, and any specific requirements..."
             value={formData.message}

@@ -3,23 +3,23 @@
 export interface Question {
   /** Unique identifier */
   id?: string;
-  /** User name */
-  name?: string;
+  /** First name */
+  first_name?: string;
+  /** Last name (family name) */
+  last_name?: string;
   /** User phone number */
   phone_number?: string;
   /** User email */
   email?: string;
   /** User address */
   address?: string;
+  /** Question content */
+  content?: string;
   /**
-   * User major
+   * Creation timestamp
    * @nullable
    */
-  major?: string | null;
-  /** Question content */
-  question?: string;
-  /** Creation timestamp */
-  created_at?: string;
+  created_at?: string | null;
   /**
    * Last update timestamp
    * @nullable

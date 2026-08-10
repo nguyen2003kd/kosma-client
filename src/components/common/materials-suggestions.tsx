@@ -3,10 +3,16 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { ArrowRight, Package } from "lucide-react";
-import { MaterialCard, type MaterialProduct } from "./material-card";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { ProductCard, type ProductCardItem } from "@/components/common";
 import { useGetApiV10Product } from "@/api/endpoints/product";
 import type { GetApiV10ProductParams } from "@/api/models";
 import { getPrimaryProductImage, type ProductImageRow } from "@/lib/product-image";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 type ProductRow = {
   id: string;
@@ -33,7 +39,7 @@ function toNumber(value: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-function transformToMaterialProduct(item: ProductRow): MaterialProduct {
+function transformToMaterialProduct(item: ProductRow): ProductCardItem {
   return {
     id: item.id,
     sku: item.sku,
@@ -50,7 +56,7 @@ function transformToMaterialProduct(item: ProductRow): MaterialProduct {
   };
 }
 
-const SUGGESTION_COUNT = 4;
+const SUGGESTION_COUNT = 8;
 
 export function MaterialsSuggestions() {
   const queryParams = useMemo<GetApiV10ProductParams>(
@@ -66,7 +72,7 @@ export function MaterialsSuggestions() {
 
   const { data, isLoading, error } = useGetApiV10Product(queryParams);
 
-  const products = useMemo<MaterialProduct[]>(() => {
+  const products = useMemo<ProductCardItem[]>(() => {
     const rows =
       ((data as unknown as { responseData?: { rows?: ProductRow[] } })?.responseData?.rows) ?? [];
     return rows.map(transformToMaterialProduct);
@@ -78,7 +84,7 @@ export function MaterialsSuggestions() {
   if (isLoading) {
     return (
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-        {Array.from({ length: SUGGESTION_COUNT }).map((_, i) => (
+        {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
             className="rounded-[--radius-md] overflow-hidden bg-white border border-mutedLine"
@@ -99,10 +105,28 @@ export function MaterialsSuggestions() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-        {products.map((product) => (
-          <MaterialCard key={product.id} product={product} />
-        ))}
+      <div className="materials-suggestions-swiper relative">
+        <Swiper
+          modules={[Autoplay, Navigation, Pagination]}
+          spaceBetween={16}
+          slidesPerView={2}
+          breakpoints={{
+            640: { slidesPerView: 2, spaceBetween: 20 },
+            1024: { slidesPerView: 3, spaceBetween: 24 },
+            1280: { slidesPerView: 4, spaceBetween: 24 },
+          }}
+          navigation
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 4000, disableOnInteraction: true }}
+          loop={products.length > 4}
+          className="!pb-12"
+        >
+          {products.map((product) => (
+            <SwiperSlide key={product.id} className="h-auto">
+              <ProductCard product={product} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
 
       <div className="flex justify-center">

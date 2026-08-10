@@ -1,16 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import { usePostApiV10Contact } from "@/api/endpoints/contact";
 import { Input, Textarea } from "@/components/common/input";
 import { CustomSelect } from "@/components/common/custom-select";
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { toast } from "@/components/ui/toaster";
+import { Check, Loader2 } from "lucide-react";
 
 const checklistItems = [
   "Free project consultation & quote",
   "Concept design with 3D renderings",
   "Design-build under one roof",
   "Licensed MD #113826 & insured",
+];
+
+const TIME_SLOTS = [
+  { value: "08:00", label: "08:00 AM" },
+  { value: "09:00", label: "09:00 AM" },
+  { value: "10:00", label: "10:00 AM" },
+  { value: "11:00", label: "11:00 AM" },
+  { value: "13:00", label: "01:00 PM" },
+  { value: "14:00", label: "02:00 PM" },
+  { value: "15:00", label: "03:00 PM" },
+  { value: "16:00", label: "04:00 PM" },
+  { value: "17:00", label: "05:00 PM" },
 ];
 
 interface ConsultationFormProps {
@@ -27,17 +41,50 @@ export function ConsultationForm({
     lastName: "",
     email: "",
     phone: "",
-    zipCode: "",
+    address: "",
     spaceType: "",
+    preferredDate: "",
+    preferredTime: "",
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { mutateAsync: submitContact, isPending } = usePostApiV10Contact({
+    mutation: {
+      onError: (error) => {
+        toast.error({
+          title: "Submission failed",
+          content:
+            error instanceof Error
+              ? error.message
+              : "Could not submit your request. Please try again.",
+        });
+      },
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
-    setIsSubmitted(true);
+    try {
+      await submitContact({
+        data: {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          phone_number: formData.phone,
+          address: formData.address,
+          content_type: formData.spaceType,
+          preferred_date: formData.preferredDate
+            ? new Date(formData.preferredDate).toISOString()
+            : null,
+          preferred_time: formData.preferredTime || null,
+          content: formData.message,
+        },
+      });
+      setIsSubmitted(true);
+    } catch {
+      // error handled in mutation.onError
+    }
   };
 
   if (isSubmitted) {
@@ -91,6 +138,7 @@ export function ConsultationForm({
               id="firstName"
               required
               value={formData.firstName}
+              placeholder="Enter your first name"
               onChange={(e) =>
                 setFormData({ ...formData, firstName: e.target.value })
               }
@@ -100,6 +148,7 @@ export function ConsultationForm({
               id="lastName"
               required
               value={formData.lastName}
+              placeholder="Enter your last name"
               onChange={(e) =>
                 setFormData({ ...formData, lastName: e.target.value })
               }
@@ -112,6 +161,7 @@ export function ConsultationForm({
             type="email"
             required
             value={formData.email}
+            placeholder="Enter your email"
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
@@ -123,39 +173,64 @@ export function ConsultationForm({
             type="tel"
             required
             value={formData.phone}
+            placeholder="Enter your phone number"
             onChange={(e) =>
               setFormData({ ...formData, phone: e.target.value })
             }
           />
 
+          <Input
+            label="Address"
+            id="address"
+            required
+            value={formData.address}
+            placeholder="Enter your address"
+            onChange={(e) =>
+              setFormData({ ...formData, address: e.target.value })
+            }
+          />
+
+          <CustomSelect
+            label="Project Type"
+            id="spaceType"
+            required
+            value={formData.spaceType}
+            onChange={(value) =>
+              setFormData({ ...formData, spaceType: value })
+            }
+            options={[
+              { value: "commercial", label: "Commercial Fit-Out" },
+              { value: "nail-salon", label: "Nail Salon Design" },
+              { value: "residential", label: "Residential Renovation" },
+              { value: "kitchen", label: "Kitchen Renovation" },
+              { value: "joinery", label: "Custom Joinery" },
+              { value: "branding", label: "Branding" },
+              { value: "other", label: "Other" },
+            ]}
+            placeholder="Select project type"
+          />
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
-              label="ZIP Code"
-              id="zipCode"
+              label="Preferred Date"
+              id="preferredDate"
+              type="date"
               required
-              value={formData.zipCode}
+              value={formData.preferredDate}
+              placeholder="Select preferred date"
               onChange={(e) =>
-                setFormData({ ...formData, zipCode: e.target.value })
+                setFormData({ ...formData, preferredDate: e.target.value })
               }
             />
             <CustomSelect
-              label="Project Type"
-              id="spaceType"
-              required
-              value={formData.spaceType}
+              label="Preferred Time"
+              id="preferredTime"
+              value={formData.preferredTime}
               onChange={(value) =>
-                setFormData({ ...formData, spaceType: value })
+                setFormData({ ...formData, preferredTime: value })
               }
-              options={[
-                { value: "commercial", label: "Commercial Fit-Out" },
-                { value: "nail-salon", label: "Nail Salon Design" },
-                { value: "residential", label: "Residential Renovation" },
-                { value: "kitchen", label: "Kitchen Renovation" },
-                { value: "joinery", label: "Custom Joinery" },
-                { value: "branding", label: "Branding" },
-                { value: "other", label: "Other" },
-              ]}
-              placeholder="Select project type"
+              options={TIME_SLOTS}
+              placeholder="Select time slot"
             />
           </div>
 
@@ -169,8 +244,15 @@ export function ConsultationForm({
             }
           />
 
-          <Button type="submit" className="w-full">
-            Request a Free Quote
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isPending ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              "Request a Free Quote"
+            )}
           </Button>
 
           <p className="text-[11px] sm:text-[12px] text-gray-600 text-center">

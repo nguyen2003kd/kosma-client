@@ -1,5 +1,4 @@
-import { EmptyState, PaginationLinks } from "@/components/common";
-import { ProductCard, type ProductCardItem } from "../product-card";
+import { EmptyState, PaginationLinks, ProductCard, type ProductCardItem } from "@/components/common";
 
 interface ProductListProps {
   products: ProductCardItem[];
