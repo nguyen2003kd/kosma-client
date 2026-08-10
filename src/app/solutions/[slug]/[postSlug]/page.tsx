@@ -92,12 +92,7 @@ export async function generateMetadata({
     };
   }
 
-  const thumbnailUrl =
-    post.thumbnail_compress_info?.desktop
-      ? `${baseConfig.backendDomain}${post.thumbnail_compress_info.desktop}`
-      : post.thumbnail_path
-        ? `${baseConfig.backendDomain}${post.thumbnail_path}`
-        : undefined;
+  const thumbnailUrl = post.thumbnail_path || "";
 
   const pageUrl = `${baseConfig.frontendDomain}/solutions/${slug}/${postSlug}`;
   const description =
@@ -158,7 +153,7 @@ export default async function SolutionPostDetailPage({
           { label: post.title || "" },
         ]}
         backgroundImage={getThumbnailSrc(
-          post.thumbnail_compress_info,
+          undefined,
           post.thumbnail_path,
           "/images/banner_service_2.png",
         )}
@@ -242,7 +237,7 @@ export default async function SolutionPostDetailPage({
                 <div className="relative w-full aspect-video mb-8 rounded-[--radius-md] overflow-hidden bg-cream">
                   <Image
                     src={getThumbnailSrc(
-                      post.thumbnail_compress_info,
+                      undefined,
                       post.thumbnail_path,
                       "/images/service-1.png",
                     )}
@@ -278,7 +273,7 @@ export default async function SolutionPostDetailPage({
                             >
                               {content.post_content_images.map((img) => {
                                 const imageSrc = getThumbnailSrc(
-                                  img.file?.compress_info,
+                                  undefined,
                                   img.file?.path,
                                   "/images/service-1.png",
                                 );
@@ -335,7 +330,7 @@ export default async function SolutionPostDetailPage({
                         <div className="relative h-36 sm:h-40 overflow-hidden bg-cream">
                           <Image
                             src={getThumbnailSrc(
-                              solution.thumbnail_compress_info,
+                              undefined,
                               solution.thumbnail_path,
                               "/images/service-1.png",
                             )}

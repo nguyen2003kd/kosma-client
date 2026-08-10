@@ -1,47 +1,30 @@
-import links from "@/lib/links";
-import type { ImageCompressInfo } from "@/types/post";
+/**
+ * MinIO migration: compression variants are no longer created.
+ * These functions are kept for backward compatibility with existing callers
+ * but now simply return the thumbnail path (or undefined) since MinIO
+ * stores a single file with a full URL.
+ */
 
+/**
+ * Returns undefined since responsive compression variants no longer exist.
+ * Callers fall back to thumbnail_path.
+ */
 export const getResponsiveImage = (
-  compressInfo?: ImageCompressInfo
-): string => {
-  if (!compressInfo) return "";
-
-  if (typeof window === "undefined") {
-    const path = compressInfo.desktop || "";
-    if (path.startsWith("/images/")) return path;
-    return path ? `${links.storageEndpoint}${path}` : "";
-  }
-
-  const width = window.innerWidth;
-  const selectedPath =
-    width < 768
-      ? compressInfo.mobile || compressInfo.desktop || ""
-      : width < 1024
-        ? compressInfo.tablet || compressInfo.desktop || ""
-        : compressInfo.desktop || "";
-
-  if (selectedPath.startsWith("/images/")) return selectedPath;
-  return selectedPath ? `${links.storageEndpoint}${selectedPath}` : "";
+  _compressInfo?: unknown
+): string | undefined => {
+  return undefined;
 };
 
 /**
- * Get the thumbnail image URL, preferring compress_info, falling back to thumbnail_path.
- * @param compressInfo  - ImageCompressInfo (can be null/undefined)
- * @param thumbnailPath - raw path (string | null | undefined)
- * @param fallback      - placeholder URL if both are empty
+ * Get the thumbnail image URL.
+ * compressInfo is ignored (kept for backward compatibility).
+ * Returns thumbnailPath || fallback.
  */
 export const getThumbnailSrc = (
-  compressInfo: ImageCompressInfo | null | undefined,
+  _compressInfo?: unknown,
   thumbnailPath?: string | null,
   fallback = "/images/service-1.png"
 ): string => {
-  if (compressInfo) {
-    const url = getResponsiveImage(compressInfo);
-    if (url) return url;
-  }
-  if (thumbnailPath) {
-    if (thumbnailPath.startsWith("/images/")) return thumbnailPath;
-    return `${links.storageEndpoint}${thumbnailPath}`;
-  }
+  if (thumbnailPath) return thumbnailPath;
   return fallback;
 };

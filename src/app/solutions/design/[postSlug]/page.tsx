@@ -71,12 +71,7 @@ export async function generateMetadata({
     };
   }
 
-  const thumbnailUrl =
-    post.thumbnail_compress_info?.desktop
-      ? `${baseConfig.backendDomain}${post.thumbnail_compress_info.desktop}`
-      : post.thumbnail_path
-        ? `${baseConfig.backendDomain}${post.thumbnail_path}`
-        : undefined;
+  const thumbnailUrl = post.thumbnail_path || "";
 
   const pageUrl = `${baseConfig.frontendDomain}/solutions/design/${postSlug}`;
   const description =
@@ -121,7 +116,7 @@ export default async function DesignPostDetailPage({
 
   const shareUrl = `${baseConfig.frontendDomain}/solutions/design/${postSlug}`;
   const thumbnailSrc = getThumbnailSrc(
-    post.thumbnail_compress_info,
+    undefined,
     post.thumbnail_path,
     FALLBACK_IMAGE,
   );
@@ -246,7 +241,7 @@ export default async function DesignPostDetailPage({
                           >
                             {content.post_content_images.map((img, i) => {
                               const imageSrc = getThumbnailSrc(
-                                img.file?.compress_info,
+                                undefined,
                                 img.file?.path,
                                 FALLBACK_IMAGE,
                               );
@@ -324,7 +319,7 @@ export default async function DesignPostDetailPage({
                   <div className="relative aspect-[4/3] overflow-hidden bg-cream">
                     <Image
                       src={getThumbnailSrc(
-                        design.thumbnail_compress_info,
+                        undefined,
                         design.thumbnail_path,
                         FALLBACK_IMAGE,
                       )}

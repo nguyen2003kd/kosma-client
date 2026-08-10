@@ -30,7 +30,7 @@ export default function ServiceCard({ post, categoryName, locale = "en-US", cate
     >
       <div className="relative h-40 sm:h-44 overflow-hidden bg-cream">
         <Image
-          src={getThumbnailSrc(post.thumbnail_compress_info, post.thumbnail_path)}
+          src={getThumbnailSrc(undefined, post.thumbnail_path)}
           alt={post.title || ""}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"

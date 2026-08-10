@@ -199,7 +199,7 @@ export default function DynamicPostDetailPage({
     <>
       {/* Navbar Section */}
       <section className="bg-[#0C2449] py-12 border-t border-gray-600"
-      style={{ backgroundImage: "url('/images/banner_service_2.png')" }}
+        style={{ backgroundImage: "url('/images/banner_service_2.png')" }}
       >
         <div className="max-w-screen-xl mx-auto px-6 lg:px-12">
           <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-6">
@@ -377,15 +377,15 @@ export default function DynamicPostDetailPage({
                   </DialogContent>
                 </Dialog>
 
-                  {/* Featured Image */}
-                    <div className="relative w-full aspect-video mb-8 rounded-lg overflow-hidden">
-                      <Image
-                        src={getThumbnailSrc(post.thumbnail_compress_info, post.thumbnail_path, "/images/service-1.png")}
-                        alt={post.title || ""}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
+                {/* Featured Image */}
+                <div className="relative w-full aspect-video mb-8 rounded-lg overflow-hidden">
+                  <Image
+                    src={getThumbnailSrc(undefined, post.thumbnail_path, "/images/service-1.png")}
+                    alt={post.title || ""}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
 
                 {/* Summary */}
                 {post.summary && (
@@ -420,7 +420,7 @@ export default function DynamicPostDetailPage({
                             >
                               {content.post_content_images.map((img) => {
                                 const imageSrc = getThumbnailSrc(
-                                  img.file?.compress_info,
+                                  undefined,
                                   img.file?.path,
                                   "/images/service-1.png",
                                 );
@@ -491,7 +491,7 @@ export default function DynamicPostDetailPage({
                             <Image
                               src={
                                 getThumbnailSrc(
-                                  relatedPost.thumbnail_compress_info ?? undefined,
+                                  undefined,
                                   relatedPost.thumbnail_path,
                                   "/images/service-1.png",
                                 )
@@ -516,12 +516,11 @@ export default function DynamicPostDetailPage({
 
                             {/* Link */}
                             <Link
-                              href={`${
-                                typeof relatedPost.id === "string" &&
+                              href={`${typeof relatedPost.id === "string" &&
                                 relatedPost.id.startsWith("mock-")
-                                  ? "/"
-                                  : `${baseConfig.frontendDomain}/${categorySlug}/`
-                              }${relatedPost.slug || ""}`}
+                                ? "/"
+                                : `${baseConfig.frontendDomain}/${categorySlug}/`
+                                }${relatedPost.slug || ""}`}
                               className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group/link mt-auto"
                             >
                               {t("viewDetails")}
@@ -559,11 +558,10 @@ export default function DynamicPostDetailPage({
                         <Link
                           key={news.id}
                           href={`${baseConfig.frontendDomain}/${news.link}`}
-                          className={`flex gap-4 group hover:bg-blue-50 px-4 py-3 transition-colors ${
-                            index !== latestNews.slice(0, 10).length - 1
-                              ? "border-b border-gray-100"
-                              : ""
-                          }`}
+                          className={`flex gap-4 group hover:bg-blue-50 px-4 py-3 transition-colors ${index !== latestNews.slice(0, 10).length - 1
+                            ? "border-b border-gray-100"
+                            : ""
+                            }`}
                         >
                           {/* Number */}
                           <div className="flex-shrink-0 text-3xl font-bold text-gray-200">

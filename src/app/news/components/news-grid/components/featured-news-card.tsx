@@ -1,9 +1,7 @@
-﻿import { getResponsiveImage } from "@/lib/responsive-image";
-import type { PostExtended as PostWithImage } from "@/types/post";
+﻿import type { PostExtended as PostWithImage } from "@/types/post";
 import parse from "html-react-parser";
 import { ArrowRight, Calendar, Newspaper } from "lucide-react";
 import Image from "next/image";
-import baseConfig from "@/configs/base";
 interface FeaturedNewsCardProps {
   post: PostWithImage;
 }
@@ -19,10 +17,7 @@ export default function FeaturedNewsCard({ post }: FeaturedNewsCardProps) {
     >
       {/* Background Image */}
       <Image
-        src={
-          getResponsiveImage(post.thumbnail_compress_info) ||
-          baseConfig.imgEndpointDomain + post.thumbnail_path || "/images/service-1.png"
-        }
+        src={post.thumbnail_path || "/images/service-1.png"}
         alt={post.title || ""}
         fill
         className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out brightness-95 group-hover:brightness-105"

@@ -83,7 +83,7 @@ export default function NewsList({
 
   const featuredThumbnailSrc =
     posts.length > 0
-      ? getThumbnailSrc(posts[0].thumbnail_compress_info, posts[0].thumbnail_path)
+      ? getThumbnailSrc(undefined, posts[0].thumbnail_path)
       : "/images/service-1.png";
 
   return (

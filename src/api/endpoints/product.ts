@@ -25,6 +25,7 @@ import type {
 
 import type {
   GetApiV10ProductParams,
+  GetApiV10ProductSlugSlug200,
   PostApiV10ProductBody,
   PutApiV10ProductIdBody
 } from '../models';
@@ -612,4 +613,197 @@ export const usePostApiV10Product = <TError = unknown,
 
       return useMutation(mutationOptions, queryClient);
     }
+    /**
+ * Retrieve a single product record by its slug
+ * @summary Get product by slug
+ */
+export const getApiV10ProductSlugSlug = (
+    slug: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return mainInstance<GetApiV10ProductSlugSlug200>(
+      {url: `/api/v1.0/product/slug/${slug}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetApiV10ProductSlugSlugInfiniteQueryKey = (slug?: string,) => {
+    return [
+    'infinite', `/api/v1.0/product/slug/${slug}`
+    ] as const;
+    }
+
+export const getGetApiV10ProductSlugSlugQueryKey = (slug?: string,) => {
+    return [
+    `/api/v1.0/product/slug/${slug}`
+    ] as const;
+    }
+
     
+export const getGetApiV10ProductSlugSlugInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>>, TError = void>(slug: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10ProductSlugSlugInfiniteQueryKey(slug);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>> = ({ signal }) => getApiV10ProductSlugSlug(slug, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(slug),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10ProductSlugSlugInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>>
+export type GetApiV10ProductSlugSlugInfiniteQueryError = void
+
+
+export function useGetApiV10ProductSlugSlugInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>>, TError = void>(
+ slug: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10ProductSlugSlugInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>>, TError = void>(
+ slug: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10ProductSlugSlugInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>>, TError = void>(
+ slug: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get product by slug
+ */
+
+export function useGetApiV10ProductSlugSlugInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>>, TError = void>(
+ slug: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10ProductSlugSlugInfiniteQueryOptions(slug,options)
+
+  const query = useInfiniteQuery(queryOptions, queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get product by slug
+ */
+export const prefetchGetApiV10ProductSlugSlugInfiniteQuery = async <TData = Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError = void>(
+ queryClient: QueryClient, slug: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10ProductSlugSlugInfiniteQueryOptions(slug,options)
+
+  await queryClient.prefetchInfiniteQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+
+export const getGetApiV10ProductSlugSlugQueryOptions = <TData = Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError = void>(slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV10ProductSlugSlugQueryKey(slug);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>> = ({ signal }) => getApiV10ProductSlugSlug(slug, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(slug),  retry: 3, retryDelay: 1000,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiV10ProductSlugSlugQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>>
+export type GetApiV10ProductSlugSlugQueryError = void
+
+
+export function useGetApiV10ProductSlugSlug<TData = Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError = void>(
+ slug: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10ProductSlugSlug<TData = Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError = void>(
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV10ProductSlugSlug<TData = Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError = void>(
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get product by slug
+ */
+
+export function useGetApiV10ProductSlugSlug<TData = Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError = void>(
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiV10ProductSlugSlugQueryOptions(slug,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+/**
+ * @summary Get product by slug
+ */
+export const prefetchGetApiV10ProductSlugSlugQuery = async <TData = Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError = void>(
+ queryClient: QueryClient, slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV10ProductSlugSlug>>, TError, TData>>, }
+
+  ): Promise<QueryClient> => {
+
+  const queryOptions = getGetApiV10ProductSlugSlugQueryOptions(slug,options)
+
+  await queryClient.prefetchQuery(queryOptions);
+
+  return queryClient;
+}
+
+
+

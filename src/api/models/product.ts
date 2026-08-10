@@ -1,5 +1,4 @@
 /* eslint-disable */
-import type { ProductThumbnailCompressInfo } from './productThumbnailCompressInfo';
 import type { ProductSpecifications } from './productSpecifications';
 
 export interface Product {
@@ -16,7 +15,6 @@ export interface Product {
   product_type?: string;
   brand?: string;
   thumbnail_path?: string;
-  thumbnail_compress_info?: ProductThumbnailCompressInfo;
   specifications?: ProductSpecifications;
   weight?: string;
   dimensions?: string;
