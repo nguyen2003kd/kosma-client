@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-FE_HEALTH_URL="${FE_HEALTH_URL:-http://171.247.32.149:4032/api/v1.0/health}"
+FE_HEALTH_URL="${FE_HEALTH_URL:-https://kosmo.vietprodev.com/api/v1.0/health}"
 MAX_RETRIES=12
 RETRY_INTERVAL=5
 
