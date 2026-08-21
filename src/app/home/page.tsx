@@ -1,12 +1,12 @@
 import { Hero, StatsStrip, QuoteSection, SpaceCard, ProcessCard, SolutionCard, SectionHeading, SplitContent, ConsultationForm, FeatureRow } from "@/components/common";
 
 const services = [
-  { title: "Interior Design", description: "Concept design, 3D rendering, and material selection for residential and commercial spaces.", image: "/images/living.jpg", href: "/spaces/closets" },
-  { title: "Commercial Fit-Out", description: "Full design and construction for nail salons, retail, and light commercial spaces.", image: "/images/showroom.jpg", href: "/spaces/garages" },
-  { title: "Residential Renovation", description: "Kitchen, bathroom, and whole-home renovations from concept to completion.", image: "/images/office.jpg", href: "/spaces/home-offices" },
-  { title: "Custom Joinery", description: "Bespoke cabinetry, built-ins, and custom woodwork crafted to your specs.", image: "/images/kitchen.jpg", href: "/spaces/pantries" },
-  { title: "Construction Drawings", description: "Building permit drawings and construction documents for code compliance.", image: "/images/lounge.jpg", href: "/spaces/laundry-rooms" },
-  { title: "Branding", description: "Website design, product labels, business cards, and brand identity.", image: "/images/exterior.jpg", href: "/spaces/mudrooms" },
+  { title: "Interior Design", description: "Concept design, 3D rendering, and material selection for residential and commercial spaces.", image: "/images/living.jpg", href: "/services/closets" },
+  { title: "Commercial Fit-Out", description: "Full design and construction for nail salons, retail, and light commercial spaces.", image: "/images/showroom.jpg", href: "/services/garages" },
+  { title: "Residential Renovation", description: "Kitchen, bathroom, and whole-home renovations from concept to completion.", image: "/images/office.jpg", href: "/services/home-offices" },
+  { title: "Custom Joinery", description: "Bespoke cabinetry, built-ins, and custom woodwork crafted to your specs.", image: "/images/kitchen.jpg", href: "/services/pantries" },
+  { title: "Construction Drawings", description: "Building permit drawings and construction documents for code compliance.", image: "/images/lounge.jpg", href: "/services/laundry-rooms" },
+  { title: "Branding", description: "Website design, product labels, business cards, and brand identity.", image: "/images/exterior.jpg", href: "/services/mudrooms" },
 ];
 
 const solutions = [
