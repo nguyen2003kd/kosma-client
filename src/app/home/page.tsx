@@ -1,51 +1,5 @@
 import { Hero, StatsStrip, QuoteSection, SpaceCard, ProcessCard, SolutionCard, SectionHeading, SplitContent, ConsultationForm, FeatureRow } from "@/components/common";
-
-const services = [
-  { title: "Interior Design", description: "Concept design, 3D rendering, and material selection for residential and commercial spaces.", image: "/images/living.jpg", href: "/services/closets" },
-  { title: "Commercial Fit-Out", description: "Full design and construction for nail salons, retail, and light commercial spaces.", image: "/images/showroom.jpg", href: "/services/garages" },
-  { title: "Residential Renovation", description: "Kitchen, bathroom, and whole-home renovations from concept to completion.", image: "/images/office.jpg", href: "/services/home-offices" },
-  { title: "Custom Joinery", description: "Bespoke cabinetry, built-ins, and custom woodwork crafted to your specs.", image: "/images/kitchen.jpg", href: "/services/pantries" },
-  { title: "Construction Drawings", description: "Building permit drawings and construction documents for code compliance.", image: "/images/lounge.jpg", href: "/services/laundry-rooms" },
-  { title: "Branding", description: "Website design, product labels, business cards, and brand identity.", image: "/images/exterior.jpg", href: "/services/mudrooms" },
-];
-
-const solutions = [
-  {
-    id: "design",
-    title: "Design",
-    description: "Interior design, space planning, and 3D renderings for residential and commercial projects.",
-    image: "/images/living.jpg",
-    href: "/solutions/design",
-  },
-  {
-    id: "construction",
-    title: "Construction",
-    description: "Design-build construction combining licensed trades crews with modern technology.",
-    image: "/images/lounge.jpg",
-    href: "/solutions/construction",
-  },
-];
-
-const process = [
-  { number: 1, title: "Concept", description: "We develop the design concept and 3D renderings for your space." },
-  { number: 2, title: "Design", description: "Construction drawings, permit documents, and material selection." },
-  { number: 3, title: "Build", description: "Construction, joinery, and installation by our skilled team." },
-  { number: 4, title: "Brand", description: "Branding, website, and marketing collateral to complete the project." },
-];
-
-const whyChooseUs = [
-  { title: "Design-Build Under One Roof", description: "From concept to construction to branding — all handled by a single team." },
-  { title: "3D Renderings", description: "Visualize your space with realistic 3D design presentations before construction begins." },
-  { title: "Licensed & Insured", description: "Licensed MD #113826 with full insurance coverage for your peace of mind." },
-  { title: "Custom Joinery", description: "Bespoke cabinetry and woodwork crafted to your exact specifications." },
-];
-
-const stats = [
-  { number: "10+", label: "Years Experience" },
-  { number: "50+", label: "Projects Completed" },
-  { number: "100%", label: "Satisfaction Guarantee" },
-  { number: "MD #113826", label: "Licensed Contractor" },
-];
+import { services, solutions, process, stats, whyChooseUs } from "./constant";
 
 export default function KosmoHomePage() {
   return (
@@ -65,7 +19,9 @@ export default function KosmoHomePage() {
         <div className="container-kosmo">
           <SectionHeading eyebrow="Our Services" title="What We Do" subtitle="From concept design to construction and branding — we handle every aspect of your project." />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {services.map((service) => (<SpaceCard key={service.title} {...service} />))}
+            {services.map((service) => (
+              <SpaceCard key={service.title} {...service} />
+            ))}
           </div>
         </div>
       </section>
@@ -74,7 +30,9 @@ export default function KosmoHomePage() {
         <div className="container-kosmo">
           <SectionHeading eyebrow="Our Solutions" title="Design & Construction" subtitle="From concept to completion — we handle every aspect of your project." />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 md:gap-8 max-w-5xl mx-auto">
-            {solutions.map((s) => (<SolutionCard key={s.id} {...s} />))}
+            {solutions.map((s) => (
+              <SolutionCard key={s.id} {...s} />
+            ))}
           </div>
         </div>
       </section>
@@ -83,7 +41,9 @@ export default function KosmoHomePage() {
         <div className="container-kosmo">
           <SectionHeading eyebrow="Our Process" title="How It Works" subtitle="From concept to completion, we make it seamless." />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {process.map((item) => (<ProcessCard key={item.number} {...item} />))}
+            {process.map((item) => (
+              <ProcessCard key={item.number} {...item} />
+            ))}
           </div>
         </div>
       </section>
